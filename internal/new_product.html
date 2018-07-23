@@ -269,33 +269,32 @@ product is going to be derived from existing products in the main database and
 since we track dataset lineage we need to have the same products in the test
 database as in the main.</p>
 <p>First create empty database</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span> -eu
-
-mk_db_sql <span class="o">()</span> <span class="o">{</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mk_db_sql <span class="o">()</span> <span class="o">{</span>
     <span class="nb">local</span> <span class="nv">db_name</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span>
     cat <span class="s">&lt;&lt;EOF</span>
-<span class="s">CRE</span>ATE DATABASE <span class="si">${</span><span class="nv">db_name</span><span class="si">}</span>
-WITH
-<span class="nv">OWNER</span> <span class="o">=</span> agdc_admin
-<span class="nv">ENCODING</span> <span class="o">=</span> <span class="s1">&#39;UTF8&#39;</span>
-<span class="nv">LC_COLLATE</span> <span class="o">=</span> <span class="s1">&#39;en_AU.UTF-8&#39;</span>
-<span class="nv">LC_CTYPE</span> <span class="o">=</span> <span class="s1">&#39;en_AU.UTF-8&#39;</span>
-<span class="nv">TABLESPACE</span> <span class="o">=</span> pg_default
-CONNECTION <span class="nv">LIMIT</span> <span class="o">=</span> -1<span class="p">;</span>
+<span class="s">CREATE DATABASE ${db_name}</span>
+<span class="s">WITH</span>
+<span class="s">OWNER = agdc_admin</span>
+<span class="s">ENCODING = &#39;UTF8&#39;</span>
+<span class="s">LC_COLLATE = &#39;en_AU.UTF-8&#39;</span>
+<span class="s">LC_CTYPE = &#39;en_AU.UTF-8&#39;</span>
+<span class="s">TABLESPACE = pg_default</span>
+<span class="s">CONNECTION LIMIT = -1;</span>
 
-GRANT ALL ON DATABASE <span class="si">${</span><span class="nv">db_name</span><span class="si">}</span> TO agdc_admin<span class="p">;</span>
-GRANT CONNECT, TEMPORARY ON DATABASE <span class="si">${</span><span class="nv">db_name</span><span class="si">}</span> TO PUBLIC<span class="p">;</span>
-GRANT ALL ON DATABASE <span class="si">${</span><span class="nv">db_name</span><span class="si">}</span> TO test<span class="p">;</span>
-ALTER DATABASE <span class="si">${</span><span class="nv">db_name</span><span class="si">}</span> SET search_path TO <span class="s2">&quot;\$user&quot;</span>, public, agdc<span class="p">;</span>
+<span class="s">GRANT ALL ON DATABASE ${db_name} TO agdc_admin;</span>
+<span class="s">GRANT CONNECT, TEMPORARY ON DATABASE ${db_name} TO PUBLIC;</span>
+<span class="s">GRANT ALL ON DATABASE ${db_name} TO test;</span>
+<span class="s">ALTER DATABASE ${db_name} SET search_path TO &quot;\$user&quot;, public, agdc;</span>
 
+<span class="s">EOF</span>
+<span class="o">}</span>
 
-example_use <span class="o">()</span> <span class="o">{</span>
+   <span class="nv">DB_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">_dev&quot;</span> <span class="c1"># change to your liking</span>
+   mk_db_sql <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DB_NAME</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> psql -h agdcdev-db.nci.org.au -p <span class="m">6432</span> datacube
 </pre></div>
 </div>
 <p>Create datacube config file that uses new database</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">}</span>
-
-mk_dev_config <span class="o">()</span> <span class="o">{</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mk_dev_config <span class="o">()</span> <span class="o">{</span>
     <span class="nb">local</span> <span class="nv">db_name</span><span class="o">=</span><span class="nv">$1</span>
     <span class="nb">local</span> <span class="nv">f_name</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="p">-</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">db_name</span><span class="si">}</span><span class="s2">.conf&quot;</span><span class="si">}</span>
     cat &gt; <span class="s2">&quot;</span><span class="si">${</span><span class="nv">f_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="s">&lt;&lt;EOF</span>
@@ -303,8 +302,10 @@ mk_dev_config <span class="o">()</span> <span class="o">{</span>
 <span class="s">db_hostname: agdcdev-db.nci.org.au</span>
 <span class="s">db_port: 6432</span>
 <span class="s">db_database: ${db_name}</span>
-<span class="s">   DB_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">_dev&quot;</span> <span class="c1"># change to your liking</span>
-   mk_db_sql <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DB_NAME</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> psql -h agdcdev-db.nci.org.au -p <span class="m">6432</span> datacube
+<span class="s">EOF</span>
+<span class="o">}</span>
+
+   mk_dev_config <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DB_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
 <p>Tell datacube to use dev config via environment variable</p>
@@ -476,9 +477,7 @@ script for PQ stats. Customise for your needs:</p>
 <li>Field names</li>
 <li>Glob for file names and grouping by time</li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">}</span>
-
-nc_ls <span class="o">()</span> <span class="o">{</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nc_ls <span class="o">()</span> <span class="o">{</span>
     <span class="nv">glob</span><span class="o">=</span><span class="nv">$1</span>
     <span class="nv">field</span><span class="o">=</span><span class="nv">$2</span>
     <span class="k">for</span> f in <span class="nv">$glob</span><span class="p">;</span> <span class="k">do</span>
@@ -498,8 +497,10 @@ mk_overviews_ls_pq <span class="o">()</span> <span class="o">{</span>
         nc_ls <span class="s2">&quot;</span><span class="si">${</span><span class="nv">glob</span><span class="si">}</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">var</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">|</span> xargs gdalbuildvrt <span class="s2">&quot;</span><span class="si">${</span><span class="nv">var</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">Y</span><span class="si">}</span><span class="s2">.vrt&quot;</span>
         gdaladdo -r average <span class="s2">&quot;</span><span class="si">${</span><span class="nv">var</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">Y</span><span class="si">}</span><span class="s2">.vrt&quot;</span> <span class="m">16</span> <span class="m">32</span> <span class="m">64</span> <span class="m">128</span> <span class="m">256</span>
     <span class="k">done</span>
+    <span class="nb">popd</span>
+<span class="o">}</span>
 
-   mk_dev_config <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DB_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+   mk_overviews_ls_pq /g/data/u46/users/kk7182/PQ/ <span class="m">2014</span>
 </pre></div>
 </div>
 <p>Create empty QGIS project and add generated <code class="docutils literal notranslate"><span class="pre">*.vrt</span></code> files to it. In the menu
