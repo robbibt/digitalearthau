@@ -120,43 +120,22 @@
 <li class="toctree-l3"><a class="reference internal" href="PixelDrillWithWidgets.html">Pixel drill using interactive widgets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Interactive_phenology_plot_tagged.html">Visualising vegetation phenology</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Hovmoller_TCI_Multi-site.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall for Multiple Sites</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Hovmoller_TCI_Multi-site.html#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Hovmoller_TCI_Multi-site.html#Define-the-epoch">Define the epoch</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Set-up-modules,-functions-and-libraries">Set up modules, functions and libraries</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Set-up-functions-for-this-notebook">Set up functions for this notebook</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Define-the-epoch">Define the epoch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Set-up-query">Set up query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#use-the-transect-dataframe-to-get-transect-metadata">use the transect dataframe to get transect metadata</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Check-if-this-notebook-has-already-been-run-and-the-data-saved:">Check if this notebook has already been run and the data saved:</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#If-not,-pull-in-rainfall-and-nbar">If not, pull in rainfall and nbar</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Run-the-tasseled-cap-transform-and-threshold">Run the tasseled cap transform and threshold</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#Take-a-look-at-some-of-the-tasseled-cap-results">Take a look at some of the tasseled cap results</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#resample-gridded-rainfall-data">resample gridded rainfall data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Set-up-data-for-Hovmoller-plots">Set up data for Hovmoller plots</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Make-Hovmoller-plot">Make Hovmoller plot</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#plot-greenness">plot greenness</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Plot-Brightness">Plot Brightness</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Save-the-data-to-an-output-file-for-future-use">Save the data to an output file for future use</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#Plot-thresholded-wetness">Plot thresholded wetness</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Plot-thresholded-brightness">Plot thresholded brightness</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Plot-thresholded-greenness">Plot thresholded greenness</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#References">References</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Hovmoller_NDVI.html">Hovmoller plot of NDVI and Rainfall</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Hovmoller_NDVI.html#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Hovmoller_NDVI.html#Define-the-epoch">Define the epoch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Hovmoller_NDVI_Multi-site.html">Hovmoller plots of NDVI and Rainfall (multiple sites)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Hovmoller_NDVI_Multi-site.html#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Hovmoller_NDVI_Multi-site.html#Define-the-epoch">Define the epoch</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Composite_generation/README.html">Composite Generation</a></li>
@@ -575,10 +554,8 @@ percentage exceedance are brightness: 4000, greenness 600, wetness -600.</p>
 </pre></div>
 </div>
 </div>
-</div>
-</div>
 <div class="section" id="add-the-path-to-the-input-shapefile">
-<h1>add the path to the input shapefile<a class="headerlink" href="#add-the-path-to-the-input-shapefile" title="Permalink to this headline">¶</a></h1>
+<h3>add the path to the input shapefile<a class="headerlink" href="#add-the-path-to-the-input-shapefile" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [12]:
@@ -593,7 +570,7 @@ percentage exceedance are brightness: 4000, greenness 600, wetness -600.</p>
 </div>
 </div>
 <div class="section" id="Define-the-epoch">
-<h1>Define the epoch<a class="headerlink" href="#Define-the-epoch" title="Permalink to this headline">¶</a></h1>
+<h3>Define the epoch<a class="headerlink" href="#Define-the-epoch" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [40]:
@@ -614,6 +591,8 @@ percentage exceedance are brightness: 4000, greenness 600, wetness -600.</p>
 <div class="highlight"><pre>
 temporal range is 1987-10-01 to 2018-10-01
 </pre></div></div>
+</div>
+</div>
 </div>
 <div class="section" id="Set-up-query">
 <h2>Set up query<a class="headerlink" href="#Set-up-query" title="Permalink to this headline">¶</a></h2>
@@ -778,10 +757,8 @@ loaded bom rainfall grids from DEA
 </pre></div>
 </div>
 </div>
-</div>
-</div>
 <div class="section" id="Take-a-look-at-some-of-the-tasseled-cap-results">
-<h1>Take a look at some of the tasseled cap results<a class="headerlink" href="#Take-a-look-at-some-of-the-tasseled-cap-results" title="Permalink to this headline">¶</a></h1>
+<h3>Take a look at some of the tasseled cap results<a class="headerlink" href="#Take-a-look-at-some-of-the-tasseled-cap-results" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [46]:
@@ -895,6 +872,8 @@ array(-599.9433)
 <img alt="../../_images/notebooks_Temporal_analysis_Hovmoller_TCI_and_Rainfall_26_1.png" src="../../_images/notebooks_Temporal_analysis_Hovmoller_TCI_and_Rainfall_26_1.png" />
 </div>
 </div>
+</div>
+</div>
 <div class="section" id="resample-gridded-rainfall-data">
 <h2>resample gridded rainfall data<a class="headerlink" href="#resample-gridded-rainfall-data" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
@@ -929,8 +908,6 @@ array(-599.9433)
 </div>
 <div class="section" id="Set-up-data-for-Hovmoller-plots">
 <h2>Set up data for Hovmoller plots<a class="headerlink" href="#Set-up-data-for-Hovmoller-plots" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Build-2D-transect-dataset-for-hovmoller-plot">
-<h3>Build 2D transect dataset for hovmoller plot<a class="headerlink" href="#Build-2D-transect-dataset-for-hovmoller-plot" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [53]:
@@ -993,7 +970,6 @@ array(-599.9433)
 <span></span>&lt;xarray.DataArray &#39;wetness_thresholded&#39; ()&gt;
 array(6.6511)
 </pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -1073,10 +1049,8 @@ transect image:
 <img alt="../../_images/notebooks_Temporal_analysis_Hovmoller_TCI_and_Rainfall_35_2.png" src="../../_images/notebooks_Temporal_analysis_Hovmoller_TCI_and_Rainfall_35_2.png" />
 </div>
 </div>
-</div>
-</div>
 <div class="section" id="plot-greenness">
-<h1>plot greenness<a class="headerlink" href="#plot-greenness" title="Permalink to this headline">¶</a></h1>
+<h3>plot greenness<a class="headerlink" href="#plot-greenness" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [57]:
@@ -1179,7 +1153,7 @@ transect tci image:
 </div>
 </div>
 <div class="section" id="Plot-Brightness">
-<h1>Plot Brightness<a class="headerlink" href="#Plot-Brightness" title="Permalink to this headline">¶</a></h1>
+<h3>Plot Brightness<a class="headerlink" href="#Plot-Brightness" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [58]:
@@ -1280,6 +1254,8 @@ transect tci image:
 <img alt="../../_images/notebooks_Temporal_analysis_Hovmoller_TCI_and_Rainfall_39_4.png" src="../../_images/notebooks_Temporal_analysis_Hovmoller_TCI_and_Rainfall_39_4.png" />
 </div>
 </div>
+</div>
+</div>
 <div class="section" id="Save-the-data-to-an-output-file-for-future-use">
 <h2>Save the data to an output file for future use<a class="headerlink" href="#Save-the-data-to-an-output-file-for-future-use" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
@@ -1312,10 +1288,8 @@ transect tci image:
 saved data to file
 </pre></div></div>
 </div>
-</div>
-</div>
 <div class="section" id="Plot-thresholded-wetness">
-<h1>Plot thresholded wetness<a class="headerlink" href="#Plot-thresholded-wetness" title="Permalink to this headline">¶</a></h1>
+<h3>Plot thresholded wetness<a class="headerlink" href="#Plot-thresholded-wetness" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [34]:
@@ -1392,7 +1366,7 @@ transect image:
 </div>
 </div>
 <div class="section" id="Plot-thresholded-brightness">
-<h1>Plot thresholded brightness<a class="headerlink" href="#Plot-thresholded-brightness" title="Permalink to this headline">¶</a></h1>
+<h3>Plot thresholded brightness<a class="headerlink" href="#Plot-thresholded-brightness" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [35]:
@@ -1495,7 +1469,7 @@ transect tci image:
 </div>
 </div>
 <div class="section" id="Plot-thresholded-greenness">
-<h1>Plot thresholded greenness<a class="headerlink" href="#Plot-thresholded-greenness" title="Permalink to this headline">¶</a></h1>
+<h3>Plot thresholded greenness<a class="headerlink" href="#Plot-thresholded-greenness" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [36]:
@@ -1598,7 +1572,7 @@ transect tci image:
 </div>
 </div>
 <div class="section" id="References">
-<h1>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h1>
+<h3>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li>Roberts, D., Dunn,B., Mueller, N. 2018, <em>Open Data Cube Products
 Using High-Dimensional Statistics of Time Series</em>, in press.</li>
@@ -1606,6 +1580,8 @@ Using High-Dimensional Statistics of Time Series</em>, in press.</li>
 reflectance factor data</em>, Remote Sensing of Environment, vol. 17, no.
 3, pp. 301-306, 1985.</li>
 </ol>
+</div>
+</div>
 </div>
 
 

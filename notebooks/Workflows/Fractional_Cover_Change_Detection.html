@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Import libraries &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  <title>Fractional Cover: Trend and Variability Analysis &mdash; Digital Earth Australia 1.0.0 documentation</title>
   
 
   
@@ -122,26 +122,29 @@
 <li class="toctree-l2 current"><a class="reference internal" href="README.html">Workflows</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="RetrieveLandsat8ViewAndExport.html">View Landsat 8 imagery for a chosen time period</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Sun_glint_identification_and_removal.html">Sun glint identification and removal</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Import libraries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#USER-INPUTS">USER INPUTS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Custom-functions">Custom functions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Pixel-wise-trend-and-variability-analysis">Pixel-wise trend and variability analysis</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Fractional Cover: Trend and Variability Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Import-libraries">Import libraries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#USER-INPUTS">USER INPUTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Custom-functions">Custom functions</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#Get-Fractional-Cover-dataset-from-the-DataCube">Get Fractional Cover dataset from the DataCube</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Masking">Masking</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#CDO-operations">CDO operations</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Statistical-tests-(Welch-T-and-Levene)">Statistical tests (Welch-T and Levene)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#CompositeRGB-plot">CompositeRGB plot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Exporting-geotiffs">Exporting geotiffs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Zonal-Statistics">Zonal Statistics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Reporting-and-plotting">Reporting and plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Pixel-wise-trend-and-variability-analysis">Pixel-wise trend and variability analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Get-Fractional-Cover-dataset-from-the-DataCube">Get Fractional Cover dataset from the DataCube</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Masking">Masking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#CDO-operations">CDO operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Statistical-tests-(Welch-T-and-Levene)">Statistical tests (Welch-T and Levene)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#CompositeRGB-plot">CompositeRGB plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Exporting-geotiffs">Exporting geotiffs</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#Zonal-timeseries-plots">Zonal timeseries plots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Pixel-wise-plots">Pixel-wise plots</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#True-colour-plot">True colour plot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Merge-all-pdfs">Merge all pdfs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Zonal-Statistics">Zonal Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Reporting-and-plotting">Reporting and plotting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Zonal-timeseries-plots">Zonal timeseries plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Pixel-wise-plots">Pixel-wise plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#True-colour-plot">True colour plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Merge-all-pdfs">Merge all pdfs</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Scripts/README.html">Scripts</a></li>
@@ -218,7 +221,7 @@
         
           <li><a href="README.html">Workflows</a> &raquo;</li>
         
-      <li>Import libraries</li>
+      <li>Fractional Cover: Trend and Variability Analysis</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -420,7 +423,8 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<p><strong>FRACTIONAL COVER: TREND AND VARIABILITY ANALYSIS</strong></p>
+<div class="section" id="Fractional-Cover:-Trend-and-Variability-Analysis">
+<h1>Fractional Cover: Trend and Variability Analysis<a class="headerlink" href="#Fractional-Cover:-Trend-and-Variability-Analysis" title="Permalink to this headline">¶</a></h1>
 <p><strong>Contents</strong></p>
 <p><a class="reference external" href="#readme">Description and readme</a></p>
 <p><a class="reference external" href="#userInputs">User Inputs</a></p>
@@ -534,7 +538,7 @@ The notebook was completed as a graduate program project at Geoscience
 Australia.</p>
 <p>Tags: <span class="target" id="index-0"></span>trend, <span class="target" id="index-1"></span>variance, <cite>Welch t-test</cite>, <span class="target" id="index-2"></span>Levene’s test, index:<cite>Climate Data Operators</cite>, <span class="target" id="index-3"></span>PyPDF2, <span class="target" id="index-4"></span>zonal statistics. index:<cite>fractional cover</cite>, <span class="target" id="index-5"></span>terminal operations, <span class="target" id="index-6"></span>rasterstats</p>
 <div class="section" id="Import-libraries">
-<h1>Import libraries<a class="headerlink" href="#Import-libraries" title="Permalink to this headline">¶</a></h1>
+<h2>Import libraries<a class="headerlink" href="#Import-libraries" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [1]:
@@ -575,7 +579,7 @@ Australia.</p>
 </div>
 </div>
 <div class="section" id="USER-INPUTS">
-<h1>USER INPUTS<a class="headerlink" href="#USER-INPUTS" title="Permalink to this headline">¶</a></h1>
+<h2>USER INPUTS<a class="headerlink" href="#USER-INPUTS" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [2]:
@@ -621,7 +625,7 @@ Australia.</p>
 </div>
 </div>
 <div class="section" id="Custom-functions">
-<h1>Custom functions<a class="headerlink" href="#Custom-functions" title="Permalink to this headline">¶</a></h1>
+<h2>Custom functions<a class="headerlink" href="#Custom-functions" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [3]:
@@ -970,14 +974,14 @@ Australia.</p>
 </pre></div>
 </div>
 </div>
+</div>
+</div>
 <div class="section" id="Pixel-wise-trend-and-variability-analysis">
-<h2>Pixel-wise trend and variability analysis<a class="headerlink" href="#Pixel-wise-trend-and-variability-analysis" title="Permalink to this headline">¶</a></h2>
+<h1>Pixel-wise trend and variability analysis<a class="headerlink" href="#Pixel-wise-trend-and-variability-analysis" title="Permalink to this headline">¶</a></h1>
 <blockquote>
 <div>Functioning code, nothing should need to be changed from here onwards</div></blockquote>
-</div>
-</div>
 <div class="section" id="Get-Fractional-Cover-dataset-from-the-DataCube">
-<h1>Get Fractional Cover dataset from the DataCube<a class="headerlink" href="#Get-Fractional-Cover-dataset-from-the-DataCube" title="Permalink to this headline">¶</a></h1>
+<h2>Get Fractional Cover dataset from the DataCube<a class="headerlink" href="#Get-Fractional-Cover-dataset-from-the-DataCube" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [4]:
@@ -1109,7 +1113,7 @@ I am densified (external_values, 2 elements)
 </div>
 </div>
 <div class="section" id="Masking">
-<h1>Masking<a class="headerlink" href="#Masking" title="Permalink to this headline">¶</a></h1>
+<h2>Masking<a class="headerlink" href="#Masking" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [8]:
@@ -1172,7 +1176,7 @@ I am densified (external_values, 2 elements)
 </div>
 </div>
 <div class="section" id="CDO-operations">
-<h1>CDO operations<a class="headerlink" href="#CDO-operations" title="Permalink to this headline">¶</a></h1>
+<h2>CDO operations<a class="headerlink" href="#CDO-operations" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [9]:
@@ -1243,7 +1247,7 @@ I am densified (external_values, 2 elements)
 </div>
 </div>
 <div class="section" id="Statistical-tests-(Welch-T-and-Levene)">
-<h1>Statistical tests (Welch-T and Levene)<a class="headerlink" href="#Statistical-tests-(Welch-T-and-Levene)" title="Permalink to this headline">¶</a></h1>
+<h2>Statistical tests (Welch-T and Levene)<a class="headerlink" href="#Statistical-tests-(Welch-T-and-Levene)" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [10]:
@@ -1400,7 +1404,7 @@ finished levene test
 </div>
 </div>
 <div class="section" id="CompositeRGB-plot">
-<h1>CompositeRGB plot<a class="headerlink" href="#CompositeRGB-plot" title="Permalink to this headline">¶</a></h1>
+<h2>CompositeRGB plot<a class="headerlink" href="#CompositeRGB-plot" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [13]:
@@ -1431,7 +1435,7 @@ finished levene test
 </div>
 </div>
 <div class="section" id="Exporting-geotiffs">
-<h1>Exporting geotiffs<a class="headerlink" href="#Exporting-geotiffs" title="Permalink to this headline">¶</a></h1>
+<h2>Exporting geotiffs<a class="headerlink" href="#Exporting-geotiffs" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [14]:
@@ -1555,8 +1559,10 @@ finished levene test
 </pre></div>
 </div>
 </div>
+</div>
+</div>
 <div class="section" id="Zonal-Statistics">
-<h2>Zonal Statistics<a class="headerlink" href="#Zonal-Statistics" title="Permalink to this headline">¶</a></h2>
+<h1>Zonal Statistics<a class="headerlink" href="#Zonal-Statistics" title="Permalink to this headline">¶</a></h1>
 <blockquote>
 <div>Use the exported ‘fc_clean_monthly.nc’ file to calculate the zonal</div></blockquote>
 <p>statistics over polygons</p>
@@ -1658,14 +1664,12 @@ finished levene test
 </div>
 </div>
 <div class="section" id="Reporting-and-plotting">
-<h2>Reporting and plotting<a class="headerlink" href="#Reporting-and-plotting" title="Permalink to this headline">¶</a></h2>
+<h1>Reporting and plotting<a class="headerlink" href="#Reporting-and-plotting" title="Permalink to this headline">¶</a></h1>
 <blockquote>
 <div>Create a pdf report that contains all of the above analysis in one easy</div></blockquote>
 <p>document</p>
-</div>
-</div>
 <div class="section" id="Zonal-timeseries-plots">
-<h1>Zonal timeseries plots<a class="headerlink" href="#Zonal-timeseries-plots" title="Permalink to this headline">¶</a></h1>
+<h2>Zonal timeseries plots<a class="headerlink" href="#Zonal-timeseries-plots" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [17]:
@@ -1761,7 +1765,7 @@ finished levene test
 </div>
 </div>
 <div class="section" id="Pixel-wise-plots">
-<h1>Pixel-wise plots<a class="headerlink" href="#Pixel-wise-plots" title="Permalink to this headline">¶</a></h1>
+<h2>Pixel-wise plots<a class="headerlink" href="#Pixel-wise-plots" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [19]:
@@ -2033,7 +2037,7 @@ RuntimeWarning: invalid value encountered in true_divide [exposure.py:297]
 </div>
 </div>
 <div class="section" id="True-colour-plot">
-<h1>True colour plot<a class="headerlink" href="#True-colour-plot" title="Permalink to this headline">¶</a></h1>
+<h2>True colour plot<a class="headerlink" href="#True-colour-plot" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [24]:
@@ -2128,7 +2132,7 @@ Combining and sorting ls5, ls7 and ls8 data
 </div>
 </div>
 <div class="section" id="Merge-all-pdfs">
-<h1>Merge all pdfs<a class="headerlink" href="#Merge-all-pdfs" title="Permalink to this headline">¶</a></h1>
+<h2>Merge all pdfs<a class="headerlink" href="#Merge-all-pdfs" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [26]:
@@ -2155,6 +2159,7 @@ Combining and sorting ls5, ls7 and ls8 data
 
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">working_directory</span><span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
