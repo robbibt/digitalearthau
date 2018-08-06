@@ -1,0 +1,1256 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to Landsat pixel quality (PQ25) &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Introduction to Fractional Cover Data" href="Introduction_to_Fractional_Cover.html" />
+    <link rel="prev" title="Introduction to DEA Landsat surface reflectance" href="Introduction_to_Landsat.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">DEA Datasets</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_Landsat.html">Introduction to DEA Landsat surface reflectance</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Introduction to Landsat pixel quality (PQ25)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Importance-of-pixel-quality">Importance of pixel quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#What-is-PQ25?">What is PQ25?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Masking-Landsat-with-PQ">Masking Landsat with PQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Import-modules-and-libraries">Import modules and libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Available-Landsat-PQ25-products">Available Landsat PQ25 products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-matching-Landsat-and-PQ25-data">Load matching Landsat and PQ25 data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Specify-a-query-with-coordinates-and-date-range">Specify a <em>query</em> with coordinates and date range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Load-Landsat-data">Load Landsat data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-matching-PQ25-data">Load matching PQ25 data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Create-a-PQ-mask">Create a PQ mask</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Apply-the-PQ-mask">Apply the PQ mask</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-the-PQ-masked-Landsat-data">Plot the PQ-masked Landsat data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_Fractional_Cover.html">Introduction to Fractional Cover Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_HLTC.html">Getting started with High-Low Tide Composites (HLTC_25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_ITEM.html">Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">DEA Datasets</a> &raquo;</li>
+        
+      <li>Introduction to Landsat pixel quality (PQ25)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Introduction-to-Landsat-pixel-quality-(PQ25)">
+<h1>Introduction to Landsat pixel quality (PQ25)<a class="headerlink" href="#Introduction-to-Landsat-pixel-quality-(PQ25)" title="Permalink to this headline">¶</a></h1>
+<p><strong>Background:</strong> Data from three Landsat satellites (Landsat 5, 7 and 8)
+are available to access within DEA. The data can be plotted or analysed
+after applying selective masks based on pixel quality (PQ25). The code
+snippets in this doc will let you retrieve the data, mask by using PQ
+and then plot for <code class="docutils literal notranslate"><span class="pre">ls*_nbar_albers</span></code> and <code class="docutils literal notranslate"><span class="pre">ls*_nbart_albers</span></code>, where
+<code class="docutils literal notranslate"><span class="pre">*</span></code> is 5, 7 or 8 denote the satellite.</p>
+<p><strong>What does this document do?</strong></p>
+<ul class="simple">
+<li>Show how to open a datacube to retrieve the data for various time
+points and geo-coordinates</li>
+<li>Extract the PQ data to be used as mask</li>
+<li>Show the description of flags in a table</li>
+<li>Build up a mask step-by-step from PQ data</li>
+<li>Apply the mask and plot</li>
+</ul>
+<p><strong>Date</strong>: June 2018</p>
+<p><strong>Authors</strong>: Bex Dunn, Mike Barnes, Claire Krause, Damien Ayers, Arapaut
+Sivaprasad, Robbi Bishop-Taylor</p>
+<p><strong>Tags:</strong> <span class="target" id="index-0"></span>Landsat 5, <span class="target" id="index-1"></span>Landsat 7, <span class="target" id="index-2"></span>Landsat 8, <span class="target" id="index-3"></span>PQ25, <span class="target" id="index-4"></span>masking, <span class="target" id="index-5"></span>Pixel quality, <span class="target" id="index-6"></span>Cloud masking, <span class="target" id="index-7"></span>three_band_image, <span class="target" id="index-8"></span>make_mask</p>
+<div class="section" id="Importance-of-pixel-quality">
+<h2>Importance of pixel quality<a class="headerlink" href="#Importance-of-pixel-quality" title="Permalink to this headline">¶</a></h2>
+<p>As Landsat Imagery becomes more readily available, there has been a
+rapid increase in the amount of analyses undertaken by researchers
+around the globe. In the past, researchers would reject partly
+cloud-affected scenes in favour of cloud-free scenes. However, Landsat
+time series analysis using all cloud-free pixels has become a valuable
+technique and has increased the demand for automation of cloud, cloud
+shadow and saturation detection. Emergency response applications such as
+flood mapping typically have to contend with individual cloud affected
+scenes and therefore rely on effective cloud and cloud shadow removal
+techniques. The capacity to automatically exclude such pixels is
+essential for emerging multi-temporal analysis techniques that make use
+of every quality assured pixel within a time series of observations.
+[<a class="reference external" href="#References">1</a>]</p>
+</div>
+<div class="section" id="What-is-PQ25?">
+<h2>What is PQ25?<a class="headerlink" href="#What-is-PQ25?" title="Permalink to this headline">¶</a></h2>
+<p>PQ25 is an assessment of each image pixel to determine if it is an
+unobscured, unsaturated observation of the Earth surface and also
+whether the pixel is represented in each spectral band. The PQ product
+allows users to produce masks which can be used to exclude pixels which
+do not meet their quality criteria from analysis. PQ25 provides an
+assessment of the quality of observations at a pixel level, and contains
+information about whether a pixel is affected by the following.</p>
+<ul class="simple">
+<li>Spectral Contiguity (lack of signal in any band)</li>
+<li>Saturation in any band</li>
+<li>Presence of cloud</li>
+<li>Presence of cloud shadow</li>
+<li>Being offshore (sea)</li>
+</ul>
+<p>The PQ25 product combines established algorithms that detect clouds
+including the Automated Cloud Cover Assessment (ACCA) and Function of
+mask (Fmask). ACCA is already widely used within the remote sensing
+community; it is fast and relatively accurate. Fmask on the other hand
+is newer, but is rapidly becoming more established, and can provide a
+more accurate cloud mask than ACCA in certain cloud environments.</p>
+<p>The different sensor designs of Landsat 5 TM, Landsat 7 ETM+, and
+Landsat 8 OLI all have different sensor saturation characteristics. The
+PQ25 layer enables users to exclude observations from a given band where
+the pixels are saturated (exceed the dynamic range of the sensor). The
+per-band saturation information in PQ allows users to exclude pixels
+where their specific band of interest is saturated.
+[<a class="reference external" href="#References">1</a>]</p>
+<p>PQ data exactly matches the resolution and projection system of Landsat
+5, 7 and 8 data, with <strong>25 square metre grid cells</strong> in the <strong>Australian
+Albers Equal Area (EPSG:3577)</strong> projection system.</p>
+</div>
+<div class="section" id="Masking-Landsat-with-PQ">
+<h2>Masking Landsat with PQ<a class="headerlink" href="#Masking-Landsat-with-PQ" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Import-modules-and-libraries">
+<h3>Import modules and libraries<a class="headerlink" href="#Import-modules-and-libraries" title="Permalink to this headline">¶</a></h3>
+<p>All the modules and libraries below are standard ones available to all
+users.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Load modules</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">from</span> <span class="nn">datacube.storage</span> <span class="k">import</span> <span class="n">masking</span>
+<span class="kn">from</span> <span class="nn">datacube.helpers</span> <span class="k">import</span> <span class="n">ga_pq_fuser</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Import dea-notebook functions. This assumes you are running this notebook from inside the `dea-notebooks`</span>
+<span class="c1"># directory. If not, replace the relative `../Scripts` link with a path to the `dea-notebooks/Scripts` directory</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../Scripts&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span>
+
+<span class="c1"># For nicer notebook plotting, hide warnings (comment out for real analysis)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set up datacube to load from</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Landsat PQ&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Available-Landsat-PQ25-products">
+<h2>Available Landsat PQ25 products<a class="headerlink" href="#Available-Landsat-PQ25-products" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">list_products</span></code> method in the Datacube class displays the names
+and details of all available products. For example, <code class="docutils literal notranslate"><span class="pre">ls7_pq_albers</span></code>
+provides pixel quality data that matches each pixel in the corresponding
+Landsat 7 imagery:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Connect to a datacube</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Intro to Landsat PQ25&#39;</span><span class="p">)</span>
+
+<span class="c1"># List metadata for all Landsat NBAR and NBART products available in DEA</span>
+<span class="n">dc_products</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">list_products</span><span class="p">()</span>
+<span class="n">display_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;product_type&#39;</span><span class="p">,</span> <span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">,</span> <span class="s1">&#39;spatial_dimensions&#39;</span><span class="p">]</span>
+<span class="n">dc_products</span><span class="p">[</span><span class="n">dc_products</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;pq_albers&quot;</span><span class="p">)][</span><span class="n">display_columns</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>description</th>
+      <th>product_type</th>
+      <th>crs</th>
+      <th>resolution</th>
+      <th>spatial_dimensions</th>
+    </tr>
+    <tr>
+      <th>name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ls5_pq_albers</th>
+      <td>Landsat 5 Pixel Quality 25 metre, 100km tile, ...</td>
+      <td>pqa</td>
+      <td>EPSG:3577</td>
+      <td>[-25, 25]</td>
+      <td>(y, x)</td>
+    </tr>
+    <tr>
+      <th>ls7_pq_albers</th>
+      <td>Landsat 7 Pixel Quality 25 metre, 100km tile, ...</td>
+      <td>pqa</td>
+      <td>EPSG:3577</td>
+      <td>[-25, 25]</td>
+      <td>(y, x)</td>
+    </tr>
+    <tr>
+      <th>ls8_pq_albers</th>
+      <td>Landsat 8 Pixel Quality 25 metre, 100km tile, ...</td>
+      <td>pqa</td>
+      <td>EPSG:3577</td>
+      <td>[-25, 25]</td>
+      <td>(y, x)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Load-matching-Landsat-and-PQ25-data">
+<h2>Load matching Landsat and PQ25 data<a class="headerlink" href="#Load-matching-Landsat-and-PQ25-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Specify-a-query-with-coordinates-and-date-range">
+<h3>Specify a <em>query</em> with coordinates and date range<a class="headerlink" href="#Specify-a-query-with-coordinates-and-date-range" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Define temporal and spatial extents to pass to `dc.load` for the data extraction:</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">35.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.35</span><span class="p">),</span>
+         <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">149.05</span><span class="p">,</span> <span class="mf">149.17</span><span class="p">),</span>
+         <span class="s1">&#39;time&#39;</span><span class="p">:(</span><span class="s1">&#39;2017-01-20&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-01-28&#39;</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Load-Landsat-data">
+<h3>Load Landsat data<a class="headerlink" href="#Load-Landsat-data" title="Permalink to this headline">¶</a></h3>
+<p>In this example we will first load NBAR-T data from the Landsat 8
+satellite. Multiple scenes are acquired by the satellite on the same
+day. We want to group these together, and will use
+<code class="docutils literal notranslate"><span class="pre">group_by='solar_day'</span></code> to do this. To load in the data, we use our
+query above to provide a spatial and temporal extraction range, and
+remove nodata values:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Load data</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ls8_nbar_albers&#39;</span><span class="p">,</span> <span class="n">group_by</span><span class="o">=</span><span class="s1">&#39;solar_day&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Set all nodata pixels to `NaN`:</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">mask_invalid_data</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">ds</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.Dataset&gt;
+Dimensions:          (time: 1, x: 492, y: 500)
+Coordinates:
+  * time             (time) datetime64[ns] 2017-01-23T23:50:24
+  * y                (y) float64 -3.953e+06 -3.953e+06 -3.953e+06 -3.953e+06 ...
+  * x                (x) float64 1.542e+06 1.542e+06 1.542e+06 1.542e+06 ...
+Data variables:
+    coastal_aerosol  (time, y, x) float64 579.0 420.0 636.0 545.0 431.0 ...
+    blue             (time, y, x) float64 531.0 352.0 551.0 417.0 306.0 ...
+    green            (time, y, x) float64 655.0 372.0 520.0 403.0 357.0 ...
+    red              (time, y, x) float64 751.0 405.0 495.0 381.0 357.0 ...
+    nir              (time, y, x) float64 2.439e+03 1.264e+03 1.366e+03 ...
+    swir1            (time, y, x) float64 1.439e+03 594.0 709.0 574.0 500.0 ...
+    swir2            (time, y, x) float64 925.0 438.0 480.0 362.0 317.0 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div>
+</div>
+</div>
+<p>Plot a true colour image using the dataset. Note that a large portion of
+the image is obscured by cloud:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_15_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_15_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Load-matching-PQ25-data">
+<h2>Load matching PQ25 data<a class="headerlink" href="#Load-matching-PQ25-data" title="Permalink to this headline">¶</a></h2>
+<p>We can now use the same query to extract PQ data that matches every
+Landsat 8 pixel. For Landsat surface reflectance data,
+<code class="docutils literal notranslate"><span class="pre">group_by='solar_day'</span></code> combines multiple scenes by simply copying data
+over the top of each other in a relatively undefined manner. Because of
+the way PQ data is stored, combining multiple scenes needs to be
+completed more carefully using a custom <code class="docutils literal notranslate"><span class="pre">fuse_func</span></code> that ensures data
+integrity. Here we use the <code class="docutils literal notranslate"><span class="pre">ga_pq_fuser</span></code> to perform this step:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sensor_pq</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;ls8_pq_albers&#39;</span><span class="p">,</span> <span class="n">fuse_func</span><span class="o">=</span><span class="n">ga_pq_fuser</span><span class="p">,</span> <span class="n">group_by</span><span class="o">=</span><span class="s1">&#39;solar_day&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span>
+<span class="n">sensor_pq</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[6]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.Dataset&gt;
+Dimensions:       (time: 1, x: 492, y: 500)
+Coordinates:
+  * time          (time) datetime64[ns] 2017-01-23T23:50:24
+  * y             (y) float64 -3.953e+06 -3.953e+06 -3.953e+06 -3.953e+06 ...
+  * x             (x) float64 1.542e+06 1.542e+06 1.542e+06 1.542e+06 ...
+Data variables:
+    pixelquality  (time, y, x) int16 16383 16383 4095 4095 4095 4095 4095 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sensor_pq</span></code> dataset above contains a <code class="docutils literal notranslate"><span class="pre">pixelquality</span></code> variable
+with integer values that flag various potential issues with the dataset.
+These numbers effectively represent a series of ones-and-zeroes flags
+which are then converted from binary to an integer. In this way, a
+single value can be used to contain information about many different
+potential pixel quality issues:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sensor_pq</span><span class="o">.</span><span class="n">pixelquality</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[7]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[[16383, 16383,  4095, ..., 16383, 16383, 16383],
+        [16383,  4095,  4095, ..., 16383, 16383, 16383],
+        [16383,  4095,  4095, ..., 16383, 16383, 16383],
+        ...,
+        [16383, 16383, 16383, ..., 16383, 16383, 16383],
+        [16383, 16383, 16383, ..., 16383, 16383, 16383],
+        [16383, 16383, 16383, ..., 16383, 16383, 16383]]], dtype=int16)
+</pre></div>
+</div>
+</div>
+<p>A description of the available pixel quality flags and their
+corresponding bits are listed below; typically, however, you will not
+need to know what bits are used for what flag.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dvf</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">describe_variable_flags</span><span class="p">(</span><span class="n">sensor_pq</span><span class="p">)</span>
+<span class="n">dvf</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bits</th>
+      <th>values</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>blue_saturated</th>
+      <td>0</td>
+      <td>{'0': True, '1': False}</td>
+      <td>Blue band is saturated</td>
+    </tr>
+    <tr>
+      <th>cloud_acca</th>
+      <td>10</td>
+      <td>{'0': 'cloud', '1': 'no_cloud'}</td>
+      <td>Cloud (ACCA)</td>
+    </tr>
+    <tr>
+      <th>cloud_fmask</th>
+      <td>11</td>
+      <td>{'0': 'cloud', '1': 'no_cloud'}</td>
+      <td>Cloud (Fmask)</td>
+    </tr>
+    <tr>
+      <th>cloud_shadow_acca</th>
+      <td>12</td>
+      <td>{'0': 'cloud_shadow', '1': 'no_cloud_shadow'}</td>
+      <td>Cloud Shadow (ACCA)</td>
+    </tr>
+    <tr>
+      <th>cloud_shadow_fmask</th>
+      <td>13</td>
+      <td>{'0': 'cloud_shadow', '1': 'no_cloud_shadow'}</td>
+      <td>Cloud Shadow (Fmask)</td>
+    </tr>
+    <tr>
+      <th>contiguous</th>
+      <td>8</td>
+      <td>{'0': False, '1': True}</td>
+      <td>All bands for this pixel contain non-null values</td>
+    </tr>
+    <tr>
+      <th>ga_good_pixel</th>
+      <td>[13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]</td>
+      <td>{'16383': True}</td>
+      <td>Best Quality Pixel</td>
+    </tr>
+    <tr>
+      <th>green_saturated</th>
+      <td>1</td>
+      <td>{'0': True, '1': False}</td>
+      <td>Green band is saturated</td>
+    </tr>
+    <tr>
+      <th>land_sea</th>
+      <td>9</td>
+      <td>{'0': 'sea', '1': 'land'}</td>
+      <td>Land or Sea</td>
+    </tr>
+    <tr>
+      <th>nir_saturated</th>
+      <td>3</td>
+      <td>{'0': True, '1': False}</td>
+      <td>NIR band is saturated</td>
+    </tr>
+    <tr>
+      <th>red_saturated</th>
+      <td>2</td>
+      <td>{'0': True, '1': False}</td>
+      <td>Red band is saturated</td>
+    </tr>
+    <tr>
+      <th>swir1_saturated</th>
+      <td>4</td>
+      <td>{'0': True, '1': False}</td>
+      <td>SWIR1 band is saturated</td>
+    </tr>
+    <tr>
+      <th>swir2_saturated</th>
+      <td>7</td>
+      <td>{'0': True, '1': False}</td>
+      <td>SWIR2 band is saturated</td>
+    </tr>
+    <tr>
+      <th>tir1_saturated</th>
+      <td>5</td>
+      <td>{'0': True, '1': False}</td>
+      <td>Thermal Infrared 1 band is saturated</td>
+    </tr>
+    <tr>
+      <th>tir2_saturated</th>
+      <td>6</td>
+      <td>{'0': True, '1': False}</td>
+      <td>Thermal Infrared 2 band is saturated</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="section" id="Create-a-PQ-mask">
+<h3>Create a PQ mask<a class="headerlink" href="#Create-a-PQ-mask" title="Permalink to this headline">¶</a></h3>
+<p>To turn all the <code class="docutils literal notranslate"><span class="pre">pixelquality</span></code> values into a single mask that can be
+used to actually filter our Landsat observations, we use the
+<code class="docutils literal notranslate"><span class="pre">make_mask</span></code> function. This lets you specify how you want to treat each
+flag. The final mask is created by taking all listed flags, and returns
+a <code class="docutils literal notranslate"><span class="pre">True</span></code> value only when <strong>all listed flags have</strong> <code class="docutils literal notranslate"><span class="pre">True</span></code> <strong>values</strong>
+(i.e. the flags are combined using an <code class="docutils literal notranslate"><span class="pre">AND</span></code> rule).</p>
+<ul class="simple">
+<li>For <code class="docutils literal notranslate"><span class="pre">cloud_acca</span></code>, and <code class="docutils literal notranslate"><span class="pre">cloud_fmask</span></code>, specifying
+<code class="docutils literal notranslate"><span class="pre">cloud_acca='no_cloud'</span></code> or <code class="docutils literal notranslate"><span class="pre">cloud_fmask='no_cloud'</span></code> means that
+the pixels obscured by cloud are assigned a <code class="docutils literal notranslate"><span class="pre">False</span></code> value, but all
+non-cloudy values are assigned to <code class="docutils literal notranslate"><span class="pre">True</span></code>. These flags let you
+exclude pixels that may be affected by cloud using either the ACCA
+(Automated Cloud Cover Assessment) or Fmask (Function of mask)
+algorithms.</li>
+<li>For <code class="docutils literal notranslate"><span class="pre">cloud_shadow_acca</span></code>, and <code class="docutils literal notranslate"><span class="pre">cloud_shadow_fmask</span></code>, specifying
+<code class="docutils literal notranslate"><span class="pre">cloud_shadow_acca='no_cloud_shadow'</span></code> or
+<code class="docutils literal notranslate"><span class="pre">cloud_shadow_fmask='no_cloud_shadow'</span></code> means that all shadowey
+pixels are assigned a <code class="docutils literal notranslate"><span class="pre">False</span></code> value, but all non-shadowed pixels
+are assigned to <code class="docutils literal notranslate"><span class="pre">True</span></code>. These flags let you exclude pixels where
+reflectance values may have been affected by cloud shadows.</li>
+<li>For <code class="docutils literal notranslate"><span class="pre">land_sea</span></code>, specifying <code class="docutils literal notranslate"><span class="pre">land_sea='land'</span></code> will set any land
+pixel to <code class="docutils literal notranslate"><span class="pre">True</span></code>, and all ocean pixels to <code class="docutils literal notranslate"><span class="pre">False</span></code>. Conversely,
+setting <code class="docutils literal notranslate"><span class="pre">land_sea='sea'</span></code> will set all ocean pixels to <code class="docutils literal notranslate"><span class="pre">True</span></code>, and
+land pixels to <code class="docutils literal notranslate"><span class="pre">False</span></code>. This flag lets you exclude or include areas
+over ocean.</li>
+<li>For all <code class="docutils literal notranslate"><span class="pre">*_saturated</span></code> flags, specifying <code class="docutils literal notranslate"><span class="pre">False</span></code> will set any
+saturated pixel to <code class="docutils literal notranslate"><span class="pre">False</span></code>, and all other pixels to <code class="docutils literal notranslate"><span class="pre">True</span></code> (and
+vice-versa). The purpose of this mask is to find areas where
+reflectance values have exceeded the dynamic range of the sensors.
+e.g. a bright light from reflections on water surface may saturate
+the pixels.</li>
+<li>For <code class="docutils literal notranslate"><span class="pre">contiguous</span></code>, specifying <code class="docutils literal notranslate"><span class="pre">True</span></code> will set all pixels with data
+in every band to <code class="docutils literal notranslate"><span class="pre">True</span></code>, and all other pixels to <code class="docutils literal notranslate"><span class="pre">False</span></code> (and
+vice-versa). This restricts your analysis to pixels with valid data.</li>
+</ul>
+<p>In the following examples, we will show how <code class="docutils literal notranslate"><span class="pre">make_mask</span></code> works by
+building up a mask step-by-step. In this first example, we create a mask
+that contains <code class="docutils literal notranslate"><span class="pre">True</span></code> values only where there is no clouds flagged by
+the <code class="docutils literal notranslate"><span class="pre">ACCA</span></code> cloud masking algorithm. Here, yellow <code class="docutils literal notranslate"><span class="pre">True</span></code> pixels
+represent “good” data, while purple <code class="docutils literal notranslate"><span class="pre">False</span></code> pixels represent “bad”
+data:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">good_quality</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">make_mask</span><span class="p">(</span><span class="n">sensor_pq</span><span class="o">.</span><span class="n">pixelquality</span><span class="p">,</span>
+                                 <span class="n">cloud_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">)</span>
+<span class="n">good_quality</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_23_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_23_0.png" />
+</div>
+</div>
+<p>In the next example, we create a mask with “good” <code class="docutils literal notranslate"><span class="pre">True</span></code> values only
+where there are no Fmask clouds <strong>AND</strong> no ACCA clouds in a pixel:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">good_quality</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">make_mask</span><span class="p">(</span><span class="n">sensor_pq</span><span class="o">.</span><span class="n">pixelquality</span><span class="p">,</span>
+                                 <span class="n">cloud_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">)</span>
+<span class="n">good_quality</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_25_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_25_0.png" />
+</div>
+</div>
+<p>In the next example, we create a mask with “good” <code class="docutils literal notranslate"><span class="pre">True</span></code> values only
+where there are no Fmask clouds <strong>AND</strong> no ACCA clouds <strong>AND</strong> no Fmask
+cloud shadows <strong>AND</strong> no ACCA cloud shadows in a pixel:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">good_quality</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">make_mask</span><span class="p">(</span><span class="n">sensor_pq</span><span class="o">.</span><span class="n">pixelquality</span><span class="p">,</span>
+                                 <span class="n">cloud_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_shadow_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_shadow_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">)</span>
+<span class="n">good_quality</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_27_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_27_0.png" />
+</div>
+</div>
+<p>In the next example, we create a mask with “good” <code class="docutils literal notranslate"><span class="pre">True</span></code> values only
+where there are no Fmask clouds <strong>AND</strong> no ACCA clouds <strong>AND</strong> no Fmask
+cloud shadows <strong>AND</strong> no ACCA cloud shadows <strong>AND</strong> no saturated values
+for any band:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">good_quality</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">make_mask</span><span class="p">(</span><span class="n">sensor_pq</span><span class="o">.</span><span class="n">pixelquality</span><span class="p">,</span>
+                                 <span class="n">cloud_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_shadow_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_shadow_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+                                 <span class="n">blue_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">green_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">red_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">nir_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">swir1_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">swir2_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">good_quality</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_29_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_29_0.png" />
+</div>
+</div>
+<p>Putting all the pieces together, we can create a mask with “good”
+<code class="docutils literal notranslate"><span class="pre">True</span></code> values only where there are no Fmask clouds <strong>AND</strong> no ACCA
+clouds <strong>AND</strong> no Fmask cloud shadows <strong>AND</strong> no ACCA cloud shadows
+<strong>AND</strong> no saturated values for any band <strong>AND</strong> where pixels have
+values for every band (i.e. ‘contiguous’ values).</p>
+<p>This final combined mask is a good starting point when working with
+Landsat data:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">good_quality</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">make_mask</span><span class="p">(</span><span class="n">sensor_pq</span><span class="o">.</span><span class="n">pixelquality</span><span class="p">,</span>
+                                 <span class="n">cloud_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_shadow_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+                                 <span class="n">cloud_shadow_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+                                 <span class="n">blue_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">green_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">red_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">nir_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">swir1_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">swir2_saturated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">contiguous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">good_quality</span><span class="p">)</span>
+<span class="n">good_quality</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.DataArray &#39;pixelquality&#39; (time: 1, y: 500, x: 492)&gt;
+array([[[ True,  True, ...,  True,  True],
+        [ True, False, ...,  True,  True],
+        ...,
+        [ True,  True, ...,  True,  True],
+        [ True,  True, ...,  True,  True]]])
+Coordinates:
+  * time     (time) datetime64[ns] 2017-01-23T23:50:24
+  * y        (y) float64 -3.953e+06 -3.953e+06 -3.953e+06 -3.953e+06 ...
+  * x        (x) float64 1.542e+06 1.542e+06 1.542e+06 1.542e+06 1.542e+06 ...
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_31_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_31_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Apply-the-PQ-mask">
+<h2>Apply the PQ mask<a class="headerlink" href="#Apply-the-PQ-mask" title="Permalink to this headline">¶</a></h2>
+<p>The code below will mask the specified pixels by setting their data
+points to NaN where the mask is <code class="docutils literal notranslate"><span class="pre">False</span></code>. In this example, this will
+mask out all pixels that are affected by cloud, cloud shadow,
+saturation, or any pixels that do not have data for every band:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Apply the mask to preserve only the good data</span>
+<span class="n">ds_masked</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">good_quality</span><span class="p">)</span>
+<span class="n">ds_masked</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[14]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.Dataset&gt;
+Dimensions:          (time: 1, x: 492, y: 500)
+Coordinates:
+  * time             (time) datetime64[ns] 2017-01-23T23:50:24
+  * y                (y) float64 -3.953e+06 -3.953e+06 -3.953e+06 -3.953e+06 ...
+  * x                (x) float64 1.542e+06 1.542e+06 1.542e+06 1.542e+06 ...
+Data variables:
+    coastal_aerosol  (time, y, x) float64 579.0 420.0 nan nan nan nan nan ...
+    blue             (time, y, x) float64 531.0 352.0 nan nan nan nan nan ...
+    green            (time, y, x) float64 655.0 372.0 nan nan nan nan nan ...
+    red              (time, y, x) float64 751.0 405.0 nan nan nan nan nan ...
+    nir              (time, y, x) float64 2.439e+03 1.264e+03 nan nan nan ...
+    swir1            (time, y, x) float64 1.439e+03 594.0 nan nan nan nan ...
+    swir2            (time, y, x) float64 925.0 438.0 nan nan nan nan nan ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div>
+</div>
+</div>
+<div class="section" id="Plot-the-PQ-masked-Landsat-data">
+<h3>Plot the PQ-masked Landsat data<a class="headerlink" href="#Plot-the-PQ-masked-Landsat-data" title="Permalink to this headline">¶</a></h3>
+<p>Plot the data, and observe how all low-quality pixels (e.g. cloud) have
+been removed from the image:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds_masked</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_35_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_35_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="References">
+<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>GA, 2015. <em>Pixel Quality (PQ25) Product Description</em>
+<a class="reference external" href="https://d28rz98at9flks.cloudfront.net/81942/Pixel_Quality_PQ25.PDF">https://d28rz98at9flks.cloudfront.net/81942/Pixel_Quality_PQ25.PDF</a></li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Introduction_to_Fractional_Cover.html" class="btn btn-neutral float-right" title="Introduction to Fractional Cover Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Introduction_to_Landsat.html" class="btn btn-neutral" title="Introduction to DEA Landsat surface reflectance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>

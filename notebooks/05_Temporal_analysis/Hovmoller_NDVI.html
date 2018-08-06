@@ -1,0 +1,1010 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Hovmoller plot of NDVI and Rainfall &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Hovmoller plots of NDVI and Rainfall (multiple sites)" href="Hovmoller_NDVI_Multi-site.html" />
+    <link rel="prev" title="Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall" href="Hovmoller_TCI_and_Rainfall.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">Temporal Analyses</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PolygonDrill.html">Polygon drill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PixelDrillWithWidgets.html">Pixel drill using interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Interactive_phenology_plot_tagged.html">Visualising vegetation phenology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_TCI_Multi-site.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall for Multiple Sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_TCI_and_Rainfall.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hovmoller plot of NDVI and Rainfall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-modules,-functions-and-libraries">Set up modules, functions and libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-functions-for-this-notebook">Set up functions for this notebook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Define-the-epoch">Define the epoch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-query">Set up query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-the-transect-dataframe-to-get-transect-metadata">use the transect dataframe to get transect metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Check-if-this-notebook-has-already-been-run-and-the-data-saved:">Check if this notebook has already been run and the data saved:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#If-not,-pull-in-rainfall-and-nbar">If not, pull in rainfall and nbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resample-gridded-rainfall-data">resample gridded rainfall data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-some-colour-maps-for-the-Hovmoller-plots">Set up some colour maps for the Hovmoller plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-data-for-Hovmoller-plots-and-calculate-NDVI">Set up data for Hovmoller plots and calculate NDVI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Make-Hovmoller-plot">Make Hovmoller plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Save-the-data-to-an-output-file-for-future-use">Save the data to an output file for future use</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_NDVI_Multi-site.html">Hovmoller plots of NDVI and Rainfall (multiple sites)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">Temporal Analyses</a> &raquo;</li>
+        
+      <li>Hovmoller plot of NDVI and Rainfall</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/05_Temporal_analysis/Hovmoller_NDVI.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Hovmoller-plot-of-NDVI-and-Rainfall">
+<h1>Hovmoller plot of NDVI and Rainfall<a class="headerlink" href="#Hovmoller-plot-of-NDVI-and-Rainfall" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong> This notebook opens a shape file of
+transects, allows you to select a transect by number (or plot all
+sites), and plot a hovmoller diagram of the site NDVI based on datacube
+landsat surface reflectance data and BoM rainfall data.</p>
+<p><strong>Before you run this notebook:</strong></p>
+<p><strong>you will need:</strong></p>
+<ul class="simple">
+<li>a shapefile of the site transects in EPSG 4326 in a known location on
+raijin</li>
+<li>to use the rainfall data you will need to request access to project
+r78 on the NCI</li>
+</ul>
+<div class="line-block">
+<div class="line"><strong>Background:</strong></div>
+<div class="line">The Normalised Difference Vegetation Index</div>
+</div>
+<p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/1645279/">NDVI</a> is a
+remote sensing index commonly used to examine vegetation distribution
+and condition. Values are between -1 and 1, with values below 0
+indicating the presence of water.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{eqnarray}
+NDVI &amp;=&amp; \frac {(NIR-RED)}{(NIR+RED)}\ \\
+\end{eqnarray}\end{split}\]</div>
+<p><strong>Date:</strong> June 2018</p>
+<p><strong>Authors:</strong> Bex Dunn, Leo Lymburner</p>
+<p>Tags: <span class="target" id="index-0"></span>transect, <span class="target" id="index-1"></span>Hovmoller, <span class="target" id="index-2"></span>shapefile, <span class="target" id="index-3"></span>NDVI, <span class="target" id="index-4"></span>rainfall,index:<cite>DEADataHandling</cite>, index:<cite>DEAPlotting</cite>,index:<cite>load_clearlandsat</cite>, index:<cite>three_band_image</cite>, index:<cite>pickle</cite></p>
+<div class="section" id="Set-up-modules,-functions-and-libraries">
+<h2>Set up modules, functions and libraries<a class="headerlink" href="#Set-up-modules,-functions-and-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#in this notebook we want to plot non-interactively</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="c1">#suppress warnings thrown when rainfall data is imported</span>
+<span class="c1"># import logging</span>
+<span class="c1"># logging.getLogger(&#39;rasterio._gdal&#39;).setLevel(logging.ERROR)</span>
+<span class="c1"># import warnings</span>
+
+<span class="c1">#get standard libraries</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">fiona</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">shapely.geometry</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">shape</span>
+<span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">import</span> <span class="nn">rasterio.features</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="c1">#modules for datacube</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">datacube.storage.storage</span> <span class="k">import</span> <span class="n">write_dataset_to_netcdf</span>
+<span class="kn">from</span> <span class="nn">datacube.helpers</span> <span class="k">import</span> <span class="n">write_geotiff</span>
+
+<span class="c1"># Import external functions from dea-notebooks</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/dea-notebooks/Scripts/&#39;</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span><span class="o">,</span> <span class="nn">DEADataHandling</span>
+<span class="kn">from</span> <span class="nn">FileDialogs</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1">#ignore datacube warnings (needs to be last import statement)</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s1">&#39;datacube&#39;</span><span class="p">)</span>
+
+<span class="c1">#alias for datacube</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;dc-BoMrainfallandNbart&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-up-functions-for-this-notebook">
+<h2>Set up functions for this notebook<a class="headerlink" href="#Set-up-functions-for-this-notebook" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#This defines the function that converts a linear vector file into a string of x,y coordinates</span>
+<span class="k">def</span> <span class="nf">geom_query</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">geom_crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create datacube query snippet for geometry</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geom</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+        <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">geom_crs</span>
+    <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">warp_geometry</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">crs_crs</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    warp geometry from crs_crs to dst_crs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">rasterio</span><span class="o">.</span><span class="n">warp</span><span class="o">.</span><span class="n">transform_geom</span><span class="p">(</span><span class="n">crs_crs</span><span class="p">,</span> <span class="n">dst_crs</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">(</span><span class="n">geom</span><span class="p">)))</span>
+
+
+<span class="k">def</span> <span class="nf">transect</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    gets the transect</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Changed for py3 compatibility 17.03.17</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">length</span><span class="p">),</span> <span class="n">resolution</span><span class="p">)]</span>
+    <span class="c1">#points = zip(*[geom.interpolate(d).coords[0] for d in dist]) py2</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">geom</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">]))</span> <span class="c1">#py3</span>
+    <span class="n">indexers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">dimensions</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">dimensions</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="nb">list</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">sel_points</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]),</span>
+                           <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+                           <span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span><span class="p">,</span>
+                           <span class="o">**</span><span class="n">indexers</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">load_rainfall</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+
+    <span class="n">dc_rf</span> <span class="o">=</span><span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;/g/data/r78/bom_grids/rainfall.conf&#39;</span><span class="p">)</span>
+
+    <span class="n">rf_data</span> <span class="o">=</span> <span class="n">dc_rf</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;rainfall_grids_1901_2017&#39;</span><span class="p">,</span><span class="o">**</span><span class="n">query</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rf_data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-the-path-to-the-input-shapefile">
+<h3>add the path to the input shapefile<a class="headerlink" href="#add-the-path-to-the-input-shapefile" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#transects file will be the file containing our transects</span>
+<span class="n">transects_file</span> <span class="o">=</span> <span class="s1">&#39;/g/data/r78/rjd547/groundwater_activities/Burdekin/Burdekin_shapefiles/transects/merged2_hovmoller_transects2.shp&#39;</span>
+<span class="n">transects_df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">transects_file</span><span class="p">)</span>
+<span class="n">transects_df</span><span class="o">.</span><span class="n">crs</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[3]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>{&#39;init&#39;: &#39;epsg:4326&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Define-the-epoch">
+<h3>Define the epoch<a class="headerlink" href="#Define-the-epoch" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#Define temporal range</span>
+<span class="n">start_of_epoch</span> <span class="o">=</span> <span class="s1">&#39;1987-10-01&#39;</span>
+<span class="n">end_of_epoch</span> <span class="o">=</span>  <span class="s1">&#39;2017-10-01&#39;</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;temporal range is &#39;</span><span class="o">+</span><span class="n">start_of_epoch</span><span class="o">+</span><span class="s1">&#39; to &#39;</span><span class="o">+</span><span class="n">end_of_epoch</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+temporal range is 1987-10-01 to 2017-10-01
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-up-query">
+<h2>Set up query<a class="headerlink" href="#Set-up-query" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#use fiona module to open the shape file</span>
+<span class="n">transects</span> <span class="o">=</span> <span class="n">fiona</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">transects_file</span><span class="p">)</span>
+
+<span class="c1">#this statement asks you to choose a shapefile. put in a number and press enter.</span>
+<span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;choose the index of the transect you would like to plot:&quot;</span><span class="p">))</span>
+<span class="c1">#for i in range(len(transects)):</span>
+
+<span class="n">geom1</span> <span class="o">=</span> <span class="n">shape</span><span class="p">(</span><span class="n">transects</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;geometry&#39;</span><span class="p">])</span>
+<span class="n">geom_query1</span> <span class="o">=</span> <span class="n">geom_query</span><span class="p">(</span><span class="n">geom1</span><span class="p">)</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">start_of_epoch</span><span class="p">,</span> <span class="n">end_of_epoch</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">geom_query</span><span class="p">(</span><span class="n">geom1</span><span class="p">,</span> <span class="n">geom_crs</span><span class="o">=</span><span class="n">transects</span><span class="o">.</span><span class="n">crs_wkt</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+choose the index of the transect you would like to plot:0
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="use-the-transect-dataframe-to-get-transect-metadata">
+<h2>use the transect dataframe to get transect metadata<a class="headerlink" href="#use-the-transect-dataframe-to-get-transect-metadata" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#use the transect dataframe to get transect metadata</span>
+<span class="n">transect_index</span> <span class="o">=</span> <span class="n">transects_df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="n">transect_name</span> <span class="o">=</span> <span class="n">transects_df</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">transect_name</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TypeError: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">transect_name</span><span class="p">)</span>
+
+<span class="c1">#create a filename for the transect</span>
+<span class="n">shape_name</span> <span class="o">=</span> <span class="n">transect_name</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">shape_name</span> <span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">shape_name</span><span class="p">)</span>
+<span class="n">shape_name</span><span class="o">=</span><span class="n">shape_name</span><span class="o">+</span><span class="s1">&#39;_ix&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">transect_index</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shape_name</span><span class="p">)</span>
+
+<span class="c1">#setup a save directory for our data</span>
+<span class="n">savepath</span> <span class="o">=</span><span class="s1">&#39;/g/data/r78/rjd547/groundwater_activities/Burdekin/Burdekin_Results/HovResults/&#39;</span><span class="o">+</span><span class="n">shape_name</span><span class="o">+</span><span class="s1">&#39;_/&#39;</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">savepath</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OS error: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BasaltR_AmeliaDowns
+BasaltR_AmeliaDowns_ix0
+OS error: [Errno 17] File exists: &#39;/g/data/r78/rjd547/groundwater_activities/Burdekin/Burdekin_Results/HovResults/BasaltR_AmeliaDowns_ix0_/&#39;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Check-if-this-notebook-has-already-been-run-and-the-data-saved:">
+<h2>Check if this notebook has already been run and the data saved:<a class="headerlink" href="#Check-if-this-notebook-has-already-been-run-and-the-data-saved:" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;hov_data_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape_name</span><span class="p">,</span><span class="n">start_of_epoch</span><span class="p">,</span><span class="n">end_of_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/g/data/r78/rjd547/groundwater_activities/Burdekin/Burdekin_Results/HovResults/BasaltR_AmeliaDowns_ix0_/hov_data_BasaltR_AmeliaDowns_ix0_1987-10-01_2017-10-01.pkl
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="If-not,-pull-in-rainfall-and-nbar">
+<h2>If not, pull in rainfall and nbar<a class="headerlink" href="#If-not,-pull-in-rainfall-and-nbar" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;hov_data_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape_name</span><span class="p">,</span><span class="n">start_of_epoch</span><span class="p">,</span><span class="n">end_of_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.pkl&#39;</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;hov_data_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape_name</span><span class="p">,</span><span class="n">start_of_epoch</span><span class="p">,</span><span class="n">end_of_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+    <span class="n">hov_data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">hov_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;loaded data from file&#39;</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">hov_data</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">]</span>
+        <span class="n">Studysite_rain</span><span class="o">=</span><span class="n">hov_data</span><span class="p">[</span><span class="s1">&#39;Studysite_rain&#39;</span><span class="p">]</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;did not load data from previous run&#39;</span><span class="p">)</span>
+    <span class="c1">#use our DEADataHandling function to load landsat data for all sensors in epoch and mask out cloudy scenes</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;nbart&#39;</span><span class="p">,</span><span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.80</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;loaded SR data from DEA, loading rainfall data&#39;</span><span class="p">)</span>
+    <span class="c1">#Grab bom_rainfall_grids from the datacube</span>
+    <span class="n">Studysite_rain</span> <span class="o">=</span> <span class="n">load_rainfall</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;loaded bom rainfall grids from DEA&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+loaded data from file
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="resample-gridded-rainfall-data">
+<h2>resample gridded rainfall data<a class="headerlink" href="#resample-gridded-rainfall-data" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#resample xarray Dataset Studysite_rain by Annual&#39;AS&#39; to get yearly avg with year starting in october</span>
+<span class="c1">#Note that the resampling we did means that each year is labelled according to its first day</span>
+<span class="n">rain_sp</span> <span class="o">=</span> <span class="n">Studysite_rain</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span><span class="s1">&#39;longitude&#39;</span><span class="p">))</span>
+<span class="n">month_sp</span> <span class="o">=</span> <span class="n">rain_sp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;MS&#39;</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">year_avg</span> <span class="o">=</span> <span class="n">Studysite_rain</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;AS-OCT&#39;</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Create a spatial average</span>
+<span class="n">year_avg_sp</span> <span class="o">=</span> <span class="n">year_avg</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/g/data/v10/public/modules/dea-env/20180405/lib/python3.6/site-packages/ipykernel_launcher.py:4: DeprecationWarning:
+.resample() has been modified to defer calculations. Instead of passing &#39;dim&#39; and &#39;how=&#34;mean&#34;, instead consider using .resample(time=&#34;MS&#34;).mean()
+  after removing the cwd from sys.path.
+/g/data/v10/public/modules/dea-env/20180405/lib/python3.6/site-packages/ipykernel_launcher.py:5: DeprecationWarning:
+.resample() has been modified to defer calculations. Instead of passing &#39;dim&#39; and &#39;how=&#34;mean&#34;, instead consider using .resample(time=&#34;AS-OCT&#34;).mean()
+  &#34;&#34;&#34;
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Set-up-some-colour-maps-for-the-Hovmoller-plots">
+<h2>Set up some colour maps for the Hovmoller plots<a class="headerlink" href="#Set-up-some-colour-maps-for-the-Hovmoller-plots" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#This controls the colour map used for plotting NDVI</span>
+<span class="n">ndvi_cmap</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffcc66&#39;</span><span class="p">,</span><span class="s1">&#39;#ffffcc&#39;</span> <span class="p">,</span> <span class="s1">&#39;#ccff66&#39;</span> <span class="p">,</span> <span class="s1">&#39;#2eb82e&#39;</span><span class="p">,</span> <span class="s1">&#39;#009933&#39;</span> <span class="p">,</span> <span class="s1">&#39;#006600&#39;</span><span class="p">])</span>
+<span class="n">ndvi_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="c1">#Be aware that clip = True might be causing issues</span>
+<span class="n">ndvi_norm</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">ndvi_bounds</span><span class="p">,</span> <span class="n">ndvi_cmap</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-up-data-for-Hovmoller-plots-and-calculate-NDVI">
+<h2>Set up data for Hovmoller plots and calculate NDVI<a class="headerlink" href="#Set-up-data-for-Hovmoller-plots-and-calculate-NDVI" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## Compress</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">crs</span>
+<span class="n">crs</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">crs</span>
+<span class="n">crs_wkt</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span>
+<span class="n">geom_w</span> <span class="o">=</span> <span class="n">warp_geometry</span><span class="p">(</span><span class="n">geom1</span><span class="p">,</span> <span class="n">query</span><span class="p">[</span><span class="s1">&#39;crs&#39;</span><span class="p">],</span> <span class="n">crs_wkt</span><span class="p">)</span>
+<span class="n">hov_ds</span><span class="o">=</span> <span class="n">transect</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">geom_w</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/g/data/v10/public/modules/dea-env/20180405/lib/python3.6/site-packages/ipykernel_launcher.py:34: DeprecationWarning: Dataset.sel_points is deprecated: use Dataset.sel()instead.
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#calculate NDVI here</span>
+<span class="n">hov_multi_ndvi</span> <span class="o">=</span> <span class="p">((</span><span class="n">hov_ds</span><span class="o">.</span><span class="n">nir</span><span class="o">-</span><span class="n">hov_ds</span><span class="o">.</span><span class="n">red</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">hov_ds</span><span class="o">.</span><span class="n">nir</span><span class="o">+</span><span class="n">hov_ds</span><span class="o">.</span><span class="n">red</span><span class="p">))</span>
+<span class="n">hov_multi</span> <span class="o">=</span><span class="n">hov_ds</span>
+<span class="n">hov_multi_ndvi_drop</span> <span class="o">=</span> <span class="n">hov_multi_ndvi</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Make-Hovmoller-plot">
+<h2>Make Hovmoller plot<a class="headerlink" href="#Make-Hovmoller-plot" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+    <span class="c1">#try plotting the first clean time slice to see where we are</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;transect image: &#39;</span><span class="p">)</span>
+    <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span><span class="s1">&#39;nir&#39;</span><span class="p">,</span><span class="s1">&#39;green&#39;</span><span class="p">],</span><span class="n">time</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">hov_ds</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">hov_ds</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span>
+               <span class="n">linewidths</span><span class="o">=</span><span class="s1">&#39;0.01&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">_HovImg_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span><span class="n">shape_name</span><span class="p">,</span><span class="n">start_of_epoch</span><span class="p">,</span><span class="n">end_of_epoch</span><span class="p">),</span>
+            <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#Make a hovmoller plot and save it to file.</span>
+<span class="c1">#Use firstyear and last year to zoom into periods of interest</span>
+<span class="n">firstyearhov</span> <span class="o">=</span> <span class="n">start_of_epoch</span><span class="c1">#&#39;1987-06-01&#39;</span>
+<span class="n">lastyearhov</span> <span class="o">=</span> <span class="n">end_of_epoch</span> <span class="c1">#&#39;2016-12-31&#39;</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">11.27</span><span class="p">,</span><span class="mf">11.69</span><span class="p">))</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">month_sp</span><span class="o">.</span><span class="n">rainfall</span><span class="p">,</span> <span class="n">month_sp</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;ave daily rainfall (mm): monthly (blue) yearly (grey)&#39;</span><span class="p">)</span>
+
+<span class="c1">#set up fill time as a datetime 64 object for matplotlib input</span>
+<span class="c1">#set up variables to plot the fill behind the yearly rain data</span>
+<span class="n">filltime</span> <span class="o">=</span> <span class="p">(</span><span class="n">year_avg_sp</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64&#39;</span><span class="p">))</span>
+<span class="n">zeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filltime</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span><span class="n">filltime</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">year_avg_sp</span><span class="o">.</span><span class="n">rainfall</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="c1">#set up variables to plot the fill behind the months data</span>
+<span class="n">mzeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">month_sp</span><span class="o">.</span><span class="n">rainfall</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span><span class="n">month_sp</span><span class="o">.</span><span class="n">rainfall</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">mzeros</span><span class="p">,</span> <span class="n">month_sp</span><span class="o">.</span><span class="n">rainfall</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">month_sp</span><span class="o">.</span><span class="n">rainfall</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="n">lastyearhov</span> <span class="p">,</span> <span class="n">firstyearhov</span><span class="p">])</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">hov_multi_ndvi_drop</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">yincrease</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">ndvi_cmap</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="n">ndvi_norm</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#fig.delaxes(fig.axes[]) #remove current colour bar</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">hov_multi_ndvi_drop</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">lastyearhov</span> <span class="p">,</span> <span class="n">firstyearhov</span><span class="p">])</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_anchor</span><span class="p">(</span><span class="s2">&quot;SE&quot;</span><span class="p">)</span>
+<span class="c1">#make a title replacing underscores with spaces</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">shape_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="n">fontsize</span> <span class="o">=</span><span class="s1">&#39;24&#39;</span><span class="p">)</span>
+
+<span class="c1">#save plot to file</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">_HovPlot_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span><span class="n">shape_name</span><span class="p">,</span><span class="n">start_of_epoch</span><span class="p">,</span><span class="n">end_of_epoch</span><span class="p">),</span>
+            <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+transect image:
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_Hovmoller_NDVI_27_1.png" src="../../_images/notebooks_05_Temporal_analysis_Hovmoller_NDVI_27_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_Hovmoller_NDVI_27_2.png" src="../../_images/notebooks_05_Temporal_analysis_Hovmoller_NDVI_27_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Save-the-data-to-an-output-file-for-future-use">
+<h2>Save the data to an output file for future use<a class="headerlink" href="#Save-the-data-to-an-output-file-for-future-use" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">try</span><span class="p">:</span>
+    <span class="c1">#make a dictionary of the data we want to save</span>
+    <span class="n">hov_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ds&#39;</span><span class="p">:</span><span class="n">ds</span><span class="p">,</span> <span class="s1">&#39;Studysite_rain&#39;</span><span class="p">:</span><span class="n">Studysite_rain</span><span class="p">,</span><span class="s1">&#39;rain_sp&#39;</span><span class="p">:</span><span class="n">rain_sp</span><span class="p">,</span><span class="s1">&#39;month_sp&#39;</span><span class="p">:</span><span class="n">month_sp</span><span class="p">,</span>
+                <span class="s1">&#39;year_avg&#39;</span><span class="p">:</span><span class="n">year_avg</span><span class="p">,</span><span class="s1">&#39;year_avg_sp&#39;</span><span class="p">:</span><span class="n">year_avg_sp</span><span class="p">,</span><span class="s1">&#39;hov_ds&#39;</span><span class="p">:</span><span class="n">hov_ds</span><span class="p">,</span> <span class="s1">&#39;start_of_epoch&#39;</span><span class="p">:</span> <span class="n">start_of_epoch</span><span class="p">,</span>
+                <span class="s1">&#39;end_of_epoch&#39;</span><span class="p">:</span><span class="n">end_of_epoch</span><span class="p">,</span><span class="s1">&#39;ndvi_cmap&#39;</span><span class="p">:</span><span class="n">ndvi_cmap</span><span class="p">,</span> <span class="s1">&#39;ndvi_norm&#39;</span><span class="p">:</span><span class="n">ndvi_norm</span><span class="p">,</span> <span class="s1">&#39;ndvi_bounds&#39;</span><span class="p">:</span><span class="n">ndvi_bounds</span><span class="p">}</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">savepath</span><span class="o">+</span><span class="s1">&#39;hov_data_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape_name</span><span class="p">,</span><span class="n">start_of_epoch</span><span class="p">,</span><span class="n">end_of_epoch</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">hov_data</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;saved data to file&#39;</span><span class="p">)</span>
+    <span class="c1">#pickle.dump(pickle_vars,f,protocol = 2, fix_imports = True) #maintain compatibility with python 2</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;did not save to file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+saved data to file
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Hovmoller_NDVI_Multi-site.html" class="btn btn-neutral float-right" title="Hovmoller plots of NDVI and Rainfall (multiple sites)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Hovmoller_TCI_and_Rainfall.html" class="btn btn-neutral" title="Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>

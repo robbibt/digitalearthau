@@ -1,0 +1,1496 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Sun glint identification and removal &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Fractional Cover: Trend and Variability Analysis" href="Fractional_Cover_Change_Detection.html" />
+    <link rel="prev" title="View Landsat 8 imagery for a chosen time period" href="RetrieveLandsat8ViewAndExport.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">Workflows</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="RetrieveLandsat8ViewAndExport.html">View Landsat 8 imagery for a chosen time period</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sun glint identification and removal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Load-modules">Load modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#User-inputs:-area-of-interest,-product,-time-range,-and-cloud-free-fraction">User inputs: area of interest, product, time range, and cloud free fraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-bands,-correct-for-no-data-pixels-and-image-overlap,-remove-clouded-imagery,-and-plot-all-available-true-colour-images-for-the-specified-time-range">Load bands, correct for no-data pixels and image overlap, remove clouded imagery, and plot all available true-colour images for the specified time range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Select-an-image-for-glint-identification-and-removal">Select an image for glint identification and removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Select-deep-ocean-area(s)-within-the-selected-image-for-glint-correction">Select deep-ocean area(s) within the selected image for glint correction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Create-a-polygon-from-the-shape-drawn-above,-and-save-it-in-the-same-coordinate-reference-system-as-the-datacube-data">Create a polygon from the shape drawn above, and save it in the same coordinate reference system as the datacube data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Rasterise-the-shapefile-and-plot-the-part-of-the-image-for-glint-correction-that-is-within-the-polygon-drawn-above">Rasterise the shapefile and plot the part of the image for glint correction that is within the polygon drawn above</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Grid-the-image-for-glint-correction-into-5x5-subplots">Grid the image for glint correction into 5x5 subplots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Enter-the-title-number-for-subplots-that-are-100%-deep-ocean-in-the-list-below">Enter the title number for subplots that are 100% deep ocean in the list below</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Create-lists-of-all-rgb-and-nir-reflectance-values-for-all-pixels-in-selected-deep-ocean-subplots">Create lists of all rgb and nir reflectance values for all pixels in selected deep-ocean subplots</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Identify-and-remove-glint">Identify and remove glint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Create-outputs">Create outputs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Create-a-dataset-of-all-corrected-data-for-only-the-specified-deep-ocean-areas-to-identify-data-for-plotting">Create a dataset of all corrected data for only the specified deep-ocean areas to identify data for plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-uncorrected-and-corrected-deep-ocean-rgb-and-nir-reflectance-data-for-pixels-with-the-lowest-100-and-highest-100-uncorrected-nir-reflectance-values">Plot uncorrected and corrected deep-ocean rgb and nir reflectance data for pixels with the lowest 100 and highest 100 uncorrected nir reflectance values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Fractional_Cover_Change_Detection.html">Fractional Cover: Trend and Variability Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fractional_Cover_Change_Detection.html#Pixel-wise-trend-and-variability-analysis">Pixel-wise trend and variability analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fractional_Cover_Change_Detection.html#Zonal-Statistics">Zonal Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fractional_Cover_Change_Detection.html#Reporting-and-plotting">Reporting and plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">Workflows</a> &raquo;</li>
+        
+      <li>Sun glint identification and removal</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/09_Workflows/Sun_glint_identification_and_removal.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Sun-glint-identification-and-removal">
+<h1>Sun glint identification and removal<a class="headerlink" href="#Sun-glint-identification-and-removal" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong> This notebook identifies and corrects
+for sun glints over deep ocean using the method of <a class="reference external" href="https://doi.org/10.1080/01431160500034086">Hedley *et al.*
+(2005)</a>. This method
+assumes that all near-infra red (nir) reflectance above a minimum value
+results from sun glint over deep ocean. If it is assumed that nir
+reflectance is linearly proportional to red, green, and blue (rgb)
+reflectance, then the reflectance due to sun glint can be removed from
+the rgb bands by quantifying this linear relationship. Thus, sun glint
+is removed using the equation:</p>
+<div class="math notranslate nohighlight">
+\begin{align}
+\ R_{i(deglinted)} = R_i - x(R_{nir}-min_{nir})
+\end{align}</div><p>where <span class="math notranslate nohighlight">\(R\)</span> is reflectance, <span class="math notranslate nohighlight">\(i\)</span> is the band of interest, and
+<span class="math notranslate nohighlight">\(x\)</span> is the slope of a linear regression of nir and rgb reflectance
+data. Figure 1 (from Hedley <em>et al.</em>, 2005) demonstrates this.</p>
+<p><em>Figure 1. Hedley</em> et al. <em>(2005) glint correction method (from Hedley</em>
+et al.<em>, 2005).</em></p>
+<p><a class="reference external" href="https://doi.org/10.1016/j.rse.2017.10.022">Harmel *et al.* (2018)</a>
+present a novel glint correction method that does not rely on an
+estimation of minimum nir reflectance, or on the assumption that
+non-glinted pixels are present in an area of interest. However, this
+method would be difficult to implement for DEA because knowledge of
+solar and satellite viewing angles, wave height, and sun radiance at the
+time of image capture are required, and because atmospheric correction
+is included in the glint correction algorithm and cannot be easily
+separated.</p>
+<p><strong>Workflow:</strong> Using this notebook, an image is first selected for sun
+glint identification and removal. To identify sun glint in the image,
+deep-ocean areas are then selected (either by drawing a polygon or
+selecting subplots from within the image that contain only deep ocean).
+Next, glint is identified and corrected for. There are then options to
+plot the uncorrected and corrected data and imagery for comparison, and
+to export the corrected data as a Geotiff. This workflow is summarised
+in Figure 2:</p>
+<p><em>Figure 2. Workflow for sun glint identification and removal using this
+notebook.</em></p>
+<p>Note that throughout the notebook, <strong>headings in red</strong> indicate
+locations where user inputs are required before running the code.</p>
+<p><strong>Date:</strong> May 2018</p>
+<p><strong>Author:</strong> Snowy Haiblen (written during a graduate rotation, feel free
+to contact me for further info (<a class="reference external" href="mailto:Anna&#46;Haiblen&#37;&#52;&#48;ga&#46;gov&#46;au">Anna<span>&#46;</span>Haiblen<span>&#64;</span>ga<span>&#46;</span>gov<span>&#46;</span>au</a>))</p>
+<div class="section" id="Load-modules">
+<h2>Load modules<a class="headerlink" href="#Load-modules" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Import modules</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+<span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="k">as</span> <span class="nn">py</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">fiona</span>
+<span class="kn">import</span> <span class="nn">osr</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="k">import</span> <span class="n">imshow</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">exposure</span>
+<span class="kn">from</span> <span class="nn">datacube.storage</span> <span class="k">import</span> <span class="n">masking</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">ipyleaflet</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">Map</span><span class="p">,</span>
+    <span class="n">Marker</span><span class="p">,</span>
+    <span class="n">TileLayer</span><span class="p">,</span> <span class="n">ImageOverlay</span><span class="p">,</span>
+    <span class="n">Polyline</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">CircleMarker</span><span class="p">,</span>
+    <span class="n">GeoJSON</span><span class="p">,</span>
+    <span class="n">DrawControl</span><span class="p">,</span>
+    <span class="n">basemaps</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">traitlets</span> <span class="k">import</span> <span class="n">link</span>
+<span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="kn">from</span> <span class="nn">shapely.wkt</span> <span class="k">import</span> <span class="n">loads</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">ogr</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">osr</span>
+<span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">datacube.helpers</span> <span class="k">import</span> <span class="n">write_geotiff</span>
+
+<span class="c1"># Import DEA Notebooks scripts</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../Scripts&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">DEADataHandling</span>
+<span class="kn">import</span> <span class="nn">SpatialTools</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span>
+
+<span class="c1"># Set up datacube instance</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;load-data-example&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="User-inputs:-area-of-interest,-product,-time-range,-and-cloud-free-fraction">
+<h2>User inputs: area of interest, product, time range, and cloud free fraction<a class="headerlink" href="#User-inputs:-area-of-interest,-product,-time-range,-and-cloud-free-fraction" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Enter details of the imagery that you are interested in</span>
+
+<span class="c1"># Area of interest:</span>
+<span class="n">lat_min</span> <span class="o">=</span> <span class="o">-</span><span class="mf">22.42</span> <span class="c1">#up</span>
+<span class="n">lat_max</span> <span class="o">=</span> <span class="o">-</span><span class="mf">22.52</span> <span class="c1">#down</span>
+<span class="n">lon_min</span> <span class="o">=</span> <span class="mf">152.00</span> <span class="c1">#left</span>
+<span class="n">lon_max</span> <span class="o">=</span> <span class="mf">152.10</span> <span class="c1">#right</span>
+
+<span class="c1"># Product (eg. &#39;ls8_nbar_albers&#39;), and related pixel quality (pq) product (eg. &#39;ls8_pq_albers&#39;)</span>
+<span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;ls8_nbar_albers&#39;</span>
+<span class="n">pq_product</span> <span class="o">=</span> <span class="s1">&#39;ls8_pq_albers&#39;</span>
+
+<span class="c1"># Time range of interest (&#39;yyyy-mm-dd&#39;)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;2015-01-01&#39;</span>
+<span class="n">end</span> <span class="o">=</span> <span class="s1">&#39;2016-01-01&#39;</span>
+
+<span class="c1"># Specify a threshold value for the minimum fraction of the image that is cloud free. Images with a greater fraction of</span>
+<span class="c1"># cloud cover will not be displayed.</span>
+<span class="n">cloud_free_fraction</span> <span class="o">=</span> <span class="mf">0.95</span>
+
+<span class="c1"># File path for the folder where outputs will be storted. Change this to a location of your choice</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;/g/data/u46/users/ah3144/dea-notebooks/Glint/&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Load-bands,-correct-for-no-data-pixels-and-image-overlap,-remove-clouded-imagery,-and-plot-all-available-true-colour-images-for-the-specified-time-range">
+<h2>Load bands, correct for no-data pixels and image overlap, remove clouded imagery, and plot all available true-colour images for the specified time range<a class="headerlink" href="#Load-bands,-correct-for-no-data-pixels-and-image-overlap,-remove-clouded-imagery,-and-plot-all-available-true-colour-images-for-the-specified-time-range" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Define a query for loading data</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span><span class="p">),</span>
+        <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">),</span>
+        <span class="s1">&#39;time&#39;</span><span class="p">:(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+        <span class="p">}</span>
+
+<span class="c1"># Load data from the datacube and label the data object &#39;dataset&#39;</span>
+<span class="n">dataset</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">affine</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_nbarx</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span>
+                         <span class="n">sensor</span> <span class="o">=</span> <span class="s1">&#39;ls8&#39;</span><span class="p">,</span>
+                         <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                         <span class="n">bands_of_interest</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">])</span>
+
+<span class="c1"># Remove all images where the cloud free fraction is less than the threshold value</span>
+<span class="n">pq</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="n">pq_product</span><span class="p">,</span>
+               <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="p">(</span><span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span><span class="p">),</span>
+               <span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span> <span class="n">group_by</span><span class="o">=</span><span class="s1">&#39;solar_day&#39;</span><span class="p">)</span>
+<span class="n">pq_toplot</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">pixelquality</span>
+<span class="n">cloud_free</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">make_mask</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">cloud_acca</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span> <span class="n">cloud_fmask</span><span class="o">=</span><span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span> <span class="n">contiguous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">pixelquality</span>
+<span class="n">mostly_cloud_free</span> <span class="o">=</span> <span class="n">cloud_free</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">cloud_free_fraction</span>
+<span class="n">data_mostly_cloud_free</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mostly_cloud_free</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+
+<span class="c1"># Define data arrays for each band of interest</span>
+<span class="n">nir</span> <span class="o">=</span> <span class="n">data_mostly_cloud_free</span><span class="o">.</span><span class="n">nir</span>
+<span class="n">red</span> <span class="o">=</span> <span class="n">data_mostly_cloud_free</span><span class="o">.</span><span class="n">red</span>
+<span class="n">green</span> <span class="o">=</span> <span class="n">data_mostly_cloud_free</span><span class="o">.</span><span class="n">green</span>
+<span class="n">blue</span> <span class="o">=</span> <span class="n">data_mostly_cloud_free</span><span class="o">.</span><span class="n">blue</span>
+
+<span class="c1"># Plot all images that fits the specified criteria. Increase/decrease the &#39;reflect_stand&#39; value to darken/lighten the</span>
+<span class="c1"># imagery</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data_mostly_cloud_free</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">data_mostly_cloud_free</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                     <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;projected&#39;</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls8_nbart_albers
+Loaded ls8_nbart_albers
+Generating mask ls8_pq_albers
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/g/data/v10/public/modules/dea-env/20180405/lib/python3.6/site-packages/numpy/core/_methods.py:29: RuntimeWarning:
+
+invalid value encountered in reduce
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_2.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_3.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_4.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_5.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_6.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_6.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_7.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_8.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_8.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_9.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_9.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_10.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_10.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_11.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_11.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_12.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_12.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_13.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_7_13.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Select-an-image-for-glint-identification-and-removal">
+<h2>Select an image for glint identification and removal<a class="headerlink" href="#Select-an-image-for-glint-identification-and-removal" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Enter the heading number for the image that you are interested in from the output of images above</span>
+<span class="n">image</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Select-deep-ocean-area(s)-within-the-selected-image-for-glint-correction">
+<h2>Select deep-ocean area(s) within the selected image for glint correction<a class="headerlink" href="#Select-deep-ocean-area(s)-within-the-selected-image-for-glint-correction" title="Permalink to this headline">¶</a></h2>
+<p>##</p>
+<center><p>by EITHER:</p>
+</center><p>##</p>
+<center><p>Drawing a polygon <em>OR</em> Selecting deep-ocean subplots</p>
+</center><p>Run the cells under the title <strong>Polygon method</strong> to select deep
+ocean areas by drawing a polygon on a map of the area. Alternatively,
+scroll down to the title <strong>Subplot method</strong> and run the cells below
+this.</p>
+<hr class="docutils" />
+<p>###</p>
+<center><p>*******Polygon method*******</p>
+</center><p>Run the cell below this, then draw a polygon over deep ocean that is
+within the area of the image for glint correction. Note: * Do not
+included clouded pixels or pixels that have been removed because of
+cloud within your polygon. This will result in errors further down the
+workflow. * Drawing a larger polygon will mean that your glint
+correction is based on more data, and, therefore, is more accurate.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Code from Vanessa Newey</span>
+
+<span class="c1"># Define the position and size of the imagery to import for drawing a polygon (it is not possible to make the image size</span>
+<span class="c1"># exactly match that of the image for glint correction)</span>
+<span class="n">center</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lat_min</span> <span class="o">+</span> <span class="p">((</span><span class="n">lat_max</span> <span class="o">-</span> <span class="n">lat_min</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="n">lon_min</span> <span class="o">+</span> <span class="p">((</span><span class="n">lon_max</span> <span class="o">-</span> <span class="n">lon_min</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))]</span>
+<span class="n">zoom</span> <span class="o">=</span> <span class="mi">12</span>
+
+<span class="c1"># Define a map object &#39;m&#39; with a specified projection and basemap</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;aea&#39;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span><span class="n">layout</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s1">&#39;400px&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s1">&#39;400px&#39;</span><span class="p">),</span>
+        <span class="n">basemap</span><span class="o">=</span><span class="n">basemaps</span><span class="o">.</span><span class="n">Esri</span><span class="o">.</span><span class="n">WorldImagery</span><span class="p">)</span>
+
+<span class="c1"># Remind the user to draw a polygon on the image</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Click on the polygon symbol, then draw a polygon over deep ocean areas that are cloud free&quot;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;and do not contain no-data pixels.&quot;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Note: the scale and exent of the two images is not identical.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create the DrawControl and add it to the image using add_control</span>
+<span class="n">draw_control</span> <span class="o">=</span> <span class="n">DrawControl</span><span class="p">(</span><span class="n">polyline</span><span class="o">=</span><span class="p">{})</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">draw_control</span><span class="p">)</span>
+
+<span class="c1"># Display an image for drawing a polygon on</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="c1"># Also display the image for glint correction to check where clouds and no-data pixels are present</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">data_mostly_cloud_free</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                     <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;projected&#39;</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Click on the polygon symbol, then draw a polygon over deep ocean areas that are cloud free
+and do not contain no-data pixels.
+Note: the scale and exent of the two images is not identical.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "58d59a64287e436180d2d576914086ba", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[67]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(&lt;Figure size 576x576 with 1 Axes&gt;,
+ &lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9c5be0a898&gt;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_12_3.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_12_3.png" />
+</div>
+</div>
+<div class="section" id="Create-a-polygon-from-the-shape-drawn-above,-and-save-it-in-the-same-coordinate-reference-system-as-the-datacube-data">
+<h3>Create a polygon from the shape drawn above, and save it in the same coordinate reference system as the datacube data<a class="headerlink" href="#Create-a-polygon-from-the-shape-drawn-above,-and-save-it-in-the-same-coordinate-reference-system-as-the-datacube-data" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Code from Vanessa Newey</span>
+
+<span class="c1"># Convert the coordinate reference system for the polygon drawn above to match that used for datacube imagery</span>
+<span class="n">geom_crs</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
+<span class="n">drawn_geom</span><span class="o">=</span><span class="n">geometry</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="n">draw_control</span><span class="o">.</span><span class="n">last_draw</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">],</span> <span class="n">geom_crs</span><span class="p">)</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+<span class="n">source</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+<span class="n">target</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="mi">3577</span><span class="p">)</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">CoordinateTransformation</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">poly</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">CreateGeometryFromWkt</span><span class="p">(</span><span class="n">drawn_geom</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
+<span class="n">poly</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+
+<span class="c1"># Export the polygon as a shapefile. Print &#39;True&#39; if the export is successful. ***change the file path to suit your</span>
+<span class="c1"># needs***</span>
+<span class="n">shapely_poly</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">poly</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+<span class="n">output_shpfile</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;deep_water_area.shp&#39;</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="s1">&#39;Polygon&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="k">try</span><span class="p">:</span>
+   <span class="k">with</span> <span class="n">fiona</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">output_shpfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;ESRI Shapefile&#39;</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">crs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s1">&#39;epsg:3577&#39;</span><span class="p">,</span> <span class="s1">&#39;no_defs&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+       <span class="n">c</span><span class="o">.</span><span class="n">write</span><span class="p">({</span>
+             <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="n">mapping</span><span class="p">(</span><span class="n">shapely_poly</span><span class="p">),</span>
+             <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;drawn_polygon&#39;</span><span class="p">},</span>
+         <span class="p">})</span>
+<span class="k">except</span><span class="p">:</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
+   <span class="k">raise</span>
+<span class="n">c</span><span class="o">.</span><span class="n">closed</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[68]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Rasterise-the-shapefile-and-plot-the-part-of-the-image-for-glint-correction-that-is-within-the-polygon-drawn-above">
+<h3>Rasterise the shapefile and plot the part of the image for glint correction that is within the polygon drawn above<a class="headerlink" href="#Rasterise-the-shapefile-and-plot-the-part-of-the-image-for-glint-correction-that-is-within-the-polygon-drawn-above" title="Permalink to this headline">¶</a></h3>
+<p>After running this cell, check that the polygon is within your area of
+interest and covers only cloud-free, deep ocean areas.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Code from Chad Burton and Robbi Bishop-Taylor</span>
+
+<span class="c1"># Find the &#39;wkt&#39; for GDA94 Albers Equal Area</span>
+<span class="n">srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+<span class="n">srs</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="mi">3577</span><span class="p">)</span>
+<span class="n">prj_wkt</span> <span class="o">=</span> <span class="n">srs</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">()</span>
+
+<span class="c1"># Find the width and height of the image for glint correction</span>
+<span class="n">width</span><span class="p">,</span><span class="n">height</span> <span class="o">=</span> <span class="n">nir</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="c1"># Create a &#39;transform&#39; tuple that will define the dimensions of the rasterized shapefile as those of the image for</span>
+<span class="c1"># glint correction</span>
+<span class="n">easting</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">W_E_pixelRes</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">nir</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">rotation</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1">#(if image is &#39;north up&#39;)</span>
+<span class="n">northing</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">rotation1</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1">#(if image is &#39;north up&#39;)</span>
+<span class="n">N_S_pixelRes</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">nir</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="p">(</span><span class="n">easting</span><span class="p">,</span> <span class="n">W_E_pixelRes</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">northing</span><span class="p">,</span> <span class="n">rotation1</span><span class="p">,</span> <span class="n">N_S_pixelRes</span><span class="p">)</span>
+
+<span class="c1"># Locate the shapefile for rasterisation. ***change the file path to suit your needs***</span>
+<span class="n">shapefile_path</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;deep_water_area.shp&#39;</span>
+
+<span class="c1"># Rasterise the shapefile</span>
+<span class="n">raster_deep_water_area</span> <span class="o">=</span> <span class="n">SpatialTools</span><span class="o">.</span><span class="n">rasterize_vector</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">prj_wkt</span><span class="p">,</span>
+                                                       <span class="n">raster_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Plot the part of the image for glint correction that is within the shapefile area</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Masked area&#39;</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">red</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[69]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7f9c5ace8710&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_16_1.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_16_1.png" />
+</div>
+</div>
+<p>###</p>
+<center><p>*******OR: Subplot method*******</p>
+</center></div>
+<div class="section" id="Grid-the-image-for-glint-correction-into-5x5-subplots">
+<h3>Grid the image for glint correction into 5x5 subplots<a class="headerlink" href="#Grid-the-image-for-glint-correction-into-5x5-subplots" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Written with lots of help from Imam Alam!</span>
+
+<span class="c1"># Find the number of rows and columns of pixels within the image for glint correction</span>
+<span class="n">pixels_in_x</span> <span class="o">=</span> <span class="n">red</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">pixels_in_y</span> <span class="o">=</span> <span class="n">red</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Define a function to create subplots that have a fifth of the width and height of the image for glint correction</span>
+<span class="k">def</span> <span class="nf">break_up_plot</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">((</span><span class="nb">int</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">pixels_in_x</span><span class="p">)),(</span><span class="nb">int</span> <span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span><span class="o">*</span><span class="n">pixels_in_x</span><span class="p">))),</span>
+                                <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="nb">int</span> <span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">pixels_in_y</span><span class="p">),(</span><span class="nb">int</span> <span class="p">((</span><span class="n">b</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span><span class="o">*</span><span class="n">pixels_in_y</span><span class="p">))),</span> <span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span> <span class="p">,</span>
+       <span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)),</span> <span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)))</span>
+
+<span class="c1"># Plot imagery for each of the 25 equally-sized parts of the image for glint correction and assign each subplot an</span>
+<span class="c1"># integer value as a title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>
+        <span class="n">break_up_plot</span><span class="p">(</span><span class="n">red</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_19_0.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_19_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Enter-the-title-number-for-subplots-that-are-100%-deep-ocean-in-the-list-below">
+<h3>Enter the title number for subplots that are 100% deep ocean in the list below<a class="headerlink" href="#Enter-the-title-number-for-subplots-that-are-100%-deep-ocean-in-the-list-below" title="Permalink to this headline">¶</a></h3>
+<p>Listing a greater number of subplots will mean that glint correction is
+based on more data. Do not include subplots with any cloud or no-data
+pixels.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Enter title numbers for subplots that are 100% deep ocean</span>
+<span class="n">deep_ocean_subplots</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">22</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Create-lists-of-all-rgb-and-nir-reflectance-values-for-all-pixels-in-selected-deep-ocean-subplots">
+<h3>Create lists of all rgb and nir reflectance values for all pixels in selected deep-ocean subplots<a class="headerlink" href="#Create-lists-of-all-rgb-and-nir-reflectance-values-for-all-pixels-in-selected-deep-ocean-subplots" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#############################################################################################</span>
+<span class="c1"># Identity selected subplots by their position in the the overall image for glint correction</span>
+<span class="c1">#############################################################################################</span>
+
+<span class="c1"># Define a function to round numbers down to the nearest multiple of five</span>
+<span class="k">def</span> <span class="nf">round_down</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num</span> <span class="o">-</span> <span class="p">(</span><span class="n">num</span><span class="o">%</span><span class="k">5</span>)
+
+<span class="c1"># Define a function to calculate the position of a subplot within the overall image for glint correction based on it&#39;s</span>
+<span class="c1"># title</span>
+<span class="k">def</span> <span class="nf">select_subplot</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">float</span> <span class="p">((</span><span class="s2">&quot;</span><span class="si">%.1f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">((</span><span class="n">data</span> <span class="o">-</span> <span class="n">round_down</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="o">/</span><span class="mi">5</span><span class="p">)))</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">round_down</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="mi">25</span>
+    <span class="n">ij</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ij</span>
+
+<span class="c1"># Create an array that contains the position of each listed subplot within the overall image for glint correction</span>
+<span class="n">subplot_locations</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">deep_ocean_subplots</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">select_subplot</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">subplot_locations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">###########################################################################################</span>
+<span class="c1"># Create a list of data arrays that contain reflectance data for each band in each subplot</span>
+<span class="c1">###########################################################################################</span>
+
+<span class="c1"># Define a function that creates a 1D (stacked) array of reflectance data for one band in one subplot</span>
+<span class="k">def</span> <span class="nf">deep_ocean_data</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">array</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">((</span><span class="nb">int</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">pixels_in_x</span><span class="p">)),(</span><span class="nb">int</span> <span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span><span class="o">*</span><span class="n">pixels_in_x</span><span class="p">))),</span>
+                                <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="nb">int</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">pixels_in_y</span><span class="p">),(</span><span class="nb">int</span> <span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span><span class="o">*</span><span class="n">pixels_in_y</span><span class="p">))),</span> <span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)))</span>
+
+<span class="c1"># List the bands of interest (these are the arrays containing the reflectance data)</span>
+<span class="n">bands</span> <span class="o">=</span> <span class="p">[</span><span class="n">nir</span><span class="p">,</span> <span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="n">blue</span><span class="p">]</span>
+
+<span class="c1"># Loop through the deep_ocean_data function for each specified subplot and create a list of arrays with data for</span>
+<span class="c1"># each band in each subplot</span>
+<span class="n">all_deep_ocean_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">subplot_locations</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">deep_ocean_data</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+        <span class="n">all_deep_ocean_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1">######################################################################################################################</span>
+<span class="c1"># Reogranise the data so that a single list of all reflectance data for deep ocean areas can be created for each band</span>
+<span class="c1">######################################################################################################################</span>
+
+<span class="c1"># Create lists to indicate which data arrays within the dataset correspond to which band</span>
+<span class="n">colours_x_images</span> <span class="o">=</span> <span class="nb">len</span> <span class="p">(</span><span class="n">deep_ocean_subplots</span><span class="p">)</span> <span class="o">*</span><span class="mi">4</span>
+<span class="n">nir_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">colours_x_images</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+<span class="n">red_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">colours_x_images</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">colours_x_images</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+<span class="n">green_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">colours_x_images</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">colours_x_images</span><span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+<span class="n">blue_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">colours_x_images</span><span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">colours_x_images</span><span class="o">*</span><span class="mi">4</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="c1"># Define a function to reduce data in lists within lists to a single list</span>
+<span class="k">def</span> <span class="nf">reduce_list_to_one_d</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">two_d</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">two_d</span><span class="p">)))</span>
+
+<span class="c1"># Define a function to join all data from all_deep_ocean_data for the same band into a single list</span>
+<span class="k">def</span> <span class="nf">final_list</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">joined</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">reduce_list_to_one_d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">all_deep_ocean_data</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">joined</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">only_deep</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">joined</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">only_deep</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Run-ONE-of-the-two-cells-below-(depending-on-which-deep-ocean-selection-method-you-used)">
+<h4>Run ONE of the two cells below (depending on which deep-ocean selection method you used)<a class="headerlink" href="#Run-ONE-of-the-two-cells-below-(depending-on-which-deep-ocean-selection-method-you-used)" title="Permalink to this headline">¶</a></h4>
+<p>These cells create arrays of all deep-ocean reflectance values for each
+band.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#################</span>
+<span class="c1"># Polygon method</span>
+<span class="c1">#################</span>
+
+<span class="c1"># Mask all data for each band using the polygon created above so that data for pixels outside of the polygon area is</span>
+<span class="c1"># assigned a value of -999, then stack all data for each band into a 1D array</span>
+<span class="n">nir_masked_stacked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">nir</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">))</span>
+<span class="n">red_masked_stacked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">red</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">))</span>
+<span class="n">green_masked_stacked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">green</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">))</span>
+<span class="n">blue_masked_stacked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">blue</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">))</span>
+
+<span class="c1"># Remove data from each array that is for pixels outside of the polygon area</span>
+<span class="n">nir_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">extract</span><span class="p">((</span><span class="n">nir_masked_stacked</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="n">nir_masked_stacked</span><span class="p">)</span>
+<span class="n">red_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">extract</span><span class="p">((</span><span class="n">red_masked_stacked</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="n">red_masked_stacked</span><span class="p">)</span>
+<span class="n">green_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">extract</span><span class="p">((</span><span class="n">green_masked_stacked</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="n">green_masked_stacked</span><span class="p">)</span>
+<span class="n">blue_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">extract</span><span class="p">((</span><span class="n">blue_masked_stacked</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="n">blue_masked_stacked</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#################</span>
+<span class="c1"># Subplot method</span>
+<span class="c1">#################</span>
+
+<span class="c1"># Create 1D arrays of all deep-ocean reflectance data for each band using the &#39;final_list&#39; function defined above</span>
+<span class="n">nir_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_list</span><span class="p">(</span><span class="n">nir_list</span><span class="p">))</span>
+<span class="n">red_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_list</span><span class="p">(</span><span class="n">red_list</span><span class="p">))</span>
+<span class="n">green_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_list</span><span class="p">(</span><span class="n">green_list</span><span class="p">))</span>
+<span class="n">blue_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_list</span><span class="p">(</span><span class="n">blue_list</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Identify-and-remove-glint">
+<h2>Identify and remove glint<a class="headerlink" href="#Identify-and-remove-glint" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Define arrays of reflectance data as x and y for plotting</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">nir_deep</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">red_deep</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">blue_deep</span>
+<span class="n">y3</span> <span class="o">=</span> <span class="n">green_deep</span>
+
+<span class="c1"># Calculate linear best fit lines</span>
+<span class="n">red_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">blue_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">green_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">red_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">blue_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">y2</span><span class="p">)</span>
+<span class="n">green_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">y3</span><span class="p">)</span>
+
+<span class="c1"># Define x and y values for the best fit lines for plotting, and specify that the x range for the resulting plots will be</span>
+<span class="c1"># equal to the range of nir_deep values</span>
+<span class="n">xfit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">nir_deep</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">nir_deep</span><span class="p">))</span>
+<span class="n">y1fit</span> <span class="o">=</span> <span class="n">red_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xfit</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+<span class="n">y2fit</span> <span class="o">=</span> <span class="n">blue_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xfit</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+<span class="n">y3fit</span> <span class="o">=</span> <span class="n">green_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">xfit</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+
+<span class="c1"># Plot the data and the best fit line</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Linear correlation between NIR and rgb reflectance for deep-ocean pixels&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;NIR reflectance (units?)&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;rgb reflectance (units?)&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xfit</span><span class="p">,</span> <span class="n">y1fit</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xfit</span><span class="p">,</span> <span class="n">y2fit</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xfit</span><span class="p">,</span> <span class="n">y3fit</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># Print gradient and y-intercept values for each best-fit line</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;red gradient:   &quot;</span><span class="p">,</span> <span class="n">red_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;red y-intercept:&quot;</span><span class="p">,</span> <span class="n">red_model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;blue gradient:   &quot;</span><span class="p">,</span> <span class="n">blue_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;blue y-intercept:&quot;</span><span class="p">,</span> <span class="n">blue_model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;green gradient:   &quot;</span><span class="p">,</span> <span class="n">green_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;green y-intercept:&quot;</span><span class="p">,</span> <span class="n">green_model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+red gradient:    0.9766794051867439
+red y-intercept: 15.267700207641553
+blue gradient:    0.8530068153290107
+blue y-intercept: 182.5885870713833
+green gradient:    0.9427739984631233
+green y-intercept: 78.9997242760258
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_29_1.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_29_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># The object &#39;degree_of_glint&#39; is a proxy for the degree of glint for each pixel. It is calculated from the absolute</span>
+<span class="c1"># length of a line that is parallel to slope of the best fit line, from any one data point to the minimum nir value in the</span>
+<span class="c1"># plot above. This is found using trigonometry; the first term in the expression below is the distance between the pixel</span>
+<span class="c1"># value and the minimum nir value along the x-axis, the second term is the cosine of the angle between horizontal and best</span>
+<span class="c1"># fit line.</span>
+<span class="n">degree_of_glint</span> <span class="o">=</span> <span class="p">((</span><span class="n">nir</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">))</span><span class="o">-</span><span class="p">(</span><span class="n">nir_deep</span><span class="o">.</span><span class="n">min</span><span class="p">()))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">red_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]))))</span>
+
+<span class="c1"># Apply the Hedley et al. (2005) equation for glint correction to the rgb data</span>
+<span class="n">red_corr</span> <span class="o">=</span> <span class="n">red</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">-</span><span class="p">((</span><span class="n">red_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="p">((</span><span class="n">nir</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">))</span><span class="o">-</span><span class="p">(</span><span class="n">nir_deep</span><span class="o">.</span><span class="n">min</span><span class="p">())))</span>
+<span class="n">blue_corr</span> <span class="o">=</span> <span class="n">blue</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">-</span><span class="p">((</span><span class="n">blue_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="p">((</span><span class="n">nir</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">))</span><span class="o">-</span><span class="p">(</span><span class="n">nir_deep</span><span class="o">.</span><span class="n">min</span><span class="p">())))</span>
+<span class="n">green_corr</span> <span class="o">=</span> <span class="n">green</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">-</span><span class="p">((</span><span class="n">green_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="p">((</span><span class="n">nir</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">))</span><span class="o">-</span><span class="p">(</span><span class="n">nir_deep</span><span class="o">.</span><span class="n">min</span><span class="p">())))</span>
+
+<span class="c1"># Create &#39;nir_corr&#39; - an array of the same shape as red_corr (etc.) where all values equal nir_deep.min()</span>
+<span class="n">nir_corr</span> <span class="o">=</span> <span class="n">red_corr</span><span class="o">/</span><span class="n">red_corr</span><span class="o">*</span><span class="n">nir_deep</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Create-outputs">
+<h2>Create outputs<a class="headerlink" href="#Create-outputs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Create-a-dataset-of-all-corrected-data-for-only-the-specified-deep-ocean-areas-to-identify-data-for-plotting">
+<h3>Create a dataset of all corrected data for only the specified deep-ocean areas to identify data for plotting<a class="headerlink" href="#Create-a-dataset-of-all-corrected-data-for-only-the-specified-deep-ocean-areas-to-identify-data-for-plotting" title="Permalink to this headline">¶</a></h3>
+<p>Run ONE of the two cells below (depending on which deep-ocean selection
+method you used)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [53]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#################</span>
+<span class="c1"># Polygon method</span>
+<span class="c1">#################</span>
+
+<span class="c1"># Mask the corrected data arrays with the polygon created above so that reflectance values are only returned within the</span>
+<span class="c1"># polygon area, then stack all reflectance values as a 1D array</span>
+<span class="n">nir_corr_masked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">nir_corr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">red_corr_masked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">red_corr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">green_corr_masked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">green_corr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">blue_corr_masked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">blue_corr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raster_deep_water_area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># Remove nan values from the masked arrays</span>
+<span class="n">nir_corr_deep</span> <span class="o">=</span> <span class="n">nir_corr_masked</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">nir_corr_masked</span><span class="p">)]</span>
+<span class="n">red_corr_deep</span> <span class="o">=</span> <span class="n">red_corr_masked</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">red_corr_masked</span><span class="p">)]</span>
+<span class="n">green_corr_deep</span> <span class="o">=</span> <span class="n">green_corr_masked</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">green_corr_masked</span><span class="p">)]</span>
+<span class="n">blue_corr_deep</span> <span class="o">=</span> <span class="n">blue_corr_masked</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">blue_corr_masked</span><span class="p">)]</span>
+
+<span class="c1"># Create a dataset of all corrected deep-ocean data</span>
+<span class="n">all_corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">blue_corr_deep</span><span class="p">,</span> <span class="n">green_corr_deep</span><span class="p">,</span> <span class="n">red_corr_deep</span><span class="p">,</span> <span class="n">nir_corr_deep</span><span class="p">,</span> <span class="n">nir_deep</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#################</span>
+<span class="c1"># Subplot method</span>
+<span class="c1">#################</span>
+
+<span class="c1"># Define a function that creates a 1D (stacked) array of reflectance data for one band in one subplot (this function is</span>
+<span class="c1"># the same as &#39;deep_ocean_data&#39;, except that we do not need to specify time=image)</span>
+<span class="k">def</span> <span class="nf">deep_ocean_data_corr</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">array</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">((</span><span class="nb">int</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">pixels_in_x</span><span class="p">)),(</span><span class="nb">int</span> <span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span><span class="o">*</span><span class="n">pixels_in_x</span><span class="p">))),</span>
+                                <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="nb">int</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">pixels_in_y</span><span class="p">),(</span><span class="nb">int</span> <span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span><span class="o">*</span><span class="n">pixels_in_y</span><span class="p">))))))</span>
+
+<span class="c1"># List the bands of interest (these are the arrays containing the data)</span>
+<span class="n">bands_corr</span> <span class="o">=</span> <span class="p">[</span><span class="n">nir_corr</span><span class="p">,</span> <span class="n">red_corr</span><span class="p">,</span> <span class="n">green_corr</span><span class="p">,</span> <span class="n">blue_corr</span><span class="p">]</span>
+
+<span class="c1"># Loop through the deep_ocean_data_corr function for each specified subplot and create a list of arrays with data for</span>
+<span class="c1"># each band in each subplot</span>
+<span class="n">all_corr_deep_ocean_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bands_corr</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">subplot_locations</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">deep_ocean_data_corr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+        <span class="n">all_corr_deep_ocean_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Define a function to join all data from all_deep_ocean_data for the same band into a single list</span>
+<span class="k">def</span> <span class="nf">final_corr_list</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">joined</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">reduce_list_to_one_d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">all_corr_deep_ocean_data</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">joined</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">only_deep</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">joined</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">only_deep</span><span class="p">)</span>
+
+<span class="c1"># Create 1D arrays of all corrected deep-ocean reflectance data for each band</span>
+<span class="n">nir_corr_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_corr_list</span><span class="p">(</span><span class="n">nir_list</span><span class="p">))</span>
+<span class="n">red_corr_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_corr_list</span><span class="p">(</span><span class="n">red_list</span><span class="p">))</span>
+<span class="n">green_corr_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_corr_list</span><span class="p">(</span><span class="n">green_list</span><span class="p">))</span>
+<span class="n">blue_corr_deep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">final_corr_list</span><span class="p">(</span><span class="n">blue_list</span><span class="p">))</span>
+
+<span class="c1"># Create a dataset of all corrected deep-ocean data</span>
+<span class="n">all_corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">blue_corr_deep</span><span class="p">,</span> <span class="n">green_corr_deep</span><span class="p">,</span> <span class="n">red_corr_deep</span><span class="p">,</span> <span class="n">nir_corr_deep</span><span class="p">,</span> <span class="n">nir_deep</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Plot-uncorrected-and-corrected-deep-ocean-rgb-and-nir-reflectance-data-for-pixels-with-the-lowest-100-and-highest-100-uncorrected-nir-reflectance-values">
+<h3>Plot uncorrected and corrected deep-ocean rgb and nir reflectance data for pixels with the lowest 100 and highest 100 uncorrected nir reflectance values<a class="headerlink" href="#Plot-uncorrected-and-corrected-deep-ocean-rgb-and-nir-reflectance-data-for-pixels-with-the-lowest-100-and-highest-100-uncorrected-nir-reflectance-values" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">######################################################</span>
+<span class="c1"># Create a dataset of all uncorrected deep-ocean data</span>
+<span class="c1">######################################################</span>
+
+<span class="n">all_uncorr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">blue_deep</span><span class="p">,</span> <span class="n">green_deep</span><span class="p">,</span> <span class="n">red_deep</span><span class="p">,</span> <span class="n">nir_deep</span><span class="p">,</span> <span class="n">nir_deep</span><span class="p">)))</span>
+
+<span class="c1">###############################</span>
+<span class="c1"># Manipulate data for plotting</span>
+<span class="c1">###############################</span>
+
+<span class="c1"># Order the rows of the uncorrected and corrected datasets from min-max nir_deep</span>
+<span class="n">all_uncorr_ordered</span> <span class="o">=</span> <span class="n">all_uncorr</span><span class="p">[</span><span class="n">all_uncorr</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span>
+<span class="n">all_corr_ordered</span> <span class="o">=</span> <span class="n">all_corr</span><span class="p">[</span><span class="n">all_corr</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span>
+
+<span class="c1"># Take only to values for the pixels with the lowest 100 and highest 100 nir_deep values from all_uncorr and all_corr</span>
+<span class="n">minmax_uncorr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(((</span><span class="n">all_uncorr_ordered</span><span class="p">[:</span><span class="mi">100</span><span class="p">,:</span><span class="mi">4</span><span class="p">]),(</span><span class="n">all_uncorr_ordered</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,:</span><span class="mi">4</span><span class="p">])))</span>
+<span class="n">minmax_corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(((</span><span class="n">all_corr_ordered</span><span class="p">[:</span><span class="mi">100</span><span class="p">,:</span><span class="mi">4</span><span class="p">]),(</span><span class="n">all_corr_ordered</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,:</span><span class="mi">4</span><span class="p">])))</span>
+
+<span class="c1">#######################################################################################################################</span>
+<span class="c1"># Plot the uncorrected data (red) and the corrected data (blue) for pixels with the lowest and highest nir_deep values</span>
+<span class="c1">#######################################################################################################################</span>
+
+<span class="c1"># Create a 1D array of integers and a list of band names for plotting</span>
+<span class="n">x_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Blue&#39;</span><span class="p">,</span><span class="s1">&#39;Green&#39;</span><span class="p">,</span><span class="s1">&#39;Red&#39;</span><span class="p">,</span><span class="s1">&#39;NIR&#39;</span><span class="p">]</span>
+
+<span class="c1"># Loop through the pixels with the lowest 100 and highest 100 nir_deep values and plot reflectance data for each band for</span>
+<span class="c1"># each pixel</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">minmax_corr</span><span class="p">))[:,</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">minmax_uncorr</span><span class="p">))[:,</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Change in Reflectance with Glint Correction&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">red_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Uncorrected data&#39;</span><span class="p">)</span>
+<span class="n">blue_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Corrected data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">red_patch</span><span class="p">,</span> <span class="n">blue_patch</span><span class="p">],</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Reflectance (units?)&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[77]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Text(0,0.5,&#39;Reflectance (units?)&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_38_1.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_38_1.png" />
+</div>
+</div>
+<div class="section" id="Plot-true-colour-images-for-the-area-of-interest-before-and-after-glint-correction">
+<h4>Plot true-colour images for the area of interest before and after glint correction<a class="headerlink" href="#Plot-true-colour-images-for-the-area-of-interest-before-and-after-glint-correction" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Create a dataset of all corrected data</span>
+<span class="n">nir_corr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">nir_corr</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;nir_corr&#39;</span><span class="p">)</span>
+<span class="n">red_corr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">red_corr</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;red_corr&#39;</span><span class="p">)</span>
+<span class="n">green_corr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">green_corr</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;green_corr&#39;</span><span class="p">)</span>
+<span class="n">blue_corr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">blue_corr</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;blue_corr&#39;</span><span class="p">)</span>
+<span class="n">dataset_corr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">red_corr</span><span class="p">,</span> <span class="n">green_corr</span><span class="p">,</span> <span class="n">blue_corr</span><span class="p">,</span> <span class="n">nir_corr</span><span class="p">])</span>
+
+<span class="c1"># Plot the original, glinted image</span>
+<span class="n">glinted</span> <span class="o">=</span> <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">data_mostly_cloud_free</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">,</span>
+                                       <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Glinted&quot;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;geographic&#39;</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                       <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+
+<span class="c1"># Plot the image with glint removed</span>
+<span class="n">glint_removed</span> <span class="o">=</span> <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">dataset_corr</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red_corr&#39;</span><span class="p">,</span> <span class="s1">&#39;green_corr&#39;</span><span class="p">,</span> <span class="s1">&#39;blue_corr&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="n">image</span><span class="p">,</span>
+                                             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Glint removed&quot;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;geographic&#39;</span><span class="p">,</span>
+                                             <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+xarray dataset has no spatial data; defaulting to plotting without coordinates. This can often be resolved by adding `keep_attrs = True` during an aggregation step
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_40_1.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_40_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_40_2.png" src="../../_images/notebooks_09_Workflows_Sun_glint_identification_and_removal_40_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Export-the-glint-corrected-image-as-a-Geotiff">
+<h4>Export the glint-corrected image as a Geotiff<a class="headerlink" href="#Export-the-glint-corrected-image-as-a-Geotiff" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Give &#39;dataset_corr&#39; the same crs and affine objects as &#39;dataset&#39;</span>
+<span class="n">dataset_corr</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;affine&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">affine</span>
+<span class="n">dataset_corr</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;crs&#39;</span><span class="p">]</span><span class="o">=</span> <span class="n">crs</span>
+
+<span class="c1"># Export the deglinted image as a Geotiff. ***change the file path to suit your needs***</span>
+<span class="n">write_geotiff</span><span class="p">(</span><span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;glint_removed.tif&#39;</span><span class="p">,</span> <span class="n">dataset_corr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Fractional_Cover_Change_Detection.html" class="btn btn-neutral float-right" title="Fractional Cover: Trend and Variability Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="RetrieveLandsat8ViewAndExport.html" class="btn btn-neutral" title="View Landsat 8 imagery for a chosen time period" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>

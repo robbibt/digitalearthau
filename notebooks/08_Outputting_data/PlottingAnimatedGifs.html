@@ -1,0 +1,1247 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Plotting animations from time series imagery &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Exporting compliant NetCDF datasets for publication" href="ExportingCompliantNetCDFs.html" />
+    <link rel="prev" title="ProduceFalseColourGeotiffs" href="ProduceFalseColourGeotiffs.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">Outputting data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ProduceFalseColourGeotiffs.html">ProduceFalseColourGeotiffs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Plotting animations from time series imagery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-datacube-query">Set up datacube query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Extract-cloud-free-clear-Landsat-observations-from-all-sensors">Extract cloud-free clear Landsat observations from all sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plot-entire-time-series-as-a-one-panel-animated-GIF">Plot entire time series as a one-panel animated GIF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plot-a-two-panel-side-by-side-animation">Plot a two panel side-by-side animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plotting-a-side-by-side-time-series-and-line-graph">Plotting a side-by-side time series and line graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Available-output-formats">Available output formats</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ExportingCompliantNetCDFs.html">Exporting compliant NetCDF datasets for publication</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">Outputting data</a> &raquo;</li>
+        
+      <li>Plotting animations from time series imagery</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/08_Outputting_data/PlottingAnimatedGifs.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Plotting-animations-from-time-series-imagery">
+<h1>Plotting animations from time series imagery<a class="headerlink" href="#Plotting-animations-from-time-series-imagery" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong></p>
+<p>This notebook demonstrates how to import a time series of DEA cloud-free
+Landsat imagery from multiple sensors (i.e. Landsat 5, 7 and 8) as an
+xarray dataset, and then plot the data as a time series animation with
+one or two panels that can be either one or three-band images (e.g. true
+and false colour), or with a line graph (e.g. a pixel drill) in the
+right column. Animations can be produced as either GIFs, MP4s or WMVs
+for any area in Australia using a standard datacube query.</p>
+<p><strong>Required inputs</strong></p>
+<p>This example uses three external functions called <code class="docutils literal notranslate"><span class="pre">load_clearlandsat</span></code>,
+<code class="docutils literal notranslate"><span class="pre">animated_timeseries</span></code>, <code class="docutils literal notranslate"><span class="pre">animated_doubletimeseries</span></code> and
+<code class="docutils literal notranslate"><span class="pre">animated_timeseriesline</span></code>. These functions are available in the
+Scripts folder of the <a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/tree/master/Scripts">dea-notebooks Github
+repository</a>.
+Note that these functions have been developed by DEA users, not the DEA
+development team, and so are provided without warranty. If you find an
+error or bug in the functions, please either create an ‘Issue’ in the
+Github repository, or fix it yourself and create a ‘Pull’ request to
+contribute the updated function back into the repository (See the
+repository
+<a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
+for instructions on creating a Pull request).</p>
+<p><strong>Date:</strong> July 2018</p>
+<p><strong>Author:</strong> Robbi Bishop-Taylor</p>
+<p><strong>Tags</strong>: <span class="target" id="index-0"></span>plot, <span class="target" id="index-1"></span>animation, <span class="target" id="index-2"></span>time_series, <span class="target" id="index-3"></span>gif, <span class="target" id="index-4"></span>mp4, <span class="target" id="index-5"></span>wmv, <span class="target" id="index-6"></span>movie, <span class="target" id="index-7"></span>Landsat5, <span class="target" id="index-8"></span>Landsat7, <span class="target" id="index-9"></span>Landsat8, <span class="target" id="index-10"></span>load_clearlandsat, <span class="target" id="index-11"></span>animated_timeseries, <span class="target" id="index-12"></span>animated_doubletimeseries’, :index:`DEAPlotting, <span class="target" id="index-13"></span>DEADataHandling, <span class="target" id="index-14"></span>Scripts, <span class="target" id="index-15"></span>pixeldrill, <span class="target" id="index-16"></span>Outputting data, <span class="target" id="index-17"></span>animated_timeseriesline</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Import modules</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Import external dea-notebooks functions using relative link to Scripts directory</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../Scripts&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">DEADataHandling</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span>
+
+<span class="c1"># Set up datacube instance</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Time series animation&#39;</span><span class="p">)</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="section" id="Set-up-datacube-query">
+<h2>Set up datacube query<a class="headerlink" href="#Set-up-datacube-query" title="Permalink to this headline">¶</a></h2>
+<p>Define the query bounds for datacube extraction using a dict. This
+should include <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> limits, potentially a list of
+<code class="docutils literal notranslate"><span class="pre">measurements</span></code> (i.e. the bands you want to extract like ‘red’,
+‘green’, ‘blue’; this significantly speeds up the import) and a <code class="docutils literal notranslate"><span class="pre">time</span></code>
+extent. If no <code class="docutils literal notranslate"><span class="pre">time</span></code> is given, the function defaults to all timesteps
+available to all sensors (e.g. 1987-2018).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up spatial and temporal query.</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">970476</span><span class="p">,</span> <span class="mi">987476</span><span class="p">),</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">3568950</span><span class="p">,</span> <span class="o">-</span><span class="mi">3551951</span><span class="p">),</span>
+         <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;2015-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">),</span>
+         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Extract-cloud-free-clear-Landsat-observations-from-all-sensors">
+<h2>Extract cloud-free clear Landsat observations from all sensors<a class="headerlink" href="#Extract-cloud-free-clear-Landsat-observations-from-all-sensors" title="Permalink to this headline">¶</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">load_clearlandsat</span></code> function to load Landsat observations and
+PQ data for multiple sensors (i.e. ls5, ls7, ls8), and return a single
+xarray dataset containing only observations that contain greater than a
+specified proportion of clear pixels. This uses <code class="docutils literal notranslate"><span class="pre">dask</span></code> to only load in
+the filtered observations, and results in a visually appealing time
+series of observations that are not affected by cloud!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set the minimum proportion of clear pixels (pixels with no clouds or other nodata)</span>
+<span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.99</span>
+
+<span class="c1"># Load in only clear Landsat observations with &lt; 1% unclear values</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                                       <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;swir1&#39;</span><span class="p">],</span>
+                                       <span class="n">masked_prop</span><span class="o">=</span><span class="n">masked_prop</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+<span class="c1"># Plot first five time series images (just using the red band for simplicity):</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">red</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 PQ
+    Skipping ls5
+Loading ls7 PQ
+    Loading 0 filtered ls7 timesteps
+Loading ls8 PQ
+    Loading 33 filtered ls8 timesteps
+Combining and sorting ls5, ls7 and ls8 data
+&lt;xarray.Dataset&gt;
+Dimensions:    (time: 33, x: 680, y: 680)
+Coordinates:
+  * y          (y) float64 -3.552e+06 -3.552e+06 -3.552e+06 -3.552e+06 ...
+  * x          (x) float64 9.705e+05 9.705e+05 9.705e+05 9.706e+05 9.706e+05 ...
+  * time       (time) datetime64[ns] 2015-01-22T00:20:21 2015-02-07T00:20:18 ...
+Data variables:
+    red        (time, y, x) float64 1.001e+03 1.01e+03 1.165e+03 1.288e+03 ...
+    green      (time, y, x) float64 823.0 825.0 880.0 931.0 957.0 964.0 ...
+    blue       (time, y, x) float64 650.0 648.0 633.0 635.0 639.0 634.0 ...
+    nir        (time, y, x) float64 1.623e+03 1.62e+03 1.922e+03 2.097e+03 ...
+    swir1      (time, y, x) float64 2.821e+03 2.806e+03 3.076e+03 3.287e+03 ...
+    data_perc  (time) float64 1.0 0.9999 0.9996 0.9919 0.9985 1.0 1.0 1.0 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[3]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.plot.facetgrid.FacetGrid at 0x7fe8e00f37b8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_7_2.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_7_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Plot-entire-time-series-as-a-one-panel-animated-GIF">
+<h2>Plot entire time series as a one-panel animated GIF<a class="headerlink" href="#Plot-entire-time-series-as-a-one-panel-animated-GIF" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">animated_timeseries</span></code> function takes an xarray time series and
+exports a one band or three band (e.g. true or false colour) GIF, MP4 or
+WMV animation showing changes in the landscape across time. Here, we
+plot the xarray as an animated GIF that includes a date annotation for
+each frame. We set the interval between the animation frames to 80
+milliseconds, and set <code class="docutils literal notranslate"><span class="pre">reflect_stand=2500</span></code> to use a bright and vibrant
+colour stretch:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Produce time series animation of red, green and blue bands</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;animated_timeseries.gif&quot;</span><span class="p">,</span>
+                                <span class="n">interval</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">2500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation
+    Exporting animation to animated_timeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_9_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_9_1.png" />
+</div>
+</div>
+<p>We can also use different band combinations (e.g. false colour), add a
+title, and change the font size using <code class="docutils literal notranslate"><span class="pre">annotation_kwargs</span></code>, which
+passes a dictionary of values to the matplotlib <code class="docutils literal notranslate"><span class="pre">plt.annotate</span></code>
+function (see
+<a class="reference external" href="https://matplotlib.org/api/">https://matplotlib.org/api/</a><em>as</em>gen/matplotlib.pyplot.annotate.html
+for options):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Produce time series animation of red, green and blue bands</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;animated_timeseries.gif&quot;</span><span class="p">,</span>
+                                <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span>
+                                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Time-series animation&quot;</span><span class="p">,</span>
+                                <span class="n">interval</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">4500</span><span class="p">,</span>
+                                <span class="n">annotation_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">33</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation
+    Exporting animation to animated_timeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_11_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_11_1.png" />
+</div>
+</div>
+<p>It is also possible to plot a single band image instead of a three band.
+For example, we could plot an index like the Normalized Difference Water
+Index (NDWI), which has high values where a pixel is likely to be open
+water (e.g. NDWI &gt; 0):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Compute NDWI using the formula (green - nir) / (green + nir). This will calculate</span>
+<span class="c1"># NDWI for every time-step in the dataset:</span>
+<span class="n">ds_ndwi</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">green</span> <span class="o">-</span> <span class="n">ds</span><span class="o">.</span><span class="n">nir</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">green</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">nir</span><span class="p">)</span>
+<span class="n">ds_ndwi</span>
+
+<span class="c1"># We can now add this back into our dataset as a new data variable:</span>
+<span class="n">ds</span><span class="p">[</span><span class="s2">&quot;NDWI&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_ndwi</span>
+
+<span class="c1"># Produce time series animation of NDWI:</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;animated_timeseries.gif&quot;</span><span class="p">,</span>
+                                <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDWI&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;NDWI&quot;</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation
+    Exporting animation to animated_timeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_13_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_13_1.png" />
+</div>
+</div>
+<p>We can customise animations based on a single band like NDWI by
+specifying parameters using the <code class="docutils literal notranslate"><span class="pre">onebandplot_kwargs</span></code> which will be
+sent to the matplotlib <code class="docutils literal notranslate"><span class="pre">plt.imshow</span></code> function (see
+<a class="reference external" href="https://matplotlib.org/api/">https://matplotlib.org/api/</a><em>as</em>gen/matplotlib.pyplot.imshow.html for
+options). For example, we can use a more appropriate blue colour scheme,
+and set custom colour bar limits:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Produce time series animation using a custom colour scheme and limits:</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;animated_timeseries.gif&quot;</span><span class="p">,</span>
+                                <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDWI&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;NDWI&quot;</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+                                <span class="n">onebandplot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="s1">&#39;vmin&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span><span class="mf">0.8</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation
+    Exporting animation to animated_timeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_15_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_15_1.png" />
+</div>
+</div>
+<p>One band animations show a colour bar by default, but this can be
+disabled:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Produce time series animation without a colour bar:</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;animated_timeseries.gif&quot;</span><span class="p">,</span>
+                                <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDWI&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;NDWI&quot;</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+                                <span class="n">onebandplot_cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                <span class="n">onebandplot_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="s1">&#39;vmin&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span><span class="mf">0.8</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation
+    Exporting animation to animated_timeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_17_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_17_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Plot-a-two-panel-side-by-side-animation">
+<h2>Plot a two panel side-by-side animation<a class="headerlink" href="#Plot-a-two-panel-side-by-side-animation" title="Permalink to this headline">¶</a></h2>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">animated_doubletimeseries</span></code> function to plot an
+animation that compares two different xarray datasets or band
+combinations at the same time:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Animate datasets</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_doubletimeseries</span><span class="p">(</span><span class="n">ds1</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds2</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                      <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;animated_doubletimeseries.gif&#39;</span><span class="p">,</span>
+                                      <span class="n">bands1</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                      <span class="n">bands2</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span>
+                                      <span class="n">reflect_stand1</span><span class="o">=</span><span class="mi">2800</span><span class="p">,</span> <span class="n">reflect_stand2</span><span class="o">=</span><span class="mi">4500</span><span class="p">,</span>
+                                      <span class="n">title1</span><span class="o">=</span><span class="s2">&quot;True colour&quot;</span><span class="p">,</span> <span class="n">title2</span><span class="o">=</span><span class="s2">&quot;False colour&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation (i.e. timesteps in shortest dataset)
+    Exporting animation to animated_doubletimeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_19_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_19_1.png" />
+</div>
+</div>
+<p>We can also plot a three-band image on one side of the plot, and a
+single band image on the other side:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Animate datasets</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_doubletimeseries</span><span class="p">(</span><span class="n">ds1</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds2</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                      <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;animated_doubletimeseries.gif&#39;</span><span class="p">,</span>
+                                      <span class="n">bands1</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">bands2</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDWI&#39;</span><span class="p">],</span>
+                                      <span class="n">reflect_stand1</span><span class="o">=</span><span class="mi">2800</span><span class="p">,</span>
+                                      <span class="n">title1</span><span class="o">=</span><span class="s1">&#39;True colour&#39;</span><span class="p">,</span> <span class="n">title2</span><span class="o">=</span><span class="s1">&#39;NDWI&#39;</span><span class="p">,</span>
+                                      <span class="n">onebandplot_kwargs2</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="s1">&#39;vmin&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span><span class="mf">0.8</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation (i.e. timesteps in shortest dataset)
+    Exporting animation to animated_doubletimeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_21_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_21_1.png" />
+</div>
+</div>
+<p>Annotations can be customised for each panel individually:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Animate datasets</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_doubletimeseries</span><span class="p">(</span><span class="n">ds1</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds2</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                      <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;animated_doubletimeseries.gif&#39;</span><span class="p">,</span>
+                                      <span class="n">bands1</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">bands2</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDWI&#39;</span><span class="p">],</span>
+                                      <span class="n">reflect_stand1</span><span class="o">=</span><span class="mi">2800</span><span class="p">,</span>
+                                      <span class="n">title1</span><span class="o">=</span><span class="s1">&#39;True colour&#39;</span><span class="p">,</span> <span class="n">title2</span><span class="o">=</span><span class="s1">&#39;NDWI&#39;</span><span class="p">,</span>
+                                      <span class="n">onebandplot_kwargs2</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="s1">&#39;vmin&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span><span class="mf">0.8</span><span class="p">},</span>
+                                      <span class="n">annotation_kwargs1</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">},</span>
+                                      <span class="n">annotation_kwargs2</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation (i.e. timesteps in shortest dataset)
+    Exporting animation to animated_doubletimeseries.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_23_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_23_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Plotting-a-side-by-side-time-series-and-line-graph">
+<h2>Plotting a side-by-side time series and line graph<a class="headerlink" href="#Plotting-a-side-by-side-time-series-and-line-graph" title="Permalink to this headline">¶</a></h2>
+<p>The final <code class="docutils literal notranslate"><span class="pre">animated_timeseriesline</span></code> function allows you to plot an
+xarray dataset in the left panel of the animation, and a set of line
+graphs from a pandas dataframe in the right hand panel. This may be
+useful for comparing satellite imagery to time series data like river
+guages, water quality indices, or pixel drills across time.</p>
+<p>First, you need time series data in pandas dataframe format. The
+dataframe must contain time steps in a <code class="docutils literal notranslate"><span class="pre">DatetimeIndex</span></code> column, and one
+or more numeric data columns to plot as lines in the right panel. Column
+names are used to label the lines on the plot, so assign them
+informative names. Lines are plotted by showing all parts of the line
+with dates on or before the current timestep (i.e. for a 2006 time step,
+only the portion of the lines with dates on or before 2006 will be
+plotted for that frame. Here, we will extract a pixel drill of surface
+water data from the centre of the dataset:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Extract time series of NDWI values at location (340, 340)</span>
+<span class="n">line_df</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">NDWI</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">340</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">340</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="c1"># Drop all unnecessary columns, and rename to give informative name on plot</span>
+<span class="n">line_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">line_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;NDWI&#39;</span><span class="p">:</span><span class="s1">&#39;Normalized Difference Water Index (NDWI)&#39;</span><span class="p">},</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">line_df</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Normalized Difference Water Index (NDWI)</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2015-01-22 00:20:21.000</th>
+      <td>-0.520112</td>
+    </tr>
+    <tr>
+      <th>2015-02-07 00:20:18.000</th>
+      <td>-0.493437</td>
+    </tr>
+    <tr>
+      <th>2015-03-11 00:20:02.000</th>
+      <td>-0.442706</td>
+    </tr>
+    <tr>
+      <th>2015-03-27 00:19:53.500</th>
+      <td>-0.448246</td>
+    </tr>
+    <tr>
+      <th>2015-07-01 00:19:47.000</th>
+      <td>-0.255748</td>
+    </tr>
+    <tr>
+      <th>2015-09-19 00:20:21.000</th>
+      <td>-0.264087</td>
+    </tr>
+    <tr>
+      <th>2015-11-22 00:20:32.500</th>
+      <td>-0.228729</td>
+    </tr>
+    <tr>
+      <th>2015-12-24 00:20:32.000</th>
+      <td>-0.218396</td>
+    </tr>
+    <tr>
+      <th>2016-01-09 00:20:27.500</th>
+      <td>-0.238427</td>
+    </tr>
+    <tr>
+      <th>2016-02-10 00:20:23.000</th>
+      <td>-0.222024</td>
+    </tr>
+    <tr>
+      <th>2016-04-14 00:19:59.000</th>
+      <td>-0.220202</td>
+    </tr>
+    <tr>
+      <th>2016-07-03 00:20:15.000</th>
+      <td>-0.312310</td>
+    </tr>
+    <tr>
+      <th>2016-08-04 00:20:25.000</th>
+      <td>-0.475520</td>
+    </tr>
+    <tr>
+      <th>2016-08-20 00:20:30.000</th>
+      <td>-0.563059</td>
+    </tr>
+    <tr>
+      <th>2016-09-05 00:20:36.000</th>
+      <td>-0.074339</td>
+    </tr>
+    <tr>
+      <th>2016-10-23 00:20:44.500</th>
+      <td>0.211733</td>
+    </tr>
+    <tr>
+      <th>2016-12-10 00:20:41.500</th>
+      <td>0.487275</td>
+    </tr>
+    <tr>
+      <th>2017-01-27 00:20:29.000</th>
+      <td>0.607996</td>
+    </tr>
+    <tr>
+      <th>2017-02-12 00:20:21.000</th>
+      <td>0.542993</td>
+    </tr>
+    <tr>
+      <th>2017-02-28 00:20:15.000</th>
+      <td>0.606195</td>
+    </tr>
+    <tr>
+      <th>2017-04-01 00:19:58.000</th>
+      <td>0.595885</td>
+    </tr>
+    <tr>
+      <th>2017-04-17 00:19:50.000</th>
+      <td>0.603427</td>
+    </tr>
+    <tr>
+      <th>2017-05-03 00:19:40.000</th>
+      <td>0.626472</td>
+    </tr>
+    <tr>
+      <th>2017-06-04 00:20:01.000</th>
+      <td>0.709029</td>
+    </tr>
+    <tr>
+      <th>2017-06-20 00:20:07.500</th>
+      <td>0.733914</td>
+    </tr>
+    <tr>
+      <th>2017-07-06 00:20:11.000</th>
+      <td>0.740035</td>
+    </tr>
+    <tr>
+      <th>2017-07-22 00:20:17.000</th>
+      <td>0.775376</td>
+    </tr>
+    <tr>
+      <th>2017-08-07 00:20:24.000</th>
+      <td>0.673378</td>
+    </tr>
+    <tr>
+      <th>2017-08-23 00:20:28.500</th>
+      <td>0.723542</td>
+    </tr>
+    <tr>
+      <th>2017-09-24 00:20:35.000</th>
+      <td>0.635309</td>
+    </tr>
+    <tr>
+      <th>2017-10-10 00:20:40.000</th>
+      <td>0.675938</td>
+    </tr>
+    <tr>
+      <th>2017-11-27 00:20:33.500</th>
+      <td>0.621015</td>
+    </tr>
+    <tr>
+      <th>2017-12-13 00:20:33.000</th>
+      <td>0.753253</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Animate line plot in right panel of animation</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseriesline</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                    <span class="n">df</span><span class="o">=</span><span class="n">line_df</span><span class="p">,</span>
+                                    <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;animated_timeseriesline.gif&#39;</span><span class="p">,</span>
+                                    <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                    <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">2800</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    Exporting animation to animated_timeseriesline.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_26_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_26_1.png" />
+</div>
+</div>
+<p>To demonstrate how multiple lines can be added to the same plot:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Add new column to dataframe</span>
+<span class="n">line_df</span><span class="p">[</span><span class="s1">&#39;Inverted NDWI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">line_df</span><span class="p">[</span><span class="s1">&#39;Normalized Difference Water Index (NDWI)&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="o">-</span><span class="mf">1.0</span>
+
+<span class="c1"># Animate line plot in right panel of animation</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseriesline</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                    <span class="n">df</span><span class="o">=</span><span class="n">line_df</span><span class="p">,</span>
+                                    <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;animated_timeseriesline.gif&#39;</span><span class="p">,</span>
+                                    <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                    <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">2800</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+    Exporting animation to animated_timeseriesline.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_28_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_28_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Available-output-formats">
+<h2>Available output formats<a class="headerlink" href="#Available-output-formats" title="Permalink to this headline">¶</a></h2>
+<p>The above examples have focused on exporting animated GIFs, but MP4 and
+WMV files can also be generated: * .mp4: fast to generate, smallest
+file sizes and often highest quality; suitable for Twitter/social media
+and recent versions of Powerpoint * .wmv: slow to generate, large file
+sizes; suitable for Powerpoint 2010 * .gif: slow to generate, large
+file sizes; suitable for all versions of Powerpoint and Twitter/social
+media</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Animate datasets as a WMV file</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_doubletimeseries</span><span class="p">(</span><span class="n">ds1</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds2</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                      <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;animated_doubletimeseries.wmv&#39;</span><span class="p">,</span>
+                                      <span class="n">bands1</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">bands2</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDWI&#39;</span><span class="p">],</span>
+                                      <span class="n">reflect_stand1</span><span class="o">=</span><span class="mi">2800</span><span class="p">,</span>
+                                      <span class="n">title1</span><span class="o">=</span><span class="s1">&#39;True colour&#39;</span><span class="p">,</span> <span class="n">title2</span><span class="o">=</span><span class="s1">&#39;NDWI&#39;</span><span class="p">,</span>
+                                      <span class="n">onebandplot_kwargs2</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="s1">&#39;vmin&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span><span class="mf">0.8</span><span class="p">},</span>
+                                      <span class="n">annotation_kwargs1</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">},</span>
+                                      <span class="n">annotation_kwargs2</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">})</span>
+
+<span class="c1"># Animate datasets as a MP4 file</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_doubletimeseries</span><span class="p">(</span><span class="n">ds1</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds2</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                      <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;animated_doubletimeseries.mp4&#39;</span><span class="p">,</span>
+                                      <span class="n">bands1</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">bands2</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NDWI&#39;</span><span class="p">],</span>
+                                      <span class="n">reflect_stand1</span><span class="o">=</span><span class="mi">2800</span><span class="p">,</span>
+                                      <span class="n">title1</span><span class="o">=</span><span class="s1">&#39;True colour&#39;</span><span class="p">,</span> <span class="n">title2</span><span class="o">=</span><span class="s1">&#39;NDWI&#39;</span><span class="p">,</span>
+                                      <span class="n">onebandplot_kwargs2</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="s1">&#39;vmin&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span><span class="mf">0.8</span><span class="p">},</span>
+                                      <span class="n">annotation_kwargs1</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">},</span>
+                                      <span class="n">annotation_kwargs2</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">})</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 33 frame animation (i.e. timesteps in shortest dataset)
+    Exporting animation to animated_doubletimeseries.wmv
+Generating 33 frame animation (i.e. timesteps in shortest dataset)
+    Exporting animation to animated_doubletimeseries.mp4
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_30_1.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_30_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_30_2.png" src="../../_images/notebooks_08_Outputting_data_PlottingAnimatedGifs_30_2.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ExportingCompliantNetCDFs.html" class="btn btn-neutral float-right" title="Exporting compliant NetCDF datasets for publication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ProduceFalseColourGeotiffs.html" class="btn btn-neutral" title="ProduceFalseColourGeotiffs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>

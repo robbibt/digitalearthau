@@ -1,0 +1,865 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0) &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Integrating External Data" href="../03_Integrating_external_data/README.html" />
+    <link rel="prev" title="Getting started with High-Low Tide Composites (HLTC_25)" href="Introduction_to_HLTC.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">DEA Datasets</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_Landsat.html">Introduction to DEA Landsat surface reflectance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_LandsatPQ.html">Introduction to Landsat pixel quality (PQ25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_Fractional_Cover.html">Introduction to Fractional Cover Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_HLTC.html">Getting started with High-Low Tide Composites (HLTC_25)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Import-modules">Import modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Overview-of-ITEM-v2.0-products">Overview of ITEM v2.0 products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-ITEM-Relative-Extent-Model">Import ITEM Relative Extent Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-ITEM-relative-extents-layer">Plot ITEM relative extents layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#How-ITEM-intervals-correspond-to-Landsat-observations-and-tidal-heights">How ITEM intervals correspond to Landsat observations and tidal heights</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-ITEM-Confidence-layer">Import ITEM Confidence layer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-ITEM-Confidence-layer">Plot ITEM Confidence layer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Masking-out-ITEM-Relative-Extents-Model-with-ITEM-Confidence">Masking out ITEM Relative Extents Model with ITEM Confidence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">DEA Datasets</a> &raquo;</li>
+        
+      <li>Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/02_DEA_datasets/Introduction_to_ITEM.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Getting-started-with-the-Intertidal-Extents-Relative-Model-and-ITEM-Confidence-(ITEM-v2.0)">
+<h1>Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0)<a class="headerlink" href="#Getting-started-with-the-Intertidal-Extents-Relative-Model-and-ITEM-Confidence-(ITEM-v2.0)" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong></p>
+<p>This notebook provides an introduction to the DEA Intertidal Extents
+Relative Model (ITEM v2.0), which analyses GA’s historic archive of
+satellite imagery to derive a model of the spatial extents of the
+intertidal zone throughout the tidal cycle. The model can assist in
+understanding the relative elevation profile of the intertidal zone,
+delineating exposed areas at differing tidal heights and stages.</p>
+<p><strong>Required inputs</strong></p>
+<p>None. If you find an error or bug in this notebook, please either create
+an ‘Issue’ in the Github repository, or fix it yourself and create a
+‘Pull’ request to contribute the updated notebook back into the
+repository (See the repository
+<a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
+for instructions on creating a Pull request).</p>
+<p><strong>Date:</strong> May 2018</p>
+<p><strong>Author:</strong> Robbi Bishop-Taylor</p>
+<p><strong>Tags</strong>: <span class="target" id="index-0"></span>ITEM, <span class="target" id="index-1"></span>ITEM_confidence, <span class="target" id="index-2"></span>intertidal_zone, <span class="target" id="index-3"></span>masking, <span class="target" id="index-4"></span>query, <span class="target" id="index-5"></span>dc.load, <span class="target" id="index-6"></span>plot</p>
+<div class="section" id="Import-modules">
+<h2>Import modules<a class="headerlink" href="#Import-modules" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">datacube.utils.geometry</span> <span class="k">import</span> <span class="n">CRS</span>
+
+<span class="c1"># Create datacube instance</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;ITEM&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Overview-of-ITEM-v2.0-products">
+<h2>Overview of ITEM v2.0 products<a class="headerlink" href="#Overview-of-ITEM-v2.0-products" title="Permalink to this headline">¶</a></h2>
+<p>The DEA Intertidal Extents Relative Model product is a national scale
+gridded dataset characterising the spatial extents of the exposed
+intertidal zone, at intervals of the observed tidal range (Sagar et al.
+2017). The current version (2.0) utilises all Landsat observations (5,
+7, and 8) for Australian coastal regions (excluding off-shore
+Territories) between 1986 and 2016 (inclusive).</p>
+<p>ITEM v2.0 has implemented an improved tidal modelling framework (see
+Sagar et al. 2018) over that utilised in ITEM v1.0. The expanded Landsat
+archive within the Digital Earth Australia (DEA) has also enabled the
+model extent to be increased to cover a number of offshore reefs,
+including the full Great Barrier Reef and southern sections of the
+Torres Strait Islands. The DEA archive and new tidal modelling framework
+has improved the coverage and quality of the ITEM v2.0 relative extents
+model, particularly in regions where AGDC cell boundaries in ITEM v1.0
+produced discontinuities or the imposed v1.0 cell structure resulted in
+poor quality tidal modelling (see Sagar et al. 2017).</p>
+<p>Two ITEM v2.0 datasets are available through DEA: the ITEM v2.0 relative
+tidal extents layer, and the ITEM v2.0 confidence layer. Both layers are
+in the Australian Albers <code class="docutils literal notranslate"><span class="pre">EPSG:3577</span></code> projection system, and have 25m
+pixel resolution:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># List metadata for ITEM products available in DEA</span>
+<span class="n">dc_products</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">list_products</span><span class="p">()</span>
+<span class="n">display_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;product_type&#39;</span><span class="p">,</span> <span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">,</span> <span class="s1">&#39;spatial_dimensions&#39;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">dc_products</span><span class="p">[</span><span class="n">dc_products</span><span class="o">.</span><span class="n">product_type</span> <span class="o">==</span> <span class="s1">&#39;ITEM&#39;</span><span class="p">][</span><span class="n">display_columns</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>description</th>
+      <th>product_type</th>
+      <th>crs</th>
+      <th>resolution</th>
+      <th>spatial_dimensions</th>
+    </tr>
+    <tr>
+      <th>name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>item_v2</th>
+      <td>Intertidal Extents Model</td>
+      <td>ITEM</td>
+      <td>EPSG:3577</td>
+      <td>[-25, 25]</td>
+      <td>(y, x)</td>
+    </tr>
+    <tr>
+      <th>item_v2_conf</th>
+      <td>Average ndwi Standard Deviation</td>
+      <td>ITEM</td>
+      <td>EPSG:3577</td>
+      <td>[-25, 25]</td>
+      <td>(y, x)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="Import-ITEM-Relative-Extent-Model">
+<h2>Import ITEM Relative Extent Model<a class="headerlink" href="#Import-ITEM-Relative-Extent-Model" title="Permalink to this headline">¶</a></h2>
+<p>We can set up an extraction query for ITEM using only spatial details
+(i.e. extent and projection): because it was computed by combining the
+entire Landsat time series into a single layer, ITEM has no true
+temporal dimension (the layers do have a timestamp
+<code class="docutils literal notranslate"><span class="pre">2001-06-01T23:59:59.500000</span></code>, but this is a meaningless placeholder
+value which is only required due to restrictions of the netCDF file
+format).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up analysis data query using a buffer around a lat-long point</span>
+<span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">18.2066466248</span><span class="p">,</span> <span class="mf">122.214634558</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;WGS84&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;EPSG:3577&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">8000</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">8000</span><span class="p">),</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">8000</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">8000</span><span class="p">),</span>
+         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">}</span>
+
+<span class="c1"># Import ITEM v2.0 relative layer</span>
+<span class="n">item_data</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;item_v2&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Squeeze out the unnecessary temporal dimension:</span>
+<span class="n">item_data</span> <span class="o">=</span> <span class="n">item_data</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">item_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.Dataset&gt;
+Dimensions:   (x: 641, y: 641)
+Coordinates:
+  * y         (y) float64 -1.977e+06 -1.977e+06 -1.977e+06 -1.977e+06 ...
+  * x         (x) float64 -1.042e+06 -1.042e+06 -1.042e+06 -1.041e+06 ...
+Data variables:
+    relative  (y, x) int16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div></div>
+</div>
+<div class="section" id="Plot-ITEM-relative-extents-layer">
+<h3>Plot ITEM relative extents layer<a class="headerlink" href="#Plot-ITEM-relative-extents-layer" title="Permalink to this headline">¶</a></h3>
+<p>We can now plot the ITEM Relative Extent Model. The resulting plot will
+show a set of eight ‘tidal intervals’ (from <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">8</span></code>) that run
+roughly parallel to the shoreline: each interval delineates areas of
+intertidal terrain that were exposed at differing tidal heights and
+stages. Starting at the lowest interval <code class="docutils literal notranslate"><span class="pre">1</span></code> (deep red), each interval
+represents a 10% portion of the tidal range observed by the Landsat
+satellite across the entire 30 year (1986-2016) time series. Interval
+<code class="docutils literal notranslate"><span class="pre">1</span></code> is only exposed during the lowest of observed tides, while
+interval <code class="docutils literal notranslate"><span class="pre">8</span></code> (deep blue) is exposed during all but the highest
+observed tides.</p>
+<p>The data also includes two non-intertidal values: <code class="docutils literal notranslate"><span class="pre">0</span></code>, which marks
+areas that were inundated with water in every landsat observation, and
+<code class="docutils literal notranslate"><span class="pre">9</span></code>, which marks pixels that contained dry land during every Landsat
+observation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up colour schemes and plot labels</span>
+<span class="n">item_cs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;#d7191c&#39;</span><span class="p">,</span> <span class="s1">&#39;#ec6e43&#39;</span><span class="p">,</span> <span class="s1">&#39;#fdb96e&#39;</span><span class="p">,</span> <span class="s1">&#39;#fee7a4&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;#e7f5b7&#39;</span><span class="p">,</span> <span class="s1">&#39;#b7e1a7&#39;</span><span class="p">,</span> <span class="s1">&#39;#74b6ad&#39;</span><span class="p">,</span> <span class="s1">&#39;#2b83ba&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Non-</span><span class="se">\n</span><span class="s1">intertidal&#39;</span><span class="p">,</span> <span class="s1">&#39;1: 0-10%&#39;</span><span class="p">,</span> <span class="s1">&#39;2: 10-20%&#39;</span><span class="p">,</span> <span class="s1">&#39;3: 20-30%&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;4: 30-40%&#39;</span><span class="p">,</span> <span class="s1">&#39;5: 40-50%&#39;</span><span class="p">,</span> <span class="s1">&#39;6: 50-60%&#39;</span><span class="p">,</span> <span class="s1">&#39;7: 60-70%&#39;</span><span class="p">,</span> <span class="s1">&#39;8: 70-80%&#39;</span><span class="p">]</span>
+
+<span class="c1"># Plot ITEM Relative Extent Model</span>
+<span class="n">item_plot</span> <span class="o">=</span> <span class="n">item_data</span><span class="o">.</span><span class="n">relative</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">item_cs</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ITEM Relative Extent Model&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add tidal interval percentages to colorbar</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">item_plot</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;ITEM interval&#39;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="mf">9.0</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">labelpad</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_ITEM_10_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_ITEM_10_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="How-ITEM-intervals-correspond-to-Landsat-observations-and-tidal-heights">
+<h3>How ITEM intervals correspond to Landsat observations and tidal heights<a class="headerlink" href="#How-ITEM-intervals-correspond-to-Landsat-observations-and-tidal-heights" title="Permalink to this headline">¶</a></h3>
+<p>Because ITEM Relative Extent Model intervals represent a <em>relative</em> 10%
+proportion of the tidal range observed by Landsat across a 30 year
+period, they represent different ranges of tidal heights in different
+locations around Australia’s coastline. The plot below assists in
+interpreting what each interval represents: coloured bars correspond to
+the coloured intervals above, and show the Landsat observations (black
+dots) and the range of tidal heights (y-axis) that were used to generate
+each interval. For example, the bright red interval above (interval
+<code class="docutils literal notranslate"><span class="pre">1</span></code> or 0-10% of observed tide heights) was produced using Landsat
+observations that were acquired during tides of between -2.25 to -3.0m
+below Mean Sea Level (MSL). These plots are <a class="reference external" href="https://nationalmap.gov.au/#share=s-z67A2BRZUYCcbOtc2kWvTcgjWTq">available for all areas of
+Australia’s coastline by clicking on an ITEM polygon on National
+Map</a>.</p>
+<div class="admonition note">
+An important thing to remember when interpreting ITEM relative extents:
+Due the sun-synchronous nature of the various Landsat sensor
+observations, it is unlikely that the full physical extents of the tidal
+range are observed by Landsat. Hence, the highest and lowest <em>observed</em>
+tidal heights used to produce the intervals can cover a variable
+proportion of the full tidal range, and have no consistent relationship
+to Lowest and Highest Astronomical Tide. For example, observe how the
+top and bottom of the coloured bars below do not match up with the top
+and bottom of the full light grey tidal range:</div>
+<div class="figure" id="id1">
+<img alt="image" src="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/ITEM_Intervals/ITEM_REL_209_122.20_-18.07.jpg" />
+<p class="caption"><span class="caption-text">image</span></p>
+</div>
+</div>
+</div>
+<div class="section" id="Import-ITEM-Confidence-layer">
+<h2>Import ITEM Confidence layer<a class="headerlink" href="#Import-ITEM-Confidence-layer" title="Permalink to this headline">¶</a></h2>
+<p>The Confidence layer is designed to assess the reliability of the
+Relative Extent Model. Within each tidal range percentile interval, the
+pixel-based standard deviation of the NDWI values for all observations
+in the interval subset is calculated. The average standard deviation
+across all tidal range intervals is then calculated and retained as a
+quality indicator in this product layer:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Import ITEM v2.0 confidence and plot</span>
+<span class="n">conf_data</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;item_v2_conf&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Squeeze out the unnecessary temporal dimension:</span>
+<span class="n">conf_data</span> <span class="o">=</span> <span class="n">conf_data</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">conf_data</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.Dataset&gt;
+Dimensions:  (x: 641, y: 641)
+Coordinates:
+  * y        (y) float64 -1.977e+06 -1.977e+06 -1.977e+06 -1.977e+06 ...
+  * x        (x) float64 -1.042e+06 -1.042e+06 -1.042e+06 -1.041e+06 ...
+Data variables:
+    stddev   (y, x) float32 0.17464234 0.17408775 0.17394097 0.17444624 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div></div>
+</div>
+<div class="section" id="Plot-ITEM-Confidence-layer">
+<h3>Plot ITEM Confidence layer<a class="headerlink" href="#Plot-ITEM-Confidence-layer" title="Permalink to this headline">¶</a></h3>
+<p>The Confidence layer reflects the pixel based consistency of the NDWI
+values within each subset of observations, based on the tidal range.
+Higher standard deviation values (orange to red colours below) indicate
+water classification changes not based on the tidal cycle, and hence
+lower confidence in the extent model. Possible drivers of these changes
+include:</p>
+<ul class="simple">
+<li>Inadequacies of the tidal model, due perhaps to complex coastal
+bathymetry or estuarine structures not captured in the model. These
+effects have been reduced in ITEM v2.0 compared to previous versions,
+through the use of an improved tidal modelling framework</li>
+<li>Change in the structure and exposure of water/non-water features NOT
+driven by tidal variation. For example, movement of sand banks in
+estuaries, construction of man-made features (ports etc.).</li>
+<li>Terrestrial/Inland water features not influenced by the tidal cycle.</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Plot ITEM Confidence</span>
+<span class="n">conf_data</span><span class="o">.</span><span class="n">stddev</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ITEM Confidence (NDWI standard deviation)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_ITEM_17_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_ITEM_17_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Masking-out-ITEM-Relative-Extents-Model-with-ITEM-Confidence">
+<h2>Masking out ITEM Relative Extents Model with ITEM Confidence<a class="headerlink" href="#Masking-out-ITEM-Relative-Extents-Model-with-ITEM-Confidence" title="Permalink to this headline">¶</a></h2>
+<p>Because areas with high ITEM Confidence values indicate areas where the
+ITEM Relative Extents Model is likely to be invalid, a common workflow
+is to use the Confidence layer to mask out areas of high NDWI standard
+deviation. The specific value used to mask the layer will depend on the
+study area and application; a cutoff of 0.25 is typically a good place
+to start:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Create boolean mask that is True where ITEM Confidence NDWI standard deviation is less than 0.25:</span>
+<span class="n">conf_mask</span> <span class="o">=</span> <span class="n">conf_data</span><span class="o">.</span><span class="n">stddev</span> <span class="o">&lt;</span> <span class="mf">0.25</span>
+
+<span class="c1"># Mask out pixels with high NDWI standard deviation (mask == False)</span>
+<span class="n">item_masked</span> <span class="o">=</span> <span class="n">item_data</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">conf_mask</span><span class="p">)</span>
+
+<span class="c1"># Plot mask and masked ITEM Relative Extents layer</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">w_pad</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">conf_mask</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Greys&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;ITEM Confidence mask</span><span class="se">\n</span><span class="s1">(NDWI standard deviation &gt; 0.25)&#39;</span><span class="p">)</span>
+<span class="n">item_masked</span><span class="o">.</span><span class="n">relative</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">item_cs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;Masked ITEM</span><span class="se">\n</span><span class="s1">Relative Extents Model&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_ITEM_19_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_ITEM_19_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../03_Integrating_external_data/README.html" class="btn btn-neutral float-right" title="Integrating External Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Introduction_to_HLTC.html" class="btn btn-neutral" title="Getting started with High-Low Tide Composites (HLTC_25)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>

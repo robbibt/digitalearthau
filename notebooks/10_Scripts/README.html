@@ -1,0 +1,362 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Scripts &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Surface Reflectance" href="../../data/data.html" />
+    <link rel="prev" title="Fractional Cover: Trend and Variability Analysis" href="../09_Workflows/Fractional_Cover_Change_Detection.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scripts</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Scripts</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/10_Scripts/README.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="scripts">
+<h1>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h1>
+<p>This folder contains examples of python code that demonstrates the use of functions and tools suitable for use in the DEA environment. The following functions are currently included in Python scripts for loading into notebooks:</p>
+<dl class="docutils">
+<dt>DEADataHandling.py: handling data using DEA functionality (i.e. dc.load or xarrays)</dt>
+<dd><ul class="first last simple">
+<li><strong>load_nbarx</strong>: Loads NBAR (Nadir BRDF Adjusted Reflectance) or NBAR-T (terrain corrected NBAR) data for a sensor, masks using pixel quality (PQ), then optionally filters out terrain -999s (for NBAR-T)</li>
+<li><strong>load_sentinel</strong>: Loads a Sentinel granule product and masks using PQ</li>
+<li><strong>load_clearlandsat</strong>: Loads time series of clear Landsat observations from the entire archive</li>
+<li><strong>dataset_to_geotiff</strong>: Writes a multi-band geotiff for one xarray timeslice, or for a single composite image</li>
+<li><strong>open_polygon_from_shapefile</strong>: Imports a shapefile and converts to a datacube geometry object</li>
+<li><strong>write_your_netcdf</strong>: Writes an xarray dataset or array to a NetCDF file</li>
+</ul>
+</dd>
+<dt>DEAPlotting.py: plotting DEA data (e.g. xarrays)</dt>
+<dd><ul class="first last simple">
+<li><strong>three_band_image</strong>: Takes three spectral bands and plots them on the RGB bands of an image</li>
+<li><strong>three_band_image_subplots</strong>: Takes three spectral bands and multiple time steps, and plots them on the RGB bands of an image</li>
+<li><strong>animated_timeseries</strong>: Takes an xarray time series and exports an animation showing landscape change across time</li>
+<li><strong>animated_doubletimeseries</strong>: Takes two xarray datasets and exports a two panel animation</li>
+<li><strong>animated_timeseriesline</strong>: Plots a pandas dataframe as a line graph next to an xarray dataset</li>
+</ul>
+</dd>
+<dt>BandIndices.py: calculating remote sensing band indices</dt>
+<dd><ul class="first last simple">
+<li><strong>calculate_indices</strong>: Computes a set of indices (including NDVI, GNDVI, NDWI, NDMI) from an xarray dataset</li>
+<li><strong>geological_indices</strong>: Computes a set of geological remote sensing indices (including CMR, FMR, IOR) from an xarray dataset</li>
+<li><strong>tasseled_cap</strong>: Computes tasseled cap wetness, greenness and brightness bands from an xarray dataset</li>
+</ul>
+</dd>
+<dt>SpatialTools.py: Rasters/shapefile manipulation functions that do not rely on DEA (i.e. no dc.load or xarrays)</dt>
+<dd><ul class="first last simple">
+<li><strong>rasterize_vector</strong>: Rasterize a vector file and return as an array</li>
+<li><strong>layer_extent</strong>: Computes min and max extents from GDAL layer features</li>
+<li><strong>indices_to_coords</strong>: Takes lists of x and y array indices and converts them to equivelent spatial x and y coordinates</li>
+<li><strong>coords_to_indices</strong>: Takes lists of x and y coordinates and converts to equivelent raster array cell indices</li>
+<li><strong>raster_randomsample</strong>: Generate a set of n random points within cells of a raster that contain data</li>
+<li><strong>array_to_geotiff</strong>: Create a single band GeoTIFF file with data from an array</li>
+<li><strong>reproject_to_template</strong>: Reprojects a raster to match the extent, cell size, projection and dimensions of a template raster using GDAL</li>
+</ul>
+</dd>
+<dt>ClassificationTools.py: classifying remote sensing imagery using classifiers and machine learning</dt>
+<dd><ul class="first last simple">
+<li><strong>randomforest_train</strong>: Extracts training data from xarray dataset for multiple training shapefiles</li>
+<li><strong>randomforest_classify</strong>: Performs classification of xarray dataset using pre-trained random forest classifier, and export classified output to a geotiff</li>
+<li><strong>randomforest_eval</strong>: Takes a set of training labels and training samples, and plots OOB error against a range of classifier parameters to explore how parameters affect classification</li>
+</ul>
+</dd>
+<dt>SignificanceTests.py: per-pixel hypothesis testing</dt>
+<dd><ul class="first last simple">
+<li><strong>significance_tests</strong>: Given two xarray dataarrays from non-overlapping time-periods, conducts either a t-test or a Levene’s test to determine if the mean or variance are equal, respectively</li>
+</ul>
+</dd>
+<dt>TasseledCapTools.py: a set of python functions to use with the outputs of tasseled cap transforms</dt>
+<dd><ul class="first last simple">
+<li><strong>thresholded_tasseled_cap</strong>: Computes thresholded tasseled cap wetness, greenness and brightness bands from a six band xarray dataset</li>
+<li><strong>pct_exceedance_tasseled_cap</strong>: Counts the number of thresholded tasseled cap scenes per pixel and divides by the number of tasseled cap scenes per pixel</li>
+</ul>
+</dd>
+</dl>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../data/data.html" class="btn btn-neutral float-right" title="Surface Reflectance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../09_Workflows/Fractional_Cover_Change_Detection.html" class="btn btn-neutral" title="Fractional Cover: Trend and Variability Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>

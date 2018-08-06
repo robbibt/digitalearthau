@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Introduction" href="about/intro.html" /> 
@@ -56,17 +57,10 @@
 
           
             
-            <img src="_static/DEA-logo-light.png" class="logo" alt="Logo"/>
+            <img src="_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
           
           </a>
 
-          
-            
-            
-              <div class="version">
-                1.0.0
-              </div>
-            
           
 
           
@@ -96,21 +90,24 @@
 </ul>
 <p class="caption"><span class="caption-text">Connect</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="connect/account.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connect/account.html">NCI Account Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="connect/install.html">Installation and Software Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internal/other_modules.html">Other Modules</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="query/Getting Started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="query/List Products.html">List Products &amp; Measurements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="query/Loading Data.html">Loading data from the datacube</a></li>
-<li class="toctree-l1"><a class="reference internal" href="query/Advanced Querying.html">Advanced Querying</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Notebook Gallery</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/10_Scripts/README.html">Scripts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Data Guide</span></p>
 <ul>
@@ -122,12 +119,10 @@
 <li class="toctree-l1"><a class="reference internal" href="internal/git_best_practice.html">Git Best Practice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/release.html">DEA Release Process</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/modules.html">DEA Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="internal/other_modules.html">Other Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="internal/orchestration.html">DEA Orchestration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/collection_management.html">Collection Management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="internal/goalkeeper_instructions.html">What’s a Goalkeeper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/requirements_met.html">DEA Code Functionality Examples</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Tags Index</a></li>
 </ul>
@@ -213,7 +208,7 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<img alt="Digital Earth Australia Logo" class="align-center" src="_images/DEA-Logo-Inline.png" />
+<div align="center" class="align-center"><img alt="Digital Earth Australia Logo" src="_images/dea-logo-inline.svg" /></div>
 <div class="line-block">
 <div class="line"><br /></div>
 <div class="line"><br /></div>
@@ -236,25 +231,503 @@ accounts on National Computational Infrastructure (NCI).</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Connect</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="connect/account.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connect/account.html">NCI Account Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="connect/install.html">Installation and Software Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internal/other_modules.html">Other Modules</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="query/Getting Started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="query/List Products.html">List Products &amp; Measurements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="query/Loading Data.html">Loading data from the datacube</a></li>
-<li class="toctree-l1"><a class="reference internal" href="query/Advanced Querying.html">Advanced Querying</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_Getting_started/README.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/01_Getting_started/Getting Started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/01_Getting_started/List Products.html">List Products &amp; Measurements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/01_Getting_started/List Products.html#List-Products">List Products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/01_Getting_started/List Products.html#List-Measurements">List Measurements</a></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Notebook Gallery</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/index.html">User Guide</a></li>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/01_Getting_started/Loading Data.html">Loading data from the datacube</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/01_Getting_started/Loading Data.html#Importing-the-datacube-module">Importing the datacube module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/01_Getting_started/Loading Data.html#Loading-data">Loading data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/01_Getting_started/Loading Data.html#Load-data-via-a-products-native-co-ordinate-system">Load data via a products native co-ordinate system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/01_Getting_started/Loading Data.html#Load-specific-measurements-of-a-given-product">Load specific measurements of a given product</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/01_Getting_started/Advanced Querying.html">Advanced Querying</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/01_Getting_started/Advanced Querying.html#Using-lineage">Using lineage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_DEA_datasets/README.html">DEA Datasets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html">Introduction to DEA Landsat surface reflectance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#About-Landsat">About Landsat</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Basic-details-about-Landsat-5-to-9-[3][4][5][6][7]">Basic details about Landsat 5 to 9 [3][4][5][6][7]</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Digital-Earth-Australia's-Landsat-archive">Digital Earth Australia’s Landsat archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Landsat-surface-reflectance-products">Landsat surface reflectance products</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Nodata-value">Nodata value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Available-bands">Available bands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Landsat-7-Scan-Line-Corrector-failure">Landsat 7 Scan Line Corrector failure</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Retrieving-Landsat-data">Retrieving Landsat data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Import-modules">Import modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Available-Landsat-products">Available Landsat products</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Specify-a-query-with-coordinates-and-date-range">Specify a <em>query</em> with coordinates and date range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Load-Landsat-data">Load Landsat data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Remove-nodata-values">Remove nodata values</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Plotting-Landsat-data">Plotting Landsat data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Plot-single-Landsat-bands">Plot single Landsat bands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Creating-a-'true-colour'-image-using-three-bands">Creating a ‘true colour’ image using three bands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Creating-a-'false-colour'-image-using-three-bands">Creating a ‘false colour’ image using three bands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Computing-band-indices">Computing band indices</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Plotting-a-single-data-variable-or-band">Plotting a single data variable or band</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#Cloud-masking-with-Landsat-pixel-quality-(PQ25)">Cloud masking with Landsat pixel quality (PQ25)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Landsat.html#References">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html">Introduction to Landsat pixel quality (PQ25)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Importance-of-pixel-quality">Importance of pixel quality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#What-is-PQ25?">What is PQ25?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Masking-Landsat-with-PQ">Masking Landsat with PQ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Import-modules-and-libraries">Import modules and libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Available-Landsat-PQ25-products">Available Landsat PQ25 products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Load-matching-Landsat-and-PQ25-data">Load matching Landsat and PQ25 data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Specify-a-query-with-coordinates-and-date-range">Specify a <em>query</em> with coordinates and date range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Load-Landsat-data">Load Landsat data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Load-matching-PQ25-data">Load matching PQ25 data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Create-a-PQ-mask">Create a PQ mask</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Apply-the-PQ-mask">Apply the PQ mask</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#Plot-the-PQ-masked-Landsat-data">Plot the PQ-masked Landsat data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_LandsatPQ.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html">Introduction to Fractional Cover Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#What-is-Fractional-Cover?-[1,-2]">What is Fractional Cover? [1, 2]</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Fractional-Cover-Bands:-[1]">Fractional Cover Bands: [1]</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Limitations,-Errors-and-Uncertainty:">Limitations, Errors and Uncertainty:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#How-to-retrieve-and-plot-the-data">How to retrieve and plot the data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Import-modules-from-standard-libraries,-datacube-and-files">Import modules from standard libraries, datacube and files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#See-what-products-are-currently-available">See what products are currently available</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Code-to-display-the-products">Code to display the products</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Specify-the-query-with-the-coordinates-and-date-range">Specify the <em>query</em> with the coordinates and date range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Now-we-load-and-look-at-some-data">Now we load and look at some data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Create-a-data-scene-object">Create a data scene object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Plot-Fractional-Cover-and-Unmixing-Error-Bands">Plot Fractional Cover and Unmixing Error Bands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#We-could-filter-using-the-unmixing-error,-but-using-WOfS-is-more-robust.">We could filter using the unmixing error, but using WOfS is more robust.</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Filter-fractional-cover-scenes-using-WOfS-feature-layers-(WOFLs)">Filter fractional cover scenes using WOfS feature layers (WOFLs)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#load-the-wofs-feature-layers-(wofls)-within-the-same-query-as-Fractional-cover,-using-'like'">load the wofs feature layers (wofls) within the same query as Fractional cover, using ‘like’</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Two-ways-of-displaying-what-the-values-in-the-wofs-data-mean:">Two ways of displaying what the values in the wofs data mean:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Here-is-what-the-WOFL-mask-looks-like-on-one-timestep:">Here is what the WOFL mask looks like on one timestep:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Here-is-what-Fractional-Cover-looks-like-with-WOFL-removed:">Here is what Fractional Cover looks like with WOFL removed:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Edit-save-file-path-to-choose-where-to-save-your-output-files">Edit save file path to choose where to save your output files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Save-Fractional-Cover-scenes-to-NetCDF">Save Fractional Cover scenes to NetCDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#Save-Fractional-Cover-scenes-to-GeoTIFF">Save Fractional Cover scenes to GeoTIFF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html">Getting started with High-Low Tide Composites (HLTC_25)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#Import-modules">Import modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#Overview-of-High-Low-Tide-Composite-products">Overview of High-Low Tide Composite products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#Import-High-and-Low-Tide-composites">Import High and Low Tide composites</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#Plot-true-color-High-and-Low-Tide-composites">Plot true-color High and Low Tide composites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#How-HLTC_25-composites-correspond-to-Landsat-observations-and-tidal-heights">How HLTC_25 composites correspond to Landsat observations and tidal heights</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#Import-HLTC-clear-observations-count-layers">Import HLTC clear observations count layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#Plot-HLTC-clear-observations-count-layers">Plot HLTC clear observations count layers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_HLTC.html#Computing-remote-sensing-indices-on-HLTC_25-composites">Computing remote sensing indices on HLTC_25 composites</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html">Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#Import-modules">Import modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#Overview-of-ITEM-v2.0-products">Overview of ITEM v2.0 products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#Import-ITEM-Relative-Extent-Model">Import ITEM Relative Extent Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#Plot-ITEM-relative-extents-layer">Plot ITEM relative extents layer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#How-ITEM-intervals-correspond-to-Landsat-observations-and-tidal-heights">How ITEM intervals correspond to Landsat observations and tidal heights</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#Import-ITEM-Confidence-layer">Import ITEM Confidence layer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#Plot-ITEM-Confidence-layer">Plot ITEM Confidence layer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/02_DEA_datasets/Introduction_to_ITEM.html#Masking-out-ITEM-Relative-Extents-Model-with-ITEM-Confidence">Masking out ITEM Relative Extents Model with ITEM Confidence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_Integrating_external_data/README.html">Integrating External Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/03_Integrating_external_data/CreateRasterMaskFromShapefile.html">Create a raster mask using a shapefile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/CreateRasterMaskFromShapefile.html#Set-up-the-extraction-query">Set up the extraction query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/CreateRasterMaskFromShapefile.html#Read-in-the-shapefile-you-would-like-to-use-to-mask-the-Landsat-data">Read in the shapefile you would like to use to mask the Landsat data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/03_Integrating_external_data/CreateRasterMaskFromShapefile.html#Iterate-over-each-of-the-polygons,-and-put-a-'1'-in-the-mask-raster-that-corresponds-to-the-footprint-of-each-polygon">Iterate over each of the polygons, and put a ‘1’ in the mask raster that corresponds to the footprint of each polygon</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/CreateRasterMaskFromShapefile.html#Apply-the-mask-to-the-Landsat-data-and-plot">Apply the mask to the Landsat data and plot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html">Tidal Modelling and Tagging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Import-modules">Import modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Import-remotely-sensed-time-series-data">Import remotely-sensed time series data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Tidal-modelling-using-OTPS">Tidal modelling using OTPS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Tagging,-filtering-and-compositing-Landsat-observations-by-tidal-height/stage">Tagging, filtering and compositing Landsat observations by tidal height/stage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Ebb-and-flow-tidal-phases">Ebb and flow tidal phases</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Ebb-and-flow-tide-composites">Ebb and flow tide composites</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Advanced:-computing-tides-without-loading-images-first-using-dask">Advanced: computing tides without loading images first using dask</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/03_Integrating_external_data/TidalModellingandTagging.html#Loading-and-compositing-filtered-subset-of-observations">Loading and compositing filtered subset of observations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_Index_calculation/README.html">Index Calculation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html">Mineral Indices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Import-modules-from-standard-libraries,-datacube-and-files">Import modules from standard libraries, datacube and files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Edit-this-cell-to-choose-your-area-and-temporal-range">Edit this cell to choose your area and temporal range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Load-data-from-Digital-Earth-Australia">Load data from Digital Earth Australia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Calculate-Mineral-Indices">Calculate Mineral Indices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Plot-the-Iron-Oxide-Ratio-(RED/BLUE)">Plot the Iron Oxide Ratio (RED/BLUE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Plot-the-Ferrous-Minerals-Ratio-(SWIR1/NIR)">Plot the Ferrous Minerals Ratio (SWIR1/NIR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Plot-the-Clay-NIR/SWIR1-ratio-(NIR/SWIR1)">Plot the Clay NIR/SWIR1 ratio (NIR/SWIR1)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Plot-the-Clay-Minerals-Ratio-(SWIR1/SWIR2)">Plot the Clay Minerals Ratio (SWIR1/SWIR2)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Plotting-the-Ferruginous-Regolith-Ratio">Plotting the Ferruginous Regolith Ratio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Save-ratios-to-netCDF">Save ratios to netCDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Edit-save-file-path-to-choose-where-to-save-your-output-files">Edit save file path to choose where to save your output files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#Save-ratios-to-GeoTiff">Save ratios to GeoTiff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/04_Index_calculation/Mineral_Indices_Calculation.html#References">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_Temporal_analysis/README.html">Temporal Analyses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/PolygonDrill.html">Polygon drill</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PolygonDrill.html#Import-our-shapefile-with-Fiona,-and-grab-its-geometry-for-the-DEA-extraction-query">Import our shapefile with Fiona, and grab its <code class="docutils literal notranslate"><span class="pre">geometry</span></code> for the DEA extraction query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PolygonDrill.html#Set-up-the-extraction-query">Set up the extraction query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PolygonDrill.html#Load-in-the-data-from-Landsat-8-using-our-polygon-to-set-the-extent">Load in the data from Landsat 8 using our polygon to set the extent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PolygonDrill.html#Mask-the-dataset-with-our-original-polygon-to-remove-extra-data">Mask the dataset with our original polygon to remove extra data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PolygonDrill.html#Check-our-polygon-has-been-imported-properly">Check our polygon has been imported properly</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html">Pixel drill using interactive widgets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Set-up-the-extraction-query">Set up the extraction query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#First,-pull-in-the-data-from-Landsat-8">First, pull in the data from Landsat 8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Plot-up-an-image-so-we-can-select-a-pixel-for-further-interrogation">Plot up an image so we can select a pixel for further interrogation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Plot-up-the-complete-timeseries-of-data-for-a-single-pixel">Plot up the complete timeseries of data for a single pixel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Convert-the-selected-time-to-a-time-stamp-we-can-use-to-extract-the-correct-scene">Convert the selected time to a time stamp we can use to extract the correct scene</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Plot-the-scene-that-matches-the-selected-time-and-sensor">Plot the scene that matches the selected time and sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/Interactive_phenology_plot_tagged.html">Visualising vegetation phenology</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Interactive_phenology_plot_tagged.html#Retrieve-the-NBAR-and-PQ-for-the-spatiotemporal-range-of-interest">Retrieve the NBAR and PQ for the spatiotemporal range of interest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Interactive_phenology_plot_tagged.html#Plotting-an-image,-select-a-location-for-extracting-the-phenology-plot">Plotting an image, select a location for extracting the phenology plot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_Multi-site.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall for Multiple Sites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_Multi-site.html#Set-up-modules,-functions-and-libraries">Set up modules, functions and libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_Multi-site.html#Set-up-functions-for-this-notebook">Set up functions for this notebook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_Multi-site.html#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_Multi-site.html#Define-the-epoch">Define the epoch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_Multi-site.html#Retrieve-data,-plot-hovmollers-and-save-to-file-(this-may-take-some-time)">Retrieve data, plot hovmollers and save to file (this may take some time)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Set-up-modules,-functions-and-libraries">Set up modules, functions and libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Set-up-functions-for-this-notebook">Set up functions for this notebook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Define-the-epoch">Define the epoch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Set-up-query">Set up query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#use-the-transect-dataframe-to-get-transect-metadata">use the transect dataframe to get transect metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Check-if-this-notebook-has-already-been-run-and-the-data-saved:">Check if this notebook has already been run and the data saved:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#If-not,-pull-in-rainfall-and-nbar">If not, pull in rainfall and nbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Run-the-tasseled-cap-transform-and-threshold">Run the tasseled cap transform and threshold</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Take-a-look-at-some-of-the-tasseled-cap-results">Take a look at some of the tasseled cap results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#resample-gridded-rainfall-data">resample gridded rainfall data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Set-up-data-for-Hovmoller-plots">Set up data for Hovmoller plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Make-Hovmoller-plot">Make Hovmoller plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#plot-greenness">plot greenness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Plot-Brightness">Plot Brightness</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Save-the-data-to-an-output-file-for-future-use">Save the data to an output file for future use</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Plot-thresholded-wetness">Plot thresholded wetness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Plot-thresholded-brightness">Plot thresholded brightness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#Plot-thresholded-greenness">Plot thresholded greenness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_TCI_and_Rainfall.html#References">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html">Hovmoller plot of NDVI and Rainfall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Set-up-modules,-functions-and-libraries">Set up modules, functions and libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Set-up-functions-for-this-notebook">Set up functions for this notebook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Define-the-epoch">Define the epoch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Set-up-query">Set up query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#use-the-transect-dataframe-to-get-transect-metadata">use the transect dataframe to get transect metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Check-if-this-notebook-has-already-been-run-and-the-data-saved:">Check if this notebook has already been run and the data saved:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#If-not,-pull-in-rainfall-and-nbar">If not, pull in rainfall and nbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#resample-gridded-rainfall-data">resample gridded rainfall data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Set-up-some-colour-maps-for-the-Hovmoller-plots">Set up some colour maps for the Hovmoller plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Set-up-data-for-Hovmoller-plots-and-calculate-NDVI">Set up data for Hovmoller plots and calculate NDVI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Make-Hovmoller-plot">Make Hovmoller plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI.html#Save-the-data-to-an-output-file-for-future-use">Save the data to an output file for future use</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI_Multi-site.html">Hovmoller plots of NDVI and Rainfall (multiple sites)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI_Multi-site.html#Set-up-modules,-functions-and-libraries">Set up modules, functions and libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI_Multi-site.html#Set-up-functions-for-this-notebook">Set up functions for this notebook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI_Multi-site.html#add-the-path-to-the-input-shapefile">add the path to the input shapefile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI_Multi-site.html#Define-the-epoch">Define the epoch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/Hovmoller_NDVI_Multi-site.html#Retrieve-data,-plot-hovmollers-and-save-to-file-(this-may-take-some-time)">Retrieve data, plot hovmollers and save to file (this may take some time)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/06_Composite_generation/README.html">Composite Generation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html">Landsat 8 Geomedian Dashboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Import-modules-from-standard-libraries,-datacube-and-files">Import modules from standard libraries, datacube and files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Select-a-shape-file-for-your-area-of-analysis">Select a shape file for your area of analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Use-the-select-file-button-to-choose-a-shape-file">Use the select file button to choose a shape file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Use-the-check-shapefile-button-to-check-if-the-chosen-shapefile-is-valid">Use the check shapefile button to check if the chosen shapefile is valid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Alternatively,-draw-a-polygon-on-the-map-below">Alternatively, draw a polygon on the map below</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Fill-in-boxes-to-select-time-period-of-interest">Fill in boxes to select time period of interest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Load-the-data-and-calculate-the-geomedian">Load the data and calculate the geomedian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Plot-the-geomedian-composite-in-true-color-(RGB):">Plot the geomedian composite in true color (RGB):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Save-as-netcdf:">Save as netcdf:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Save-as-GeoTiff:">Save as GeoTiff:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Done.-Check-everything-worked!">Done. Check everything worked!</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/06_Composite_generation/Landsat8_Geomedian_Dashboard.html#Check-out-many-more-Notebooks-and-functions:-https://github.com/GeoscienceAustralia/dea-notebooks">Check out many more Notebooks and functions: https://github.com/GeoscienceAustralia/dea-notebooks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html">Generate tidal geomedian filmstrips</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Import-modules">Import modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Geomedian-filmstrip-parameters">Geomedian filmstrip parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Return-observations-for-each-sensor-for-the-entire-time-series">Return observations for each sensor for the entire time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Subset-data-by-tidal-height-and-epoch-time-range">Subset data by tidal height and epoch time range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Combine-multiple-sensors,-load-data-and-generate-geomedians">Combine multiple sensors, load data and generate geomedians</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Plot-geomedians-as-filmstrips">Plot geomedians as filmstrips</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Create-tidal-modelled-vs-observed-plot">Create tidal modelled vs observed plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/07_Image_classification/README.html">Image Classification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html">Random forest classification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Import-modules-and-define-functions">Import modules and define functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Function-used-to-import-training-and-analysis-data">Function used to import training and analysis data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Set-up-analysis">Set up analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Import-training-data-and-fit-model">Import training data and fit model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Import-analysis-data-and-classify">Import analysis data and classify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Feature/band/variable-importance">Feature/band/variable importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Plot-performance-of-model-by-parameter-values">Plot performance of model by parameter values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/RandomForestClassification.html#Export-tree-diagrams">Export tree diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html">DEA WOfS and Water Classifier Notebook</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Import-modules-from-standard-libraries,-datacube-and-files">Import modules from standard libraries, datacube and files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#edit-query-and-extract-data-from-DEA">edit query and extract data from DEA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Classify-water-and-calculate-Water-Observations-from-Space-(WOfS)">Classify water and calculate Water Observations from Space (WOfS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Calculate-and-plot-WOfS">Calculate and plot WOfS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Edit-save-file-path-to-choose-where-to-save-your-output-files">Edit save file path to choose where to save your output files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Save-WOfS-output-to-netCDF">Save WOfS output to netCDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Save-WOfS-output-to-GeoTiff">Save WOfS output to GeoTiff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html">Find dams using WOFLs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Set-up-the-analysis">Set up the analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Select-a-cropping-season-and-test-location">Select a cropping season and test location</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Set-up-some-file-names-for-the-outputs-we-will-write">Set up some file names for the outputs we will write</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Load-the-WOFLs">Load the WOFLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Identify-the-water-bodies-in-our-study-area-during-our-chosen-time-period">Identify the water bodies in our study area during our chosen time period</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Find-only-where-wet-=-True">Find only where wet = True</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Calculate-percentage-wet-over-this-season">Calculate percentage wet over this season</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Write-out-our-percentage-wet-classification-to-.TIFF">Write out our percentage wet classification to .TIFF</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Filter-our-classified-data-layer-to-remove-noise">Filter our classified data layer to remove noise</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#First,-filter-the-raster-based-on-values-&gt;0.05">First, filter the raster based on values &gt;0.05</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Convert-the-raster-to-polygons">Convert the raster to polygons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Filter-the-wet-polygons-to-find-'dams'">Filter the wet polygons to find ‘dams’</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Remove-the-giant-zero-polygon">Remove the giant zero polygon</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Calculate-the-area-of-each-polygon">Calculate the area of each polygon</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Filter-out-any-polygons-smaller-than-5000-m2">Filter out any polygons smaller than 5000 m2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Remove-any-polygons-that-intersect-with-a-major-river">Remove any polygons that intersect with a major river</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Plot-the-final-set-of-dam-polygons">Plot the final set of dam polygons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/FindDamsUsingWOFLs.html#Save-the-polygons-to-a-shapefile">Save the polygons to a shapefile</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/08_Outputting_data/README.html">Outputting data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/08_Outputting_data/ProduceFalseColourGeotiffs.html">ProduceFalseColourGeotiffs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/ProduceFalseColourGeotiffs.html#Extract-some-data-using-our-imported-function">Extract some data using our imported function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/ProduceFalseColourGeotiffs.html#Draw-a-false-colour-image-using-our-imported-function">Draw a false colour image using our imported function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/ProduceFalseColourGeotiffs.html#Export-the-three-bands-to-Geotiff-using-our-imported-function">Export the three bands to Geotiff using our imported function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/08_Outputting_data/PlottingAnimatedGifs.html">Plotting animations from time series imagery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/PlottingAnimatedGifs.html#Set-up-datacube-query">Set up datacube query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/PlottingAnimatedGifs.html#Extract-cloud-free-clear-Landsat-observations-from-all-sensors">Extract cloud-free clear Landsat observations from all sensors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/PlottingAnimatedGifs.html#Plot-entire-time-series-as-a-one-panel-animated-GIF">Plot entire time series as a one-panel animated GIF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/PlottingAnimatedGifs.html#Plot-a-two-panel-side-by-side-animation">Plot a two panel side-by-side animation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/PlottingAnimatedGifs.html#Plotting-a-side-by-side-time-series-and-line-graph">Plotting a side-by-side time series and line graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/PlottingAnimatedGifs.html#Available-output-formats">Available output formats</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html">Exporting compliant NetCDF datasets for publication</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Import-sample-data">Import sample data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Create-new-NetCDF">Create new NetCDF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Assign-data-and-attributes-to-each-variable">Assign data and attributes to each variable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Add-global-metadata">Add global metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Close-the-dataset">Close the dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Testing-compliance">Testing compliance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Climate-and-Forecast-Metadata-Standard-(CF)-compliance">Climate and Forecast Metadata Standard (CF) compliance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Attribute-Convention-for-Data-Discovery-(ACDD)-compliance">Attribute Convention for Data Discovery (ACDD) compliance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/08_Outputting_data/ExportingCompliantNetCDFs.html#Check-file-opens-correctly-in-QGIS">Check file opens correctly in QGIS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/09_Workflows/README.html">Workflows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html">View Landsat 8 imagery for a chosen time period</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#First-we-import-the-modules-we-need">First we import the modules we need</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Alter-the-inbuilt-function-to-write-netcdf-so-we-have-a-nice-DEA-version">Alter the inbuilt function to write netcdf so we have a nice DEA version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Complete-Datacube-query">Complete Datacube query</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Edit-the-start-and-end-dates-and-spatial-bounds-here-if-you-wish-***">Edit the start and end dates and spatial bounds here if you wish ***</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Run-the-datacube-extraction.-This-may-take-some-time.">Run the datacube extraction. This may take some time.</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Grab-the-date-of-the-image-for-the-filename">Grab the date of the image for the filename</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Make-false-color-images-and-save-them-to-png-files-in-this-directory">Make false color images and save them to png files in this directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Save-as-image-in-netcdf-format">Save as image in netcdf format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Set-a-save-file-name-and-directory-here:">Set a save file name and directory here:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/RetrieveLandsat8ViewAndExport.html#Write-to-geotiff-as-well">Write to geotiff as well</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html">Sun glint identification and removal</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Load-modules">Load modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#User-inputs:-area-of-interest,-product,-time-range,-and-cloud-free-fraction">User inputs: area of interest, product, time range, and cloud free fraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Load-bands,-correct-for-no-data-pixels-and-image-overlap,-remove-clouded-imagery,-and-plot-all-available-true-colour-images-for-the-specified-time-range">Load bands, correct for no-data pixels and image overlap, remove clouded imagery, and plot all available true-colour images for the specified time range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Select-an-image-for-glint-identification-and-removal">Select an image for glint identification and removal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Select-deep-ocean-area(s)-within-the-selected-image-for-glint-correction">Select deep-ocean area(s) within the selected image for glint correction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Create-a-polygon-from-the-shape-drawn-above,-and-save-it-in-the-same-coordinate-reference-system-as-the-datacube-data">Create a polygon from the shape drawn above, and save it in the same coordinate reference system as the datacube data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Rasterise-the-shapefile-and-plot-the-part-of-the-image-for-glint-correction-that-is-within-the-polygon-drawn-above">Rasterise the shapefile and plot the part of the image for glint correction that is within the polygon drawn above</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Grid-the-image-for-glint-correction-into-5x5-subplots">Grid the image for glint correction into 5x5 subplots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Enter-the-title-number-for-subplots-that-are-100%-deep-ocean-in-the-list-below">Enter the title number for subplots that are 100% deep ocean in the list below</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Create-lists-of-all-rgb-and-nir-reflectance-values-for-all-pixels-in-selected-deep-ocean-subplots">Create lists of all rgb and nir reflectance values for all pixels in selected deep-ocean subplots</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Run-ONE-of-the-two-cells-below-(depending-on-which-deep-ocean-selection-method-you-used)">Run ONE of the two cells below (depending on which deep-ocean selection method you used)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Identify-and-remove-glint">Identify and remove glint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Create-outputs">Create outputs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Create-a-dataset-of-all-corrected-data-for-only-the-specified-deep-ocean-areas-to-identify-data-for-plotting">Create a dataset of all corrected data for only the specified deep-ocean areas to identify data for plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Plot-uncorrected-and-corrected-deep-ocean-rgb-and-nir-reflectance-data-for-pixels-with-the-lowest-100-and-highest-100-uncorrected-nir-reflectance-values">Plot uncorrected and corrected deep-ocean rgb and nir reflectance data for pixels with the lowest 100 and highest 100 uncorrected nir reflectance values</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Plot-true-colour-images-for-the-area-of-interest-before-and-after-glint-correction">Plot true-colour images for the area of interest before and after glint correction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="notebooks/09_Workflows/Sun_glint_identification_and_removal.html#Export-the-glint-corrected-image-as-a-Geotiff">Export the glint-corrected image as a Geotiff</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html">Fractional Cover: Trend and Variability Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Import-libraries">Import libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#USER-INPUTS">USER INPUTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Custom-functions">Custom functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Pixel-wise-trend-and-variability-analysis">Pixel-wise trend and variability analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Get-Fractional-Cover-dataset-from-the-DataCube">Get Fractional Cover dataset from the DataCube</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Masking">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#CDO-operations">CDO operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Statistical-tests-(Welch-T-and-Levene)">Statistical tests (Welch-T and Levene)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#CompositeRGB-plot">CompositeRGB plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Exporting-geotiffs">Exporting geotiffs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Zonal-Statistics">Zonal Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Reporting-and-plotting">Reporting and plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Zonal-timeseries-plots">Zonal timeseries plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Pixel-wise-plots">Pixel-wise plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#True-colour-plot">True colour plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/09_Workflows/Fractional_Cover_Change_Detection.html#Merge-all-pdfs">Merge all pdfs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/10_Scripts/README.html">Scripts</a><ul class="simple">
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -270,14 +743,15 @@ accounts on National Computational Infrastructure (NCI).</p>
 <li class="toctree-l1"><a class="reference internal" href="internal/git_best_practice.html">Git Best Practice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/release.html">DEA Release Process</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/modules.html">DEA Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="internal/other_modules.html">Other Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="internal/orchestration.html">DEA Orchestration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/collection_management.html">Collection Management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="internal/goalkeeper_instructions.html">What’s a Goalkeeper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="internal/requirements_met.html">DEA Code Functionality Examples</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Tags Index</a></li>
+</ul>
 </div>
 </div>
 
@@ -299,7 +773,7 @@ accounts on National Computational Infrastructure (NCI).</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Geoscience Australia.
+        &copy; Copyright 2017-2018, Geoscience Australia.
 
     </p>
   </div>

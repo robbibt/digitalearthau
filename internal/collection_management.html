@@ -30,10 +30,11 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="What’s a Goalkeeper" href="goalkeeper_instructions.html" />
-    <link rel="prev" title="DEA Orchestration" href="orchestration.html" /> 
+    <link rel="next" title="DEA Code Functionality Examples" href="requirements_met.html" />
+    <link rel="prev" title="DEA Modules" href="modules.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -57,17 +58,10 @@
 
           
             
-            <img src="../_static/DEA-logo-light.png" class="logo" alt="Logo"/>
+            <img src="../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
           
           </a>
 
-          
-            
-            
-              <div class="version">
-                1.0.0
-              </div>
-            
           
 
           
@@ -97,21 +91,24 @@
 </ul>
 <p class="caption"><span class="caption-text">Connect</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../connect/account.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connect/account.html">NCI Account Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../connect/install.html">Installation and Software Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_modules.html">Other Modules</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../query/Getting Started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../query/List Products.html">List Products &amp; Measurements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../query/Loading Data.html">Loading data from the datacube</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../query/Advanced Querying.html">Advanced Querying</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Notebook Gallery</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/10_Scripts/README.html">Scripts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Data Guide</span></p>
 <ul>
@@ -123,15 +120,13 @@
 <li class="toctree-l1"><a class="reference internal" href="git_best_practice.html">Git Best Practice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release.html">DEA Release Process</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">DEA Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="other_modules.html">Other Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orchestration.html">DEA Orchestration</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Collection Management</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#defining-collections">Defining Collections</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="goalkeeper_instructions.html">What’s a Goalkeeper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements_met.html">DEA Code Functionality Examples</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../genindex.html">Tags Index</a></li>
 </ul>
@@ -284,10 +279,10 @@ example, can then iterate the two to find mismatches in both directions.</li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="goalkeeper_instructions.html" class="btn btn-neutral float-right" title="What’s a Goalkeeper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="requirements_met.html" class="btn btn-neutral float-right" title="DEA Code Functionality Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="orchestration.html" class="btn btn-neutral" title="DEA Orchestration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral" title="DEA Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -296,7 +291,7 @@ example, can then iterate the two to find mismatches in both directions.</li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Geoscience Australia.
+        &copy; Copyright 2017-2018, Geoscience Australia.
 
     </p>
   </div>

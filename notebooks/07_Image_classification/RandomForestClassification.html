@@ -1,0 +1,1127 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Random forest classification &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="DEA WOfS and Water Classifier Notebook" href="DEA_WOfS_and_water_classifier.html" />
+    <link rel="prev" title="Image Classification" href="README.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">Image Classification</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Random forest classification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Import-modules-and-define-functions">Import modules and define functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Function-used-to-import-training-and-analysis-data">Function used to import training and analysis data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-analysis">Set up analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-training-data-and-fit-model">Import training data and fit model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-analysis-data-and-classify">Import analysis data and classify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Feature/band/variable-importance">Feature/band/variable importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plot-performance-of-model-by-parameter-values">Plot performance of model by parameter values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Export-tree-diagrams">Export tree diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DEA_WOfS_and_water_classifier.html">DEA WOfS and Water Classifier Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FindDamsUsingWOFLs.html">Find dams using WOFLs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">Image Classification</a> &raquo;</li>
+        
+      <li>Random forest classification</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/07_Image_classification/RandomForestClassification.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Random-forest-classification">
+<h1>Random forest classification<a class="headerlink" href="#Random-forest-classification" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong> This notebook classifies remote sensing
+data using a <code class="docutils literal notranslate"><span class="pre">random</span> <span class="pre">forest</span></code> classifier model. Key features include
+being able to efficiently import training data from a set of point, line
+or polygon shapefiles (i.e. data is extracted from each shapefile
+separately to avoid slow <code class="docutils literal notranslate"><span class="pre">dc.load</span></code> on large areas), and allow flexible
+and consistent selection of training and analysis data using import
+functions (i.e. ensuring training data is consistent with analysis
+data). The notebook exports geotiff classification outputs and a series
+of evaluation figures to help fine-tune the classifier.</p>
+<p><strong>Date:</strong> June 2018</p>
+<p><strong>Author:</strong> Robbi Bishop-Taylor</p>
+<p><strong>Tags</strong>: <span class="target" id="index-0"></span>image_classification, <span class="target" id="index-1"></span>machine_learning, <span class="target" id="index-2"></span>random_forest, <span class="target" id="index-3"></span>Landsat8, <span class="target" id="index-4"></span>mangroves, <span class="target" id="index-5"></span>tasseled_cap</p>
+<div class="section" id="Import-modules-and-define-functions">
+<h2>Import modules and define functions<a class="headerlink" href="#Import-modules-and-define-functions" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Load modules</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="k">as</span> <span class="nn">mpimg</span>
+<span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">datacube.utils.geometry</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="k">import</span> <span class="n">export_graphviz</span>
+<span class="kn">from</span> <span class="nn">datacube_stats.statistics</span> <span class="k">import</span> <span class="n">GeoMedian</span>
+
+<span class="c1"># Import external functions from dea-notebooks using relative link to Scripts</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../Scripts&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">ClassificationTools</span> <span class="k">import</span> <span class="n">randomforest_train</span>
+<span class="kn">from</span> <span class="nn">ClassificationTools</span> <span class="k">import</span> <span class="n">randomforest_classify</span>
+<span class="kn">from</span> <span class="nn">ClassificationTools</span> <span class="k">import</span> <span class="n">randomforest_eval</span>
+<span class="kn">from</span> <span class="nn">DEADataHandling</span> <span class="k">import</span> <span class="n">load_nbarx</span>
+
+<span class="c1"># For nicer notebook plotting, hide warnings (comment out for real analysis)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set up datacube instance</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span> <span class="o">=</span> <span class="s1">&#39;Random forest classification&#39;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+Failed to resolve driver datacube.plugins.index::s3aio_index
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Function-used-to-import-training-and-analysis-data">
+<h2>Function used to import training and analysis data<a class="headerlink" href="#Function-used-to-import-training-and-analysis-data" title="Permalink to this headline">¶</a></h2>
+<p>This function imports datacube data using a query, and return an xarray
+dataset with one single time-step, multiple bands/variables and <code class="docutils literal notranslate"><span class="pre">crs</span></code>
+and <code class="docutils literal notranslate"><span class="pre">affine</span></code> attributes. This format is required as an input to both
+<code class="docutils literal notranslate"><span class="pre">randomforest_train</span></code> and <code class="docutils literal notranslate"><span class="pre">randomforest_classify</span></code> to ensure that both
+training and analysis data are consistent. This function can be replaced
+with a custom function of your creation, as long as it returns data in
+the same format (one time-step, multiple bands, <code class="docutils literal notranslate"><span class="pre">crs</span></code> and <code class="docutils literal notranslate"><span class="pre">affine</span></code>
+attributes).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+
+<span></span><span class="k">def</span> <span class="nf">nbart_import</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Takes median of a set of nbart Landsat data; could be replaced with geomedian or any other</span>
+<span class="sd">    temporal aggregation method</span>
+
+<span class="sd">    :attr query: query for datacube call; for training, supply only</span>
+<span class="sd">    non-spatial queries as spatial are generated from training data</span>
+<span class="sd">    :returns: xarray dataset with &#39;crs&#39; and &#39;affine&#39; attributes</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Import cleaned Landsat bands data</span>
+    <span class="n">nbart_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_nbarx</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">sensor</span><span class="o">=</span><span class="s2">&quot;ls8&quot;</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                                  <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;swir2&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Combine into one temporally aggregated layer</span>
+    <span class="n">aggregated_data</span> <span class="o">=</span> <span class="n">nbart_data</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">keep_attrs</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">aggregated_data</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-up-analysis">
+<h2>Set up analysis<a class="headerlink" href="#Set-up-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Defines parameters used for analysis. This notebook demonstrates the
+classification of water vs non-water using median Landsat nbart data.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Working directory</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/g/data/r78/rt1527/random_forest&#39;</span><span class="p">)</span>
+
+<span class="c1"># List of training files to import. Shapefiles can be either points, lines or polygons,</span>
+<span class="c1"># but must be in the same projection system as the remote sensing dataset being analysed.</span>
+<span class="c1"># Each file should cover a small enough spatial area so as to not slow dc.load function</span>
+<span class="c1"># excessively (e.g. 100 x 100km max). The class of each feature should be given in a shapefile</span>
+<span class="c1"># column (e.g. `class`), and specified in `randomforest_train` (i.e. `train_field = &#39;class&#39;`).</span>
+<span class="n">train_shps</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;raw_data/train/training_data_waternonwater.shp&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;raw_data/train/training_data_waternonwater2.shp&#39;</span><span class="p">]</span>
+
+<span class="c1"># Output path for classified geotiff</span>
+<span class="n">classification_output</span> <span class="o">=</span> <span class="s1">&#39;output_data/classification_dc_waternonwater.tif&#39;</span>
+
+<span class="c1"># Optional dict to re-map training shapefile classes; useful for combining classes</span>
+<span class="c1"># (e.g. `train_reclass = {3:2}` re-maps class 3 to class 2)</span>
+<span class="n">train_reclass</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Names of output classification classes</span>
+<span class="n">classification_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="s1">&#39;nonwater&#39;</span><span class="p">]</span>
+
+<span class="c1"># Set data function used to import data and optional parameters (e.g. time for temporal data).</span>
+<span class="c1"># For example, &#39;tc_import&#39; needs an additional &#39;time&#39; query as it draws on Landsat time-series</span>
+<span class="c1"># data, while &#39;hltc_import&#39; uses high-low tide composites that have no temporal dimension</span>
+<span class="n">data_func</span> <span class="o">=</span> <span class="n">nbart_import</span>
+<span class="n">data_func_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-06-28&#39;</span><span class="p">)}</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Import-training-data-and-fit-model">
+<h2>Import training data and fit model<a class="headerlink" href="#Import-training-data-and-fit-model" title="Permalink to this headline">¶</a></h2>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">randomforest_train</span></code> to extract training data from potentially
+multiple training shapefiles, and returns a trained classifier (and
+optionally, training label and training sample arrays)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Dict of classifier parameters</span>
+<span class="n">classifier_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;n_jobs&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+                     <span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                     <span class="s1">&#39;oob_score&#39;</span><span class="p">:</span> <span class="kc">True</span> <span class="p">}</span>
+
+<span class="c1"># Extract training data for each training shapefile and train classifier</span>
+<span class="n">classifier</span><span class="p">,</span> <span class="n">train_lab</span><span class="p">,</span> <span class="n">train_samp</span> <span class="o">=</span> <span class="n">randomforest_train</span><span class="p">(</span><span class="n">train_shps</span> <span class="o">=</span> <span class="n">train_shps</span><span class="p">,</span>
+                                                       <span class="n">train_field</span> <span class="o">=</span> <span class="s1">&#39;class&#39;</span><span class="p">,</span>
+                                                       <span class="n">data_func</span> <span class="o">=</span> <span class="n">data_func</span><span class="p">,</span>
+                                                       <span class="n">data_func_params</span> <span class="o">=</span> <span class="n">data_func_params</span><span class="p">,</span>
+                                                       <span class="n">classifier_params</span> <span class="o">=</span> <span class="n">classifier_params</span><span class="p">,</span>
+                                                       <span class="n">train_reclass</span> <span class="o">=</span> <span class="n">train_reclass</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Importing training data from raw_data/train/training_data_waternonwater.shp:
+{&#39;x&#39;: (-104200.12797711749, -132981.8946159188), &#39;y&#39;: (-1302880.571524795, -1325088.9074965029), &#39;crs&#39;: &#39;EPSG:3577&#39;, &#39;time&#39;: (&#39;2017-03-01&#39;, &#39;2017-06-28&#39;)}
+Loading ls8_nbart_albers
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+Failed to resolve driver datacube.plugins.io.read::s3aio
+Failed to resolve driver datacube.plugins.io.read::s3aio_test
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loaded ls8_nbart_albers
+Generating mask ls8_pq_albers
+Importing training data from raw_data/train/training_data_waternonwater2.shp:
+{&#39;x&#39;: (-139053.5091922571, -167876.9325124413), &#39;y&#39;: (-1285673.093797538, -1317058.734541306), &#39;crs&#39;: &#39;EPSG:3577&#39;, &#39;time&#39;: (&#39;2017-03-01&#39;, &#39;2017-06-28&#39;)}
+Loading ls8_nbart_albers
+Loaded ls8_nbart_albers
+Generating mask ls8_pq_albers
+
+Training random forest classifier...
+Model trained on 6 bands and 179160 training samples
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Import-analysis-data-and-classify">
+<h2>Import analysis data and classify<a class="headerlink" href="#Import-analysis-data-and-classify" title="Permalink to this headline">¶</a></h2>
+<p>Classifies and exports an analysis dataset using a previously trained
+random forest classifier, provided this dataset has the same number of
+bands/variables as the data used to train the classifier. Using the same
+data function used to train the classifier (e.g. <code class="docutils literal notranslate"><span class="pre">data_func</span></code>
+previously defined as <code class="docutils literal notranslate"><span class="pre">nbart_import</span></code>) will ensure this is the case. By
+setting <code class="docutils literal notranslate"><span class="pre">class_prob</span> <span class="pre">=</span> <span class="pre">True</span></code>, you can optionally export a geotiff of
+predicted class probabilities in addition to the classification output.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up analysis data query</span>
+<span class="n">lat_point</span><span class="p">,</span> <span class="n">lon_point</span><span class="p">,</span> <span class="n">buffer</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.5798399926</span><span class="p">,</span> <span class="mf">130.782907919</span><span class="p">,</span> <span class="mi">30000</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">lon_point</span><span class="p">,</span> <span class="n">lat_point</span><span class="p">,</span> <span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;WGS84&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;EPSG:3577&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">buffer</span><span class="p">),</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">buffer</span><span class="p">),</span>
+         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+          <span class="o">**</span><span class="n">data_func_params</span><span class="p">}</span>
+
+<span class="c1"># Load data from datacube</span>
+<span class="n">analysis_xarray</span> <span class="o">=</span> <span class="n">data_func</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Run classification and export to file</span>
+<span class="n">class_array</span><span class="p">,</span> <span class="n">prob_array</span> <span class="o">=</span> <span class="n">randomforest_classify</span><span class="p">(</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">,</span>
+                                                <span class="n">analysis_data</span> <span class="o">=</span> <span class="n">analysis_xarray</span><span class="p">,</span>
+                                                <span class="n">classification_output</span> <span class="o">=</span> <span class="n">classification_output</span><span class="p">,</span>
+                                                <span class="n">class_prob</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Plot output classification</span>
+<span class="n">class_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">class_array</span><span class="p">,</span>
+                   <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">analysis_xarray</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">analysis_xarray</span><span class="o">.</span><span class="n">x</span><span class="p">],</span>
+                   <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">],</span>
+                   <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Classification output&#39;</span><span class="p">)</span>
+<span class="n">class_xarray</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">levels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">class_array</span><span class="p">))</span> <span class="o">+</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">class_array</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+                  <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># Plot predicted class probability (proportion of trees agreeing with classification)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">prob_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">prob_array</span><span class="p">,</span>
+                           <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">analysis_xarray</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">analysis_xarray</span><span class="o">.</span><span class="n">x</span><span class="p">],</span>
+                           <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">],</span>
+                           <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Predicted class probability&#39;</span><span class="p">)</span>
+<span class="n">prob_xarray</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;plasma_r&#39;</span><span class="p">,</span>
+                 <span class="n">vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">prob_array</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                 <span class="n">vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">prob_array</span><span class="p">,</span> <span class="mi">97</span><span class="p">),</span>
+                 <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls8_nbart_albers
+Loaded ls8_nbart_albers
+Generating mask ls8_pq_albers
+Data to classify:
+  Rows: 2401
+  Columns: 2401
+  Bands: 6
+
+Classification processing...
+  9467 nodata cells removed
+  Classification exported
+
+Class probability processing...
+  Class probability exported
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[5]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7f75d56ac780&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_11_2.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_11_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_11_3.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_11_3.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Feature/band/variable-importance">
+<h2>Feature/band/variable importance<a class="headerlink" href="#Feature/band/variable-importance" title="Permalink to this headline">¶</a></h2>
+<p>Extract classifier estimates of the relative importance of each
+band/variable for training the classifier. Useful for potentially
+selecting a subset of input bands/variables for model
+training/classification (i.e. optimising feature space)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#  Extract feature importances from trained classifier</span>
+<span class="n">importance</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">feature_importances_</span>
+<span class="n">importance_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="n">analysis_xarray</span><span class="o">.</span><span class="n">data_vars</span><span class="p">,</span>
+                              <span class="s1">&#39;importance&#39;</span><span class="p">:</span> <span class="n">importance</span><span class="p">})</span>
+<span class="n">importance_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">importance_df</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Variable importance (global)&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">importance_df</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>importance</th>
+    </tr>
+    <tr>
+      <th>variable</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>red</th>
+      <td>0.022764</td>
+    </tr>
+    <tr>
+      <th>green</th>
+      <td>0.038957</td>
+    </tr>
+    <tr>
+      <th>blue</th>
+      <td>0.117613</td>
+    </tr>
+    <tr>
+      <th>nir</th>
+      <td>0.303298</td>
+    </tr>
+    <tr>
+      <th>swir1</th>
+      <td>0.335609</td>
+    </tr>
+    <tr>
+      <th>swir2</th>
+      <td>0.181758</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_13_1.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_13_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Plot-performance-of-model-by-parameter-values">
+<h2>Plot performance of model by parameter values<a class="headerlink" href="#Plot-performance-of-model-by-parameter-values" title="Permalink to this headline">¶</a></h2>
+<p>Random forest classifiers contain many modifiable parameters that can
+strongly affect the performance of the model. This section evaluates the
+effect of these parameters by plotting out-of-bag (OOB) error for a set
+of classifier parameter scenarios, and exports the resulting plots to
+file.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">max_estimators</span> <span class="pre">=</span> <span class="pre">300</span></code> is usually a good starting point, but this
+may be slow for large training sets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Test effect of max features</span>
+<span class="n">classifier_scenario1</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;max_features = &#39;sqrt&#39;&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_features</span> <span class="o">=</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;max_features = &#39;log2&#39;&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_features</span> <span class="o">=</span> <span class="s2">&quot;log2&quot;</span><span class="p">)),</span>
+
+                       <span class="p">(</span><span class="s2">&quot;max_features = &#39;0.1&#39;&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_features</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+
+                       <span class="p">(</span><span class="s2">&quot;max_features = &#39;0.5&#39;&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_features</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;max_features = None&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_features</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))]</span>
+
+<span class="c1"># Test effect of minimum samples per leaf</span>
+<span class="n">classifier_scenario2</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Leaf = 1&quot;</span><span class="p">,</span>
+                         <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                <span class="n">min_samples_leaf</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                                                <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Leaf = 10&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">min_samples_leaf</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Leaf = 20&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">min_samples_leaf</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Leaf = 40&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">min_samples_leaf</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))]</span>
+
+<span class="c1"># Test effect of max depth</span>
+<span class="n">classifier_scenario3</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Max depth = 1&quot;</span><span class="p">,</span>
+                         <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                                                <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Max depth = 2&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Max depth = 5&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Max depth = 10&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))]</span>
+
+<span class="c1"># Test effect of max leaf node</span>
+<span class="n">classifier_scenario4</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Max leaf node = 5&quot;</span><span class="p">,</span>
+                         <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                <span class="n">max_leaf_nodes</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                                                <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Max leaf node = 10&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_leaf_nodes</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Max leaf node = 20&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_leaf_nodes</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Max leaf node = 40&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">max_leaf_nodes</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))]</span>
+
+<span class="c1"># Test effect of max leaf node</span>
+<span class="n">classifier_scenario5</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Min samples split = 5&quot;</span><span class="p">,</span>
+                         <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                <span class="n">min_samples_split</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                                                <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Min samples split = 10&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">min_samples_split</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Min samples split = 20&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">min_samples_split</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="s2">&quot;Min samples split = 40&quot;</span><span class="p">,</span>
+                        <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">min_samples_split</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+                                               <span class="n">oob_score</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))]</span>
+
+<span class="c1"># Produce figures and export plots for each set of classification scenarios</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">classifier_scenario</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">classifier_scenario1</span><span class="p">,</span>
+                                         <span class="n">classifier_scenario2</span><span class="p">,</span>
+                                         <span class="n">classifier_scenario3</span><span class="p">,</span>
+                                         <span class="n">classifier_scenario4</span><span class="p">,</span>
+                                         <span class="n">classifier_scenario5</span><span class="p">]):</span>
+
+    <span class="c1"># Plot OOB error by classifier scenario</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Processing: &#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">classifier_scenario</span><span class="p">]))</span>
+    <span class="n">randomforest_eval</span><span class="p">(</span><span class="n">training_labels</span> <span class="o">=</span> <span class="n">train_lab</span><span class="p">,</span>
+                      <span class="n">training_samples</span> <span class="o">=</span> <span class="n">train_samp</span><span class="p">,</span>
+                      <span class="n">classifier_scenario</span> <span class="o">=</span> <span class="n">classifier_scenario</span><span class="p">,</span>
+                      <span class="n">output_path</span> <span class="o">=</span> <span class="s2">&quot;figures/random_forest_params_</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                      <span class="n">max_estimators</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing: max_features = &#39;sqrt&#39;, max_features = &#39;log2&#39;, max_features = &#39;0.1&#39;, max_features = &#39;0.5&#39;, max_features = None
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_1.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing: Leaf = 1, Leaf = 10, Leaf = 20, Leaf = 40
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_3.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing: Max depth = 1, Max depth = 2, Max depth = 5, Max depth = 10
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_5.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing: Max leaf node = 5, Max leaf node = 10, Max leaf node = 20, Max leaf node = 40
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_7.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Processing: Min samples split = 5, Min samples split = 10, Min samples split = 20, Min samples split = 40
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_9.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_15_9.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Export-tree-diagrams">
+<h2>Export tree diagrams<a class="headerlink" href="#Export-tree-diagrams" title="Permalink to this headline">¶</a></h2>
+<p>Export .png plots of each decision tree in the random forest ensemble.
+Useful for inspecting the splits used by the classifier to classify the
+data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Plot output random forest trees to file</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">tree_in_forest</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">estimators_</span><span class="p">):</span>
+
+    <span class="c1"># Create graph and save to dot file</span>
+    <span class="n">export_graphviz</span><span class="p">(</span><span class="n">tree_in_forest</span><span class="p">,</span>
+                    <span class="n">out_file</span> <span class="o">=</span> <span class="s2">&quot;figures/tree_graphs/tree.dot&quot;</span><span class="p">,</span>
+                    <span class="n">feature_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">analysis_xarray</span><span class="o">.</span><span class="n">data_vars</span><span class="p">),</span>
+                    <span class="n">class_names</span> <span class="o">=</span> <span class="n">classification_names</span><span class="p">,</span>
+                    <span class="n">filled</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">rounded</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Plot as figure</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;dot -Tpng figures/tree_graphs/tree.dot -o &#39;</span> <span class="o">+</span> \
+              <span class="s1">&#39;figures/tree_graphs/tree&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot first resulting tree</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;figures/tree_graphs/tree1.png&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_07_Image_classification_RandomForestClassification_17_0.png" src="../../_images/notebooks_07_Image_classification_RandomForestClassification_17_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DEA_WOfS_and_water_classifier.html" class="btn btn-neutral float-right" title="DEA WOfS and Water Classifier Notebook" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="README.html" class="btn btn-neutral" title="Image Classification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>

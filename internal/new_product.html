@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Git Best Practice" href="git_best_practice.html" />
@@ -57,17 +58,10 @@
 
           
             
-            <img src="../_static/DEA-logo-light.png" class="logo" alt="Logo"/>
+            <img src="../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
           
           </a>
 
-          
-            
-            
-              <div class="version">
-                1.0.0
-              </div>
-            
           
 
           
@@ -97,21 +91,24 @@
 </ul>
 <p class="caption"><span class="caption-text">Connect</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../connect/account.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connect/account.html">NCI Account Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../connect/install.html">Installation and Software Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_modules.html">Other Modules</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../query/Getting Started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../query/List Products.html">List Products &amp; Measurements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../query/Loading Data.html">Loading data from the datacube</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../query/Advanced Querying.html">Advanced Querying</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Notebook Gallery</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/10_Scripts/README.html">Scripts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Data Guide</span></p>
 <ul>
@@ -137,12 +134,10 @@
 <li class="toctree-l1"><a class="reference internal" href="git_best_practice.html">Git Best Practice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release.html">DEA Release Process</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">DEA Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="other_modules.html">Other Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orchestration.html">DEA Orchestration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="collection_management.html">Collection Management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="goalkeeper_instructions.html">What’s a Goalkeeper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements_met.html">DEA Code Functionality Examples</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../genindex.html">Tags Index</a></li>
 </ul>
@@ -448,7 +443,7 @@ embedded in the NetCDF file.</li>
 <div class="section" id="role-of-metadata">
 <h3>Role of Metadata<a class="headerlink" href="#role-of-metadata" title="Permalink to this headline">¶</a></h3>
 <p>Each dataset has a metadata document attached to it, for files produced by the
-datacube tools this metadata is automatically generated. See <a class="reference external" href="http://datacube-core.readthedocs.io/en/stable/ops/dataset_documents.html" title="(in Open Data Cube v1.6rc2+0.g0804f26)"><span>Dataset Documents</span></a>
+datacube tools this metadata is automatically generated. See <a class="reference external" href="https://datacube-core.readthedocs.io/en/stable/ops/dataset_documents.html" title="(in Open Data Cube v1.6rc2+0.g0804f26)"><span>Dataset Documents</span></a>
 documentation online for a detailed overview.</p>
 <p>Metadata embedded inside the NetCDF file is used during indexing process for two purposes</p>
 <ol class="arabic simple">
@@ -604,7 +599,7 @@ example_use <span class="o">()</span> <span class="o">{</span>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, Geoscience Australia.
+        &copy; Copyright 2017-2018, Geoscience Australia.
 
     </p>
   </div>

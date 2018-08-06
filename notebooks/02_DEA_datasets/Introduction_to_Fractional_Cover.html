@@ -1,0 +1,1201 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to Fractional Cover Data &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Getting started with High-Low Tide Composites (HLTC_25)" href="Introduction_to_HLTC.html" />
+    <link rel="prev" title="Introduction to Landsat pixel quality (PQ25)" href="Introduction_to_LandsatPQ.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">DEA Datasets</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_Landsat.html">Introduction to DEA Landsat surface reflectance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_LandsatPQ.html">Introduction to Landsat pixel quality (PQ25)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Introduction to Fractional Cover Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#What-is-Fractional-Cover?-[1,-2]">What is Fractional Cover? [1, 2]</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Fractional-Cover-Bands:-[1]">Fractional Cover Bands: [1]</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Limitations,-Errors-and-Uncertainty:">Limitations, Errors and Uncertainty:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#How-to-retrieve-and-plot-the-data">How to retrieve and plot the data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-modules-from-standard-libraries,-datacube-and-files">Import modules from standard libraries, datacube and files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#See-what-products-are-currently-available">See what products are currently available</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Specify-the-query-with-the-coordinates-and-date-range">Specify the <em>query</em> with the coordinates and date range</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Now-we-load-and-look-at-some-data">Now we load and look at some data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Create-a-data-scene-object">Create a data scene object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-Fractional-Cover-and-Unmixing-Error-Bands">Plot Fractional Cover and Unmixing Error Bands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#We-could-filter-using-the-unmixing-error,-but-using-WOfS-is-more-robust.">We could filter using the unmixing error, but using WOfS is more robust.</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Filter-fractional-cover-scenes-using-WOfS-feature-layers-(WOFLs)">Filter fractional cover scenes using WOfS feature layers (WOFLs)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#load-the-wofs-feature-layers-(wofls)-within-the-same-query-as-Fractional-cover,-using-'like'">load the wofs feature layers (wofls) within the same query as Fractional cover, using ‘like’</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Two-ways-of-displaying-what-the-values-in-the-wofs-data-mean:">Two ways of displaying what the values in the wofs data mean:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Here-is-what-the-WOFL-mask-looks-like-on-one-timestep:">Here is what the WOFL mask looks like on one timestep:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Here-is-what-Fractional-Cover-looks-like-with-WOFL-removed:">Here is what Fractional Cover looks like with WOFL removed:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Edit-save-file-path-to-choose-where-to-save-your-output-files">Edit save file path to choose where to save your output files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Save-Fractional-Cover-scenes-to-NetCDF">Save Fractional Cover scenes to NetCDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Save-Fractional-Cover-scenes-to-GeoTIFF">Save Fractional Cover scenes to GeoTIFF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_HLTC.html">Getting started with High-Low Tide Composites (HLTC_25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_ITEM.html">Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">DEA Datasets</a> &raquo;</li>
+        
+      <li>Introduction to Fractional Cover Data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/02_DEA_datasets/Introduction_to_Fractional_Cover.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Introduction-to-Fractional-Cover-Data">
+<h1>Introduction to Fractional Cover Data<a class="headerlink" href="#Introduction-to-Fractional-Cover-Data" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Authors:</th>
+<th class="head">Bex Dunn, Claire Krause, Arapaut Sivaprasad</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Created:</td>
+<td>May 14, 2018</td>
+</tr>
+<tr class="row-odd"><td>Last edited:</td>
+<td>June 01, 2018</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Background:</strong> Data from the
+<a class="reference external" href="https://landsat.usgs.gov/about-landsat">Landsat</a> 5,7 and 8 satellite
+missions are accessible through <a class="reference external" href="http://www.ga.gov.au/about/projects/geographic/digital-earth-australia">Digital Earth
+Australia</a>
+(DEA). The code snippets in this notebook will let you retrieve and plot
+the <a class="reference external" href="https://d28rz98at9flks.cloudfront.net/79676/Fractional_Cover_FC25_v1_5.PDF">Fractional
+Cover</a>
+(FC25) data stored in DEA.</p>
+<p><strong>What does this notebook do?:</strong> This notebook introduces Fractional
+Cover and demonstrates how to load and filter Fractional Cover data
+using the DEA datacube. The data is then saved to NetCDF and GeoTIFF for
+analysis elsewhere.</p>
+<p><strong>How to use this notebook:</strong></p>
+<p>A basic understanding of any programming language is desirable but one
+doesn’t have to be an expert Python programmer to manipulate the code to
+get and display the data.This doc applies to the following Landsat
+satellites, Fractional Cover bands and the WOfS dataset:</p>
+<ul class="simple">
+<li>Landsat 5</li>
+<li>Landsat 7</li>
+<li>Landsat 8</li>
+<li>PV - Photosythetic vegetation</li>
+<li>NPV - Non-Photosythetic vegetation</li>
+<li>BS - Bare Soil</li>
+<li>UE - Unmixing Error</li>
+<li>Water Observations from Space (WOFs)</li>
+<li>WOfS Feature Layer (WOFL)</li>
+</ul>
+<div class="section" id="What-is-Fractional-Cover?-[1,-2]">
+<h2>What is Fractional Cover? [<a class="reference external" href="#References">1, 2</a>]<a class="headerlink" href="#What-is-Fractional-Cover?-[1,-2]" title="Permalink to this headline">¶</a></h2>
+<p>The Landsat Fractional Cover product stored in DEA is at 25m x 25m
+resolution (the same as the Landsat surface reflectance products).</p>
+<p>Fractional Cover represents the proportion of the land surface that is
+bare (BS), covered by photosynthetic vegetation (PV), or
+non-photosynthetic vegetation (NPV).</p>
+<p>The Fractional Cover product was generated using the spectral unmixing
+algorithm developed by the Joint Remote Sensing Research Program (JRSRP)
+[<a class="reference external" href="#References">2</a>] which used the spectral signature for each pixel
+to break it up into three fractions, based on field work that determined
+the spectral characteristics of these fractions.
+[<a class="reference external" href="#References">1</a>]The fractions were retrieved by inverting
+multiple linear regression estimates and using synthetic endmembers in a
+constrained non-negative least squares unmixing
+model.[<a class="reference external" href="#References">1</a>]</p>
+<p>The green (PV) fraction includes leaves and grass, the
+non-photosynthetic fraction (NPV) includes branches, dry grass and dead
+leaf litter, and the bare soil (BS) fraction includes bare soil or
+rock.[<a class="reference external" href="#References">1</a>]</p>
+<div class="section" id="Fractional-Cover-Bands:-[1]">
+<h3>Fractional Cover Bands: [<a class="reference external" href="#References">1</a>]<a class="headerlink" href="#Fractional-Cover-Bands:-[1]" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Bare Soil (bare ground, rock, disturbed) (BS):</strong> - Bare Ground
+(bare soil, rock) percentage; Digital Number 10000 = 100%</li>
+<li><strong>Photosythetic Vegetation. (green grass, trees, etc.) (PV):</strong> -
+Photosynthetic Vegetation: Green Vegetation percentage;Digital Number
+10000 = 100%</li>
+<li><strong>Non-Photosythetic vegetation (litter, dead leaf and branches)
+(NPV):</strong> - Non-Photosynthetic Vegetation (litter, dead leaves
+andbranches) percentage; Digital Number 10000 = 100%</li>
+<li><strong>Unmixing Error (UE):</strong> - Unmixing Error. The residual error,
+defined as the Euclidean Norm of the Residual Vector. High values
+express less confidence in the fractional components.</li>
+</ul>
+<p><strong>No Data Values:</strong> Fractional cover contains no data values (-1) we use
+the datacube storage function “masking.mask_invalid_data” to remove
+these from our data before using the data</p>
+</div>
+<div class="section" id="Limitations,-Errors-and-Uncertainty:">
+<h3>Limitations, Errors and Uncertainty:<a class="headerlink" href="#Limitations,-Errors-and-Uncertainty:" title="Permalink to this headline">¶</a></h3>
+<p><strong>Water and soil moisture:</strong> Pixels over water may show incorrect values
+for Photosynthetic Vegetation. [<a class="reference external" href="#References">1</a>] Water should be
+masked out, maybe by using WOfS or a water index. Soil moisture may
+affect the accuracy of the product [<a class="reference external" href="#References">1</a>].</p>
+<p><strong>Sums greater than 100%:</strong> “Occasionally the sum of the three
+components is not equal to 100%. Differences are usually small and are
+not rounded in order to preserve what may be useful seasonal indicators.
+“[<a class="reference external" href="#References">1</a>]</p>
+<p><strong>Similarity between Bare Soil and NPV:</strong> Model can perform badly on
+pixels where bare soil and NPV endmembers are similar.
+[<a class="reference external" href="#References">1</a>]</p>
+<p><strong>Compared to field data:</strong> “Based on the comparison with the field data
+the FC25 product has an overall Root Mean Squared Error (RMSE) of 11.8%.
+The error margins vary for the three different layers: green RMSE:
+11.0%, non-green RMSE: 17.4% and bare RMSE: 12.5%”
+[<a class="reference external" href="#References">1</a>]</p>
+<p><strong>Tags:</strong> <span class="target" id="index-0"></span>Landsats 5,7,8, <span class="target" id="index-1"></span>products, <span class="target" id="index-2"></span>Fractional Cover, <span class="target" id="index-3"></span>WOfS, <span class="target" id="index-4"></span>WOFL,:index:<cite>dc.list_products</cite>, <span class="target" id="index-5"></span>dc.load, <span class="target" id="index-6"></span>query, <span class="target" id="index-7"></span>plot, <span class="target" id="index-8"></span>image, <span class="target" id="index-9"></span>Plot Multiple Images, index:<cite>NetCDF</cite>, index:<cite>GeoTIFF</cite></p>
+</div>
+</div>
+<div class="section" id="How-to-retrieve-and-plot-the-data">
+<h2>How to retrieve and plot the data<a class="headerlink" href="#How-to-retrieve-and-plot-the-data" title="Permalink to this headline">¶</a></h2>
+<p>Let us go through the process step by step. This is a Python program or
+a HTML page derived from one. Given below are code snippets that you can
+execute to perform various actions such as retrieve, display and plot
+the data. These snippets or ‘cells’ can be copied to other notebooks and
+reused.</p>
+</div>
+<div class="section" id="Import-modules-from-standard-libraries,-datacube-and-files">
+<h2>Import modules from standard libraries, datacube and files<a class="headerlink" href="#Import-modules-from-standard-libraries,-datacube-and-files" title="Permalink to this headline">¶</a></h2>
+<p>Select ‘Trust this notebook’ to import these modules.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [229]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c1">#modules for datacube</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">from</span> <span class="nn">datacube.storage</span> <span class="k">import</span> <span class="n">masking</span>
+<span class="kn">from</span> <span class="nn">datacube.storage.storage</span> <span class="k">import</span> <span class="n">write_dataset_to_netcdf</span>
+<span class="kn">from</span> <span class="nn">datacube.helpers</span> <span class="k">import</span> <span class="n">ga_pq_fuser</span><span class="p">,</span> <span class="n">write_geotiff</span>
+
+<span class="c1"># Import external functions from dea-notebooks</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/dea-notebooks/Scripts/&#39;</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span><span class="o">,</span> <span class="nn">DEADataHandling</span>
+<span class="kn">from</span> <span class="nn">FileDialogs</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1">#ignore datacube warnings (needs to be last import statement)</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s1">&#39;datacube&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="See-what-products-are-currently-available">
+<h3>See what products are currently available<a class="headerlink" href="#See-what-products-are-currently-available" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>list_products</strong> method in the Datacube class displays the names
+and details of all available products. For example, <strong>ls8_fc_albers</strong>,
+is a set of data collected by Landsat 8, processed with the Fractional
+Cover algorithm and stored in the Australian Albers projected coordinate
+system.</p>
+<p>Given below are the products that are of interest to us in the context
+of this document. The code given below the list will let you see ALL
+products in the datacube.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="24%" />
+<col width="68%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">id</th>
+<th class="head">name</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>69</td>
+<td>ls5_fc_albers</td>
+<td>Landsat 5 Fractional Cover 25 metre, 100km til…</td>
+</tr>
+<tr class="row-odd"><td>70</td>
+<td>ls7_fc_albers</td>
+<td>Landsat 7 Fractional Cover 25 metre, 100km til…</td>
+</tr>
+<tr class="row-even"><td>71</td>
+<td>ls8_fc_albers</td>
+<td>Landsat 8 Fractional Cover 25 metre, 100km til…</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="Code-to-display-the-products">
+<h4>Code to display the products<a class="headerlink" href="#Code-to-display-the-products" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [230]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># set datacube alias (just a string with what you&#39;re doing)</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;dc-FC&#39;</span><span class="p">)</span>
+<span class="n">products</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">list_products</span><span class="p">()</span>
+<span class="n">display_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">]</span>
+<span class="n">display_rows</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">dc_products</span> <span class="o">=</span> <span class="n">products</span><span class="p">[</span><span class="n">display_columns</span><span class="p">]</span>
+<span class="c1">#dc_products #Uncomment this line to see all products</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Specify-the-query-with-the-coordinates-and-date-range">
+<h3>Specify the <em>query</em> with the coordinates and date range<a class="headerlink" href="#Specify-the-query-with-the-coordinates-and-date-range" title="Permalink to this headline">¶</a></h3>
+<p>The <em>query</em> is what you are asking the datacube to return.</p>
+<ul class="simple">
+<li><strong>lat/lon:</strong> Latitude and longitude of the area. e.g. Canberra =
+‘lat’: (-35.25, -35.35), ‘lon’: (149.05, 149.17)</li>
+<li><strong>time:</strong> Date range to fetch the scenes. The approximate time
+between two scenes is 16 days. If there is a location near a swath
+boundary, it may be captured in two passes and so there could be two
+images within the 16 day period.<ul>
+<li>You must know <a class="reference external" href="https://data.dea.gadevs.ga/ls7_nbar_scene">the date(s) for which data is
+available</a> for each
+satellite/product, so that the query can be specified correctly.</li>
+</ul>
+</li>
+<li><strong>scene:</strong> The index of the scene to be plotted. If the date range is
+&lt; 16 days there may only be one scene, and the index must be
+specified as 0.</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [231]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#the query is a dictionary where the keys are the spatio-temporal specs</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">35.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.35</span><span class="p">),</span>
+        <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">149.05</span><span class="p">,</span> <span class="mf">149.17</span><span class="p">),</span>
+        <span class="s1">&#39;time&#39;</span><span class="p">:(</span><span class="s1">&#39;2014-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2014-01-31&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Now-we-load-and-look-at-some-data">
+<h3>Now we load and look at some data<a class="headerlink" href="#Now-we-load-and-look-at-some-data" title="Permalink to this headline">¶</a></h3>
+<p>We will focus on data from the Landsats (5,7 and 8) for this
+demonstration. Multiple scenes are sometimes acquired by the satellite
+on the same day. We want to group these together, and will use
+<strong>group_by=’solar_day’</strong> to do this. To load in the data, we need only
+to provide the geo-coordinates and time range.</p>
+</div>
+<div class="section" id="Create-a-data-scene-object">
+<h3>Create a data scene object<a class="headerlink" href="#Create-a-data-scene-object" title="Permalink to this headline">¶</a></h3>
+<p>The return value from the load command below is an <strong>xarray</strong> object,
+which has two core data structures:</p>
+<ul class="simple">
+<li><strong>DataArray</strong> is a labeled, N-dimensional array.</li>
+<li><strong>Dataset</strong> is a multi-dimensional, in-memory array database. It is a
+dict-like container of DataArray objects aligned along any number of
+shared dimensions, and serves a similar purpose in xarray to the
+<strong>pandas.DataFrame</strong>.</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [154]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#load the data according to our query</span>
+<span class="c1">#choose a mask proportion to look for a clear timestep</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;fc&#39;</span><span class="p">,</span><span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.80</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 data
+    Skipping ls5
+Loading ls7 data
+    Loading 0 filtered ls7 timesteps
+Loading ls8 data
+    Loading 2 filtered ls8 timesteps
+Combining and sorting ls5, ls7 and ls8 data
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Plot-Fractional-Cover-and-Unmixing-Error-Bands">
+<h3>Plot Fractional Cover and Unmixing Error Bands<a class="headerlink" href="#Plot-Fractional-Cover-and-Unmixing-Error-Bands" title="Permalink to this headline">¶</a></h3>
+<p>Note that Unmixing Error is high over water</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [138]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#just a scene we want to plot - this can be done other ways</span>
+<span class="n">scene</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [139]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#set up our images on a grid using gridspec</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># set up a 2 x 2 grid of 4 images for better presentation</span>
+
+<span class="n">ax1</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">PV</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">scene</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gist_earth_r&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PV&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">BS</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">scene</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Oranges&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;BS&#39;</span><span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">NPV</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">scene</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;copper&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;NPV&#39;</span><span class="p">)</span>
+
+<span class="n">ax4</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">UE</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">scene</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;magma&#39;</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;UE&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_17_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_17_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="We-could-filter-using-the-unmixing-error,-but-using-WOfS-is-more-robust.">
+<h3>We could filter using the unmixing error, but using WOfS is more robust.<a class="headerlink" href="#We-could-filter-using-the-unmixing-error,-but-using-WOfS-is-more-robust." title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [140]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#this image shows that you can filter using unmixing error if you wish</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">UE</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">UE</span><span class="o">&lt;=</span><span class="mf">20.0</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">scene</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gist_earth_r&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;UE filtered&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[140]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Text(0.5,1,&#39;UE filtered&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_19_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_19_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Filter-fractional-cover-scenes-using-WOfS-feature-layers-(WOFLs)">
+<h2>Filter fractional cover scenes using WOfS feature layers (WOFLs)<a class="headerlink" href="#Filter-fractional-cover-scenes-using-WOfS-feature-layers-(WOFLs)" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Use the wofs dataset to create scene-by-scene masks to remove areas
+of water</li>
+<li>For more information on WOfS, see the <a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/Image_classification/DEA_WOfS_and_water_classifier.ipynb">DEA WOfS and Water Classifier
+Notebook</a></li>
+<li>There may be errors in the WOfS tiles until WOfS is finished</li>
+</ul>
+<div class="section" id="load-the-wofs-feature-layers-(wofls)-within-the-same-query-as-Fractional-cover,-using-'like'">
+<h3>load the wofs feature layers (wofls) within the same query as Fractional cover, using ‘like’<a class="headerlink" href="#load-the-wofs-feature-layers-(wofls)-within-the-same-query-as-Fractional-cover,-using-'like'" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [163]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#load the wofs feature layers (wofls) within the same query as Fractional cover, using &#39;like&#39;</span>
+<span class="n">wofls</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span> <span class="o">=</span> <span class="s1">&#39;wofs_albers&#39;</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Two-ways-of-displaying-what-the-values-in-the-wofs-data-mean:">
+<h3>Two ways of displaying what the values in the wofs data mean:<a class="headerlink" href="#Two-ways-of-displaying-what-the-values-in-the-wofs-data-mean:" title="Permalink to this headline">¶</a></h3>
+<p>WOfS uses <a class="reference external" href="http://datacube-core.readthedocs.io/en/latest/dev/api/masking.html">bit
+flags</a>
+to flag pixels as ‘wet’ or otherwise</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [180]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">masking</span><span class="o">.</span><span class="n">describe_variable_flags</span><span class="p">(</span><span class="n">wofls</span><span class="p">,</span> <span class="n">with_pandas</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[180]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bits</th>
+      <th>values</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>cloud</th>
+      <td>6</td>
+      <td>{'0': False, '1': True}</td>
+      <td>Cloudy</td>
+    </tr>
+    <tr>
+      <th>cloud_shadow</th>
+      <td>5</td>
+      <td>{'0': False, '1': True}</td>
+      <td>Cloud shadow</td>
+    </tr>
+    <tr>
+      <th>dry</th>
+      <td>[7, 6, 5, 4, 3, 1, 0]</td>
+      <td>{'0': True}</td>
+      <td>No water detected</td>
+    </tr>
+    <tr>
+      <th>high_slope</th>
+      <td>4</td>
+      <td>{'0': False, '1': True}</td>
+      <td>High slope</td>
+    </tr>
+    <tr>
+      <th>nodata</th>
+      <td>0</td>
+      <td>{'1': True}</td>
+      <td>No data</td>
+    </tr>
+    <tr>
+      <th>noncontiguous</th>
+      <td>1</td>
+      <td>{'0': False, '1': True}</td>
+      <td>At least one EO band is missing over over/unde...</td>
+    </tr>
+    <tr>
+      <th>sea</th>
+      <td>2</td>
+      <td>{'0': False, '1': True}</td>
+      <td>Sea</td>
+    </tr>
+    <tr>
+      <th>terrain_or_low_angle</th>
+      <td>3</td>
+      <td>{'0': False, '1': True}</td>
+      <td>terrain shadow or low solar angle</td>
+    </tr>
+    <tr>
+      <th>wet</th>
+      <td>[7, 6, 5, 4, 3, 1, 0]</td>
+      <td>{'128': True}</td>
+      <td>Clear and Wet</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [175]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">wofls</span><span class="o">.</span><span class="n">water</span><span class="o">.</span><span class="n">flags_definition</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">  </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">wofls</span><span class="o">.</span><span class="n">water</span><span class="o">.</span><span class="n">flags_definition</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dry  {&#39;bits&#39;: [7, 6, 5, 4, 3, 1, 0], &#39;values&#39;: {&#39;0&#39;: True}, &#39;description&#39;: &#39;No water detected&#39;}
+sea  {&#39;bits&#39;: 2, &#39;values&#39;: {&#39;0&#39;: False, &#39;1&#39;: True}, &#39;description&#39;: &#39;Sea&#39;}
+wet  {&#39;bits&#39;: [7, 6, 5, 4, 3, 1, 0], &#39;values&#39;: {&#39;128&#39;: True}, &#39;description&#39;: &#39;Clear and Wet&#39;}
+cloud  {&#39;bits&#39;: 6, &#39;values&#39;: {&#39;0&#39;: False, &#39;1&#39;: True}, &#39;description&#39;: &#39;Cloudy&#39;}
+nodata  {&#39;bits&#39;: 0, &#39;values&#39;: {&#39;1&#39;: True}, &#39;description&#39;: &#39;No data&#39;}
+high_slope  {&#39;bits&#39;: 4, &#39;values&#39;: {&#39;0&#39;: False, &#39;1&#39;: True}, &#39;description&#39;: &#39;High slope&#39;}
+cloud_shadow  {&#39;bits&#39;: 5, &#39;values&#39;: {&#39;0&#39;: False, &#39;1&#39;: True}, &#39;description&#39;: &#39;Cloud shadow&#39;}
+noncontiguous  {&#39;bits&#39;: 1, &#39;values&#39;: {&#39;0&#39;: False, &#39;1&#39;: True}, &#39;description&#39;: &#39;At least one EO band is missing over over/undersaturated&#39;}
+terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False, &#39;1&#39;: True}, &#39;description&#39;: &#39;terrain shadow or low solar angle&#39;}
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Here-is-what-the-WOFL-mask-looks-like-on-one-timestep:">
+<h3>Here is what the WOFL mask looks like on one timestep:<a class="headerlink" href="#Here-is-what-the-WOFL-mask-looks-like-on-one-timestep:" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [224]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">wetwofl</span> <span class="o">=</span> <span class="n">masking</span><span class="o">.</span><span class="n">make_mask</span><span class="p">(</span><span class="n">wofls</span><span class="p">,</span> <span class="n">wet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">wetwofl</span><span class="o">.</span><span class="n">water</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="c1">#drywofl = masking.make_mask(wofls, dry=True)</span>
+<span class="c1">#drywofl.water.isel(time=0).plot()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[224]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7feaa0fee860&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_27_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_27_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [213]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#match WOFL times to our fractional cover times</span>
+<span class="n">unwofld</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">time</span> <span class="o">==</span> <span class="n">wetwofl</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="c1">#mask out water from fractional cover</span>
+<span class="n">unwofld</span> <span class="o">=</span> <span class="n">unwofld</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">wetwofl</span><span class="o">.</span><span class="n">water</span><span class="o">==</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Here-is-what-Fractional-Cover-looks-like-with-WOFL-removed:">
+<h3>Here is what Fractional Cover looks like with WOFL removed:<a class="headerlink" href="#Here-is-what-Fractional-Cover-looks-like-with-WOFL-removed:" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [215]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">unwofld</span><span class="o">.</span><span class="n">PV</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[215]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7feaa11a41d0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_30_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Fractional_Cover_30_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Edit-save-file-path-to-choose-where-to-save-your-output-files">
+<h3>Edit save file path to choose where to save your output files<a class="headerlink" href="#Edit-save-file-path-to-choose-where-to-save-your-output-files" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [226]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">#save files to your home directory (add your outpath here if you want to change it)</span>
+<span class="n">savefilepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Save-Fractional-Cover-scenes-to-NetCDF">
+<h2>Save Fractional Cover scenes to NetCDF<a class="headerlink" href="#Save-Fractional-Cover-scenes-to-NetCDF" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [227]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">write_your_netcdf</span><span class="p">(</span><span class="n">unwofld</span><span class="p">,</span> <span class="s1">&#39;FC25&#39;</span><span class="p">,</span> <span class="n">savefilepath</span><span class="o">+</span><span class="s1">&#39;FC25&#39;</span><span class="o">+</span><span class="s1">&#39;.nc&#39;</span><span class="p">,</span> <span class="n">crs</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">crs</span><span class="p">)</span>
+<span class="c1">#complain if the file already exists but don&#39;t fail</span>
+<span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RuntimeError: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;wrote to netCDF&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+RuntimeError: Storage Unit already exists: /home/547/rjd547/FC25.nc
+wrote to netCDF
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Save-Fractional-Cover-scenes-to-GeoTIFF">
+<h2>Save Fractional Cover scenes to GeoTIFF<a class="headerlink" href="#Save-Fractional-Cover-scenes-to-GeoTIFF" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [228]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">unwofld</span>
+<span class="c1">#write a geotiff to file for each timestep</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;one timestep&#39;</span><span class="p">)</span>
+    <span class="c1">#drop the time dimension for only one timestep</span>
+    <span class="c1">#write the dataset without the data percentage to file</span>
+    <span class="n">ds1</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">ds1</span> <span class="o">=</span> <span class="n">ds1</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;data_perc&#39;</span><span class="p">)</span>
+    <span class="n">write_geotiff</span><span class="p">(</span><span class="n">savefilepath</span><span class="o">+</span><span class="s1">&#39;FC25_&#39;</span><span class="o">+</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="n">ds1</span><span class="p">)</span>
+
+<span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;multiple timesteps&#39;</span><span class="p">)</span>
+    <span class="c1">#remove data percentage as it breaks the geotiff writer</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;data_perc&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">timestep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">write_geotiff</span><span class="p">(</span><span class="n">savefilepath</span><span class="o">+</span><span class="s1">&#39;FC25_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">timestep</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.tif&#39;</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span> <span class="o">=</span><span class="n">timestep</span><span class="p">))</span>
+            <span class="c1">#complain if the file already exists but don&#39;t fail</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;wrote to GeoTIFF&#39;</span> <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RuntimeError: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+multiple timesteps
+wrote to GeoTIFF
+wrote to GeoTIFF
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="References">
+<h2>References<a class="headerlink" href="#References" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>GA, 2015. <em>Fractional Cover (FC25) Product Description.</em>
+<a class="reference external" href="https://d28rz98at9flks.cloudfront.net/79676/Fractional_Cover_FC25_v1_5.PDF">https://d28rz98at9flks.cloudfront.net/79676/Fractional_Cover_FC25_v1_5.PDF</a></li>
+<li>TERN Auscover, 2012. <em>Fractional cover - Landsat, Joint Remote
+Sensing Research Program algorithm, Australia coverage.</em> Last
+modified by Peter Scarth on 2017/03/24 09:53.
+<a class="reference external" href="http://data.auscover.org.au/xwiki/bin/view/Product+pages/Landsat+Fractional+Cover">http://data.auscover.org.au/xwiki/bin/view/Product+pages/Landsat+Fractional+Cover</a></li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Introduction_to_HLTC.html" class="btn btn-neutral float-right" title="Getting started with High-Low Tide Composites (HLTC_25)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Introduction_to_LandsatPQ.html" class="btn btn-neutral" title="Introduction to Landsat pixel quality (PQ25)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>
