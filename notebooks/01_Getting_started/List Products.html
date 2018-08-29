@@ -102,6 +102,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">Getting Started</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Getting Started.html">Getting Started</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">List Products &amp; Measurements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#First-we-will-pull-in-the-modules-as-described-in-the-previous-notebook-Getting-Started.">First we will pull in the modules as described in the previous notebook <strong>Getting Started</strong>.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#List-Products">List Products</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#List-Measurements">List Measurements</a></li>
 </ul>
@@ -387,11 +388,17 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="List-Products-&amp;-Measurements">
 <h1>List Products &amp; Measurements<a class="headerlink" href="#List-Products-&-Measurements" title="Permalink to this headline">¶</a></h1>
-<p>First we will pull in the modules as described in the previous notebook
-<strong>Getting Started</strong>.</p>
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebook from the same terminal so that the required
+libraries and paths are set.</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<div class="section" id="First-we-will-pull-in-the-modules-as-described-in-the-previous-notebook-Getting-Started.">
+<h2>First we will pull in the modules as described in the previous notebook <strong>Getting Started</strong>.<a class="headerlink" href="#First-we-will-pull-in-the-modules-as-described-in-the-previous-notebook-Getting-Started." title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -405,7 +412,7 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -413,12 +420,13 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="List-Products">
 <h2>List Products<a class="headerlink" href="#List-Products" title="Permalink to this headline">¶</a></h2>
 <p>We can get all the products in datacube as a <code class="docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">DataFrame</span></code>:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -428,7 +436,7 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -438,35 +446,37 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[5]:
+<span></span>Out[4]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&#39;name&#39;,
  &#39;description&#39;,
- &#39;gqa_stddev_xy&#39;,
- &#39;sat_path&#39;,
- &#39;platform&#39;,
- &#39;orbit&#39;,
- &#39;gqa&#39;,
- &#39;gqa_abs_iterative_mean_xy&#39;,
- &#39;lat&#39;,
- &#39;gqa_cep90&#39;,
- &#39;ancillary_quality&#39;,
- &#39;gsi&#39;,
- &#39;gqa_abs_xy&#39;,
- &#39;time&#39;,
- &#39;product_type&#39;,
- &#39;lon&#39;,
+ &#39;format&#39;,
  &#39;instrument&#39;,
+ &#39;gqa_abs_xy&#39;,
+ &#39;lon&#39;,
+ &#39;gsi&#39;,
+ &#39;platform&#39;,
  &#39;sat_row&#39;,
+ &#39;lat&#39;,
+ &#39;creation_time&#39;,
+ &#39;label&#39;,
+ &#39;gqa_stddev_xy&#39;,
+ &#39;product_type&#39;,
+ &#39;gqa_cep90&#39;,
  &#39;gqa_iterative_stddev_xy&#39;,
  &#39;gqa_mean_xy&#39;,
+ &#39;time&#39;,
+ &#39;ancillary_quality&#39;,
+ &#39;gqa_abs_iterative_mean_xy&#39;,
+ &#39;sat_path&#39;,
  &#39;gqa_final_gcp_count&#39;,
- &#39;format&#39;,
+ &#39;orbit&#39;,
+ &#39;gqa&#39;,
+ &#39;gqa_error_message&#39;,
  &#39;gqa_iterative_mean_xy&#39;,
  &#39;gqa_ref_source&#39;,
- &#39;gqa_error_message&#39;,
  &#39;crs&#39;,
  &#39;resolution&#39;,
  &#39;tile_size&#39;,
@@ -479,7 +489,7 @@ div.nboutput div.output_area.stderr {
 of <code class="docutils literal notranslate"><span class="pre">nbar</span></code>:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -491,22 +501,22 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[16]:
+<span></span>Out[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -576,7 +586,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 <h2>List Measurements<a class="headerlink" href="#List-Measurements" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [25]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -586,7 +596,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -596,7 +606,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[26]:
+<span></span>Out[7]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
@@ -612,7 +622,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -624,7 +634,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 <code class="docutils literal notranslate"><span class="pre">ls5_nbar_albers</span></code>:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [29]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -634,22 +644,22 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[29]:
+<span></span>Out[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -711,7 +721,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 <p>Or we can look at a list of them:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [32]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -722,7 +732,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[32]:
+<span></span>Out[10]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
@@ -735,7 +745,7 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [33]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -745,22 +755,22 @@ of <code class="docutils literal notranslate"><span class="pre">nbar</span></cod
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[33]:
+<span></span>Out[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">

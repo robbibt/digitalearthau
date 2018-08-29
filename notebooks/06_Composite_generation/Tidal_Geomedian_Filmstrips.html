@@ -397,23 +397,29 @@ OTPS</a> model, and create
 geomedian composites for a given set of epochs and tidal range. These
 geomedian composites are exported as geoTIFFs, and plotted as
 ‘filmstrip’ plots that compare change over time.</p>
-<p><strong>Inputs:</strong></p>
-<p>Before running this notebook, please ensure that the <code class="docutils literal notranslate"><span class="pre">otps</span></code> module has
-been loaded by running: <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">otps</span></code></p>
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebooks from the same terminal so that the required
+libraries and paths are set:</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea/20180515</span></code> <em>(currently using an older version of
+``dea`` due to a bug in ``xr.concat``; will be reverted to
+``module load dea`` in future)</em></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">otps</span></code></p>
 <p>If you find an error or bug in this notebook, please either create an
 ‘Issue’ in the Github repository, or fix it yourself and create a ‘Pull’
 request to contribute the updated notebook back into the repository (See
 the repository
 <a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
 for instructions on creating a Pull request).</p>
-<p><strong>Date:</strong> June 2018</p>
+<p><strong>Date:</strong> August 2018</p>
 <p><strong>Author:</strong> Robbi Bishop-Taylor, Claire Phillips</p>
 <p><strong>Tags</strong>: <span class="target" id="index-0"></span>tidal_model, <span class="target" id="index-1"></span>OTPS, <span class="target" id="index-2"></span>tidal_tagging, <span class="target" id="index-3"></span>predict_tide, <span class="target" id="index-4"></span>composites, <span class="target" id="index-5"></span>dask, <span class="target" id="index-6"></span>write_geotiff,  <span class="target" id="index-7"></span>filmstrip_plot, <span class="target" id="index-8"></span>geopandas, <span class="target" id="index-9"></span>point_in_polygon</p>
 <div class="section" id="Import-modules">
 <h2>Import modules<a class="headerlink" href="#Import-modules" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -470,6 +476,14 @@ for instructions on creating a Pull request).</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+Failed to resolve driver datacube.plugins.index::s3aio_index
+</pre></div></div>
+</div>
 </div>
 <div class="section" id="Geomedian-filmstrip-parameters">
 <h2>Geomedian filmstrip parameters<a class="headerlink" href="#Geomedian-filmstrip-parameters" title="Permalink to this headline">¶</a></h2>
@@ -478,7 +492,7 @@ epoch length used to produce each geomedian composite. This is the only
 cell that needs to be edited to run the notebook.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -488,7 +502,7 @@ cell that needs to be edited to run the notebook.</p>
 <span class="n">buffer</span> <span class="o">=</span> <span class="mi">3500</span>  <span class="c1"># metre units to extend region of interest on each side of centre point</span>
 
 <span class="c1"># Set up compositing parameters</span>
-<span class="n">time_period</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;1988-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">)</span>  <span class="c1"># Total date range to import data from</span>
+<span class="n">time_period</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;2000-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">)</span>  <span class="c1"># Total date range to import data from</span>
 <span class="n">sensors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ls5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">]</span>  <span class="c1"># Landsat sensors from which to import data from</span>
 <span class="n">ls7_slc_off</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Whether to include striped &gt; May 31 2003 Landsat 7 SLC-off data</span>
 <span class="n">lower_tideheight</span> <span class="o">=</span> <span class="mf">0.4</span>  <span class="c1"># Minimum proportion of the observed tidal range to include</span>
@@ -507,7 +521,7 @@ after the layers have been filtered by tidal stage and date to save
 processing time.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -593,11 +607,11 @@ processing time.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Processing 5 epochs: 1988-01-01, 1994-01-01, 2000-01-01, 2006-01-01, 2012-01-01
+Processing 3 epochs: 2000-01-01, 2006-01-01, 2012-01-01
 Using tidepost coordinates: 140.26 E, -17.52 S
 
-Computing tidal heights for 348 ls5 observations
-Computing tidal heights for 78 ls7 observations
+Computing tidal heights for 154 ls5 observations
+Computing tidal heights for 69 ls7 observations
 Computing tidal heights for 107 ls8 observations
 </pre></div></div>
 </div>
@@ -609,7 +623,7 @@ observation, and take a subset of the entire Landsat and PQ time series
 based on tide height and epoch date range for each sensor.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -670,12 +684,6 @@ based on tide height and epoch date range for each sensor.</p>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Analysing tidal heights of -0.14 m to 0.42 m out of an observed local tidal range of -1.24 m to 1.52 m
-    Filtering from 1988-01-01 to 1994-01-01 for ls5
-    Filtering from 1988-01-01 to 1994-01-01 for ls7
-    Filtering from 1988-01-01 to 1994-01-01 for ls8
-    Filtering from 1994-01-01 to 2000-01-01 for ls5
-    Filtering from 1994-01-01 to 2000-01-01 for ls7
-    Filtering from 1994-01-01 to 2000-01-01 for ls8
     Filtering from 2000-01-01 to 2006-01-01 for ls5
     Filtering from 2000-01-01 to 2006-01-01 for ls7
     Filtering from 2000-01-01 to 2006-01-01 for ls8
@@ -695,7 +703,7 @@ the first time using <code class="docutils literal notranslate"><span class="pre
 timesteps into a single array using a geometric median computation.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -757,16 +765,6 @@ timesteps into a single array using a geometric median computation.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Loading and combining ls5, ls7, ls8 data for 1988-01-01
-    21 observations combined
-    Applying PQ mask and setting nodata to NaN
-    Computing geometric median
-    Exporting to output_data/gulfcarpentaria/gulfcarpentaria_1988-01-01.tif
-Loading and combining ls5, ls7, ls8 data for 1994-01-01
-    28 observations combined
-    Applying PQ mask and setting nodata to NaN
-    Computing geometric median
-    Exporting to output_data/gulfcarpentaria/gulfcarpentaria_1994-01-01.tif
 Loading and combining ls5, ls7, ls8 data for 2000-01-01
     28 observations combined
     Applying PQ mask and setting nodata to NaN
@@ -791,7 +789,7 @@ Loading and combining ls5, ls7, ls8 data for 2012-01-01
 filmstrip plots:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -865,9 +863,9 @@ filmstrip plots:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Generating 6-panel falsecolour filmstrip plot
+Generating 4-panel falsecolour filmstrip plot
     Exporting to figures/gulfcarpentaria/gulfcarpentaria_falsecolour.png
-Generating 6-panel truecolour filmstrip plot
+Generating 4-panel truecolour filmstrip plot
     Exporting to figures/gulfcarpentaria/gulfcarpentaria_truecolour.png
 </pre></div></div>
 </div>
@@ -892,7 +890,7 @@ Generating 6-panel truecolour filmstrip plot
 observations and the entire tidal history of the study area:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>

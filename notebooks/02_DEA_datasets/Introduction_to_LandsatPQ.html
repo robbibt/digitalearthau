@@ -422,10 +422,22 @@ points and geo-coordinates</li>
 <li>Build up a mask step-by-step from PQ data</li>
 <li>Apply the mask and plot</li>
 </ul>
-<p><strong>Date</strong>: June 2018</p>
-<p><strong>Authors</strong>: Bex Dunn, Mike Barnes, Claire Krause, Damien Ayers, Arapaut
-Sivaprasad, Robbi Bishop-Taylor</p>
-<p><strong>Tags:</strong> <span class="target" id="index-0"></span>Landsat 5, <span class="target" id="index-1"></span>Landsat 7, <span class="target" id="index-2"></span>Landsat 8, <span class="target" id="index-3"></span>PQ25, <span class="target" id="index-4"></span>masking, <span class="target" id="index-5"></span>Pixel quality, <span class="target" id="index-6"></span>Cloud masking, <span class="target" id="index-7"></span>three_band_image, <span class="target" id="index-8"></span>make_mask</p>
+<p><strong>Requirements</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebooks from the same terminal so that the required
+libraries and paths are set:</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<p>If you find an error or bug in this notebook, please either create an
+‘Issue’ in the Github repository, or fix it yourself and create a ‘Pull’
+request to contribute the updated notebook back into the repository (See
+the repository
+<a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
+for instructions on creating a Pull request).</p>
+<p><strong>Date</strong>: August 2018</p>
+<p><strong>Authors</strong>: Bex Dunn, Robbi Bishop-Taylor, Mike Barnes, Claire Krause,
+Damien Ayers, Arapaut Sivaprasad</p>
+<p><strong>Tags:</strong> <span class="target" id="index-0"></span>Landsat 5, <span class="target" id="index-1"></span>Landsat 7, <span class="target" id="index-2"></span>Landsat 8, <span class="target" id="index-3"></span>PQ25, <span class="target" id="index-4"></span>masking, <span class="target" id="index-5"></span>Pixel quality, <span class="target" id="index-6"></span>Cloud masking, <span class="target" id="index-7"></span>make_mask</p>
 <div class="section" id="Importance-of-pixel-quality">
 <h2>Importance of pixel quality<a class="headerlink" href="#Importance-of-pixel-quality" title="Permalink to this headline">¶</a></h2>
 <p>As Landsat Imagery becomes more readily available, there has been a
@@ -494,14 +506,6 @@ users.</p>
 <span class="kn">from</span> <span class="nn">datacube.storage</span> <span class="k">import</span> <span class="n">masking</span>
 <span class="kn">from</span> <span class="nn">datacube.helpers</span> <span class="k">import</span> <span class="n">ga_pq_fuser</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1"># Import dea-notebook functions. This assumes you are running this notebook from inside the `dea-notebooks`</span>
-<span class="c1"># directory. If not, replace the relative `../Scripts` link with a path to the `dea-notebooks/Scripts` directory</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../Scripts&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">DEAPlotting</span>
-
-<span class="c1"># For nicer notebook plotting, hide warnings (comment out for real analysis)</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
 <span class="c1"># Set up datacube to load from</span>
 <span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Landsat PQ&#39;</span><span class="p">)</span>
@@ -671,11 +675,21 @@ Attributes:
 the image is obscured by cloud:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span></span><span class="n">ds</span><span class="p">[[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[6]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7f0b3164f908&gt;
 </pre></div>
 </div>
 </div>
@@ -683,7 +697,7 @@ the image is obscured by cloud:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_15_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_15_0.png" />
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_15_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_15_1.png" />
 </div>
 </div>
 </div>
@@ -699,7 +713,7 @@ completed more carefully using a custom <code class="docutils literal notranslat
 integrity. Here we use the <code class="docutils literal notranslate"><span class="pre">ga_pq_fuser</span></code> to perform this step:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -710,7 +724,7 @@ integrity. Here we use the <code class="docutils literal notranslate"><span clas
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[6]:
+<span></span>Out[7]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
@@ -735,7 +749,7 @@ single value can be used to contain information about many different
 potential pixel quality issues:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -745,7 +759,7 @@ potential pixel quality issues:</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[7]:
+<span></span>Out[8]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
@@ -764,7 +778,7 @@ corresponding bits are listed below; typically, however, you will not
 need to know what bits are used for what flag.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -775,7 +789,7 @@ need to know what bits are used for what flag.</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[8]:
+<span></span>Out[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -942,7 +956,7 @@ represent “good” data, while purple <code class="docutils literal notranslat
 data:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -963,7 +977,7 @@ data:</p>
 where there are no Fmask clouds <strong>AND</strong> no ACCA clouds in a pixel:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -986,7 +1000,7 @@ where there are no Fmask clouds <strong>AND</strong> no ACCA clouds <strong>AND<
 cloud shadows <strong>AND</strong> no ACCA cloud shadows in a pixel:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1012,7 +1026,7 @@ cloud shadows <strong>AND</strong> no ACCA cloud shadows <strong>AND</strong> no
 for any band:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1047,7 +1061,7 @@ values for every band (i.e. ‘contiguous’ values).</p>
 Landsat data:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1102,7 +1116,7 @@ mask out all pixels that are affected by cloud, cloud shadow,
 saturation, or any pixels that do not have data for every band:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1114,7 +1128,7 @@ saturation, or any pixels that do not have data for every band:</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[14]:
+<span></span>Out[15]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1140,14 +1154,24 @@ Attributes:
 <div class="section" id="Plot-the-PQ-masked-Landsat-data">
 <h3>Plot the PQ-masked Landsat data<a class="headerlink" href="#Plot-the-PQ-masked-Landsat-data" title="Permalink to this headline">¶</a></h3>
 <p>Plot the data, and observe how all low-quality pixels (e.g. cloud) have
-been removed from the image:</p>
+been removed/masked out from the image:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds_masked</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span></span><span class="n">ds_masked</span><span class="p">[[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[16]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7f0b08754160&gt;
 </pre></div>
 </div>
 </div>
@@ -1155,7 +1179,7 @@ been removed from the image:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_35_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_35_0.png" />
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_35_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_LandsatPQ_35_1.png" />
 </div>
 </div>
 </div>

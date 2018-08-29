@@ -437,23 +437,22 @@ temporal and spatial extents</li>
 <li>Demonstrate how to compute and plot simple remote sensing band
 indices</li>
 </ul>
-<p><strong>Required inputs</strong></p>
-<p>This notebook requires the <code class="docutils literal notranslate"><span class="pre">DEAPlotting.three_band_image</span></code> function
-from the <code class="docutils literal notranslate"><span class="pre">dea-notebooks</span></code> repository. To ensure this function and all
-other file paths load correctly, it is recommended that you download and
-clone the entire <code class="docutils literal notranslate"><span class="pre">dea-notebooks</span></code> repository onto your computer and
-then launch this notebook from inside the cloned directory; please see
-the <a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/">readme document
-here</a> for
-instructions. If you find an error or bug in this notebook, please
-either create an ‘Issue’ in the Github repository, or fix it yourself
-and create a ‘Pull’ request to contribute the updated notebook back into
-the repository (See the repository README for instructions on creating a
-Pull request).</p>
-<p><strong>Date</strong>: June 2018</p>
-<p><strong>Authors</strong>: Arapaut Sivaprasad, Claire Krause, Bex Dunn, Robbi
-Bishop-Taylor</p>
-<p>Tags: <span class="target" id="index-0"></span>Landsat 5, <span class="target" id="index-1"></span>Landsat 7, <span class="target" id="index-2"></span>Landsat 8, <span class="target" id="index-3"></span>products, <span class="target" id="index-4"></span>three_band_image, <span class="target" id="index-5"></span>dc.list_products, <span class="target" id="index-6"></span>dc.load, <span class="target" id="index-7"></span>query, <span class="target" id="index-8"></span>beginner, <span class="target" id="index-9"></span>plot, <span class="target" id="index-10"></span>image, <span class="target" id="index-11"></span>Scan Line Corrector, <span class="target" id="index-12"></span>Sensor bands,  <span class="target" id="index-13"></span>Indices</p>
+<p><strong>Requirements</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebooks from the same terminal so that the required
+libraries and paths are set:</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<p>If you find an error or bug in this notebook, please either create an
+‘Issue’ in the Github repository, or fix it yourself and create a ‘Pull’
+request to contribute the updated notebook back into the repository (See
+the repository
+<a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
+for instructions on creating a Pull request).</p>
+<p><strong>Date</strong>: August 2018</p>
+<p><strong>Authors</strong>: Robbi Bishop-Taylor, Arapaut Sivaprasad, Claire Krause, Bex
+Dunn</p>
+<p>Tags: <span class="target" id="index-0"></span>Landsat 5, <span class="target" id="index-1"></span>Landsat 7, <span class="target" id="index-2"></span>Landsat 8, <span class="target" id="index-3"></span>products, <span class="target" id="index-4"></span>dc.list_products, <span class="target" id="index-5"></span>dc.load, <span class="target" id="index-6"></span>query, <span class="target" id="index-7"></span>beginner, <span class="target" id="index-8"></span>plot, <span class="target" id="index-9"></span>image, <span class="target" id="index-10"></span>Scan Line Corrector, <span class="target" id="index-11"></span>Sensor bands, <span class="target" id="index-12"></span>Indices, <span class="target" id="index-13"></span>NDVI, <span class="target" id="index-14"></span>NDWI</p>
 <div class="section" id="About-Landsat">
 <h2>About Landsat<a class="headerlink" href="#About-Landsat" title="Permalink to this headline">¶</a></h2>
 <p>“Landsat represents the world’s longest continuously acquired collection
@@ -671,17 +670,6 @@ sensing band indices).</p>
 <span class="kn">import</span> <span class="nn">datacube</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">datacube.storage</span> <span class="k">import</span> <span class="n">masking</span>
-
-<span class="c1"># Import dea-notebook functions. To ensure file paths load correctly, it is recommended that you download and</span>
-<span class="c1"># clone the entire `dea-notebooks` repository onto your computer and then launch this notebook from inside the</span>
-<span class="c1"># cloned directory; please see the readme here for info: https://github.com/GeoscienceAustralia/dea-notebooks/</span>
-<span class="c1"># Alternatively, replace the relative `../Scripts` link with an absolute path to the `dea-notebooks/Scripts`</span>
-<span class="c1"># directory on your PC</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../Scripts&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">DEAPlotting</span>
-
-<span class="c1"># For nicer notebook plotting, hide warnings (comment out for real analysis)</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
 </pre></div>
 </div>
@@ -933,23 +921,33 @@ timestep:</p>
 </div>
 <div class="section" id="Creating-a-'true-colour'-image-using-three-bands">
 <h3>Creating a ‘true colour’ image using three bands<a class="headerlink" href="#Creating-a-'true-colour'-image-using-three-bands" title="Permalink to this headline">¶</a></h3>
-<p>We can also plot combinations of multiple bands from the data using the
-<code class="docutils literal notranslate"><span class="pre">DEAPlotting.three_band_image</span></code> function, using the <code class="docutils literal notranslate"><span class="pre">time</span></code> parameter
-to specify what time-step to plot.</p>
+<p>We can also plot combinations of multiple bands as a colour RGB image by
+converting the xarray dataset to a three band data array, using
+<code class="docutils literal notranslate"><span class="pre">.isel(time=1)</span></code> to pull out a single time-step to plot, then using the
+<code class="docutils literal notranslate"><span class="pre">.plot.imshow</span></code> method to plot.</p>
 <p>By specifying the <code class="docutils literal notranslate"><span class="pre">red</span></code>, <code class="docutils literal notranslate"><span class="pre">green</span></code> and <code class="docutils literal notranslate"><span class="pre">blue</span></code> bands, we can produce
 a <a class="reference external" href="https://crisp.nus.edu.sg/~research/tutorial/opt_int.htm">‘true colour’
 plot</a> that
 approximates how the landscape would appear to the human eye. Note
-however that the function used for this true colour plot enhances
-contrast between the bands (<code class="docutils literal notranslate"><span class="pre">contrast_enhance=True</span></code>), resulting in a
-colour-enhanced image:</p>
+however that below we use the <code class="docutils literal notranslate"><span class="pre">robust=True</span></code> argument to remove extreme
+values and result in a colour-enhanced image:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">bands</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span></span><span class="n">ds</span><span class="p">[[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[7]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7feac2f62a58&gt;
 </pre></div>
 </div>
 </div>
@@ -957,7 +955,7 @@ colour-enhanced image:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_22_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_22_0.png" />
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_22_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_22_1.png" />
 </div>
 </div>
 </div>
@@ -971,7 +969,17 @@ water or vegetation in the landscape:</p>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">bands</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span></span><span class="n">ds</span><span class="p">[[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[8]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7feac2f39ba8&gt;
 </pre></div>
 </div>
 </div>
@@ -979,7 +987,7 @@ water or vegetation in the landscape:</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_24_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_24_0.png" />
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_24_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Landsat_24_1.png" />
 </div>
 </div>
 </div>

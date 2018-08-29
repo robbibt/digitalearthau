@@ -406,28 +406,27 @@ OTPS</a>) is used to produce
 datasets including the Intertidal Extents Model (ITEM), High-Low Tide
 Composites (HLTC), and the National Intertidal Digital Elevation Model
 (NIDEM).</p>
-<p><strong>Inputs:</strong></p>
-<p>Before running this notebook, please ensure that the <code class="docutils literal notranslate"><span class="pre">otps</span></code> module has
-been loaded by running: <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">otps</span></code></p>
-<p>This example also uses an external <code class="docutils literal notranslate"><span class="pre">three_band_image</span></code> function
-available in the <code class="docutils literal notranslate"><span class="pre">Scripts</span></code> folder of the <a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/tree/master/Scripts">dea-notebooks Github
-repository</a>.
-Note that <code class="docutils literal notranslate"><span class="pre">dea-notebooks</span></code> functions have been developed by DEA users,
-not the DEA development team, and so are provided without warranty. If
-you find an error or bug in the functions, please either create an
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebooks from the same terminal so that the required
+libraries and paths are set:</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">otps</span></code></p>
+<p>If you find an error or bug in this notebook, please either create an
 ‘Issue’ in the Github repository, or fix it yourself and create a ‘Pull’
-request to contribute the updated function back into the repository (See
+request to contribute the updated notebook back into the repository (See
 the repository
 <a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
 for instructions on creating a Pull request).</p>
-<p><strong>Date:</strong> May 2018</p>
+<p><strong>Date:</strong> August 2018</p>
 <p><strong>Author:</strong> Robbi Bishop-Taylor</p>
-<p><strong>Tags</strong>: <span class="target" id="index-0"></span>tidal_model, <span class="target" id="index-1"></span>OTPS, <span class="target" id="index-2"></span>tidal_tagging, <span class="target" id="index-3"></span>predict_tide, <span class="target" id="index-4"></span>composites, <span class="target" id="index-5"></span>DEAPlotting, <span class="target" id="index-6"></span>three_band_image, <span class="target" id="index-7"></span>datacube.utils.geometry, <span class="target" id="index-8"></span>Scripts, <span class="target" id="index-9"></span>dask</p>
+<p><strong>Tags</strong>: <span class="target" id="index-0"></span>tidal_model, <span class="target" id="index-1"></span>OTPS, <span class="target" id="index-2"></span>tidal_tagging, <span class="target" id="index-3"></span>predict_tide, <span class="target" id="index-4"></span>composites, <span class="target" id="index-5"></span>datacube.utils.geometry, <span class="target" id="index-6"></span>dask</p>
 <div class="section" id="Import-modules">
 <h2>Import modules<a class="headerlink" href="#Import-modules" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -443,10 +442,6 @@ for instructions on creating a Pull request).</p>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
 <span class="kn">from</span> <span class="nn">datacube.utils.geometry</span> <span class="k">import</span> <span class="n">CRS</span>
-
-<span class="c1"># Import external functions from dea-notebooks using relative link to Scripts</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../Scripts&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">DEAPlotting</span>
 
 <span class="c1"># Create datacube instance</span>
 <span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Tidal tagging&#39;</span><span class="p">)</span>
@@ -480,7 +475,7 @@ discrete temporal epochs and spatial locations (Egbert and Erofeeva,
 2002).</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -518,7 +513,7 @@ lat-long tide post coordinates to compute tidal heights at the time of
 acquisition of each Landsat observation.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -680,7 +675,7 @@ tidal height. Tagged images can then be filtered or composited to study
 characteristics of the coastline at various tidal stages.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -702,10 +697,10 @@ characteristics of the coastline at various tidal stages.</p>
 <span class="n">median_low</span> <span class="o">=</span> <span class="n">filtered_low</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">keep_attrs</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Plot the resulting low and high tide composites in false-color</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">median_high</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span>
-                                       <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Median of high tide images&#39;</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">median_low</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span>
-                                       <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Median of low tide images&#39;</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+<span class="n">median_high</span><span class="p">[[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Median of high tide images&#39;</span><span class="p">)</span>
+<span class="n">median_low</span><span class="p">[[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Median of low tide images&#39;</span><span class="p">);</span>
 
 </pre></div>
 </div>
@@ -713,24 +708,15 @@ characteristics of the coastline at various tidal stages.</p>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_1.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_1.png" />
+<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_0.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_2.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_2.png" />
+<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_1.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_10_1.png" />
 </div>
 </div>
 </div>
@@ -742,7 +728,7 @@ observed Landsat observation, we can determine whether the tide was
 rising (flow tide) or falling (ebb tide):</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -913,7 +899,7 @@ environments like large tidal flats or mangrove forests where water may
 remain in the landscape for considerable time after the tidal peak.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -931,10 +917,10 @@ remain in the landscape for considerable time after the tidal peak.</p>
 <span class="n">median_ebb</span> <span class="o">=</span> <span class="n">filtered_ebb</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">keep_attrs</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Plot the resulting low and high tide composites in false-color:</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">median_flow</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span>
-                                       <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Median of flow tide images&#39;</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">median_ebb</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span>
-                                       <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Median of ebb tide images&#39;</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+<span class="n">median_flow</span><span class="p">[[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Median of flow tide images&#39;</span><span class="p">)</span>
+<span class="n">median_ebb</span><span class="p">[[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Median of ebb tide images&#39;</span><span class="p">);</span>
 
 </pre></div>
 </div>
@@ -942,24 +928,15 @@ remain in the landscape for considerable time after the tidal peak.</p>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_1.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_1.png" />
+<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_0.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_2.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_2.png" />
+<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_1.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_14_1.png" />
 </div>
 </div>
 </div>
@@ -977,7 +954,7 @@ tidal conditions, this is likely to be far more efficient than using
 then filtering by tide!</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1039,7 +1016,7 @@ our filtered subset of data, which significantly decreases processing
 speed:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1051,25 +1028,17 @@ speed:</p>
 
 <span class="c1"># The result should be identical to the low-tide composite we produced earlier, despite taking</span>
 <span class="c1"># only a fraction of the time to process:</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">median_low</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">],</span>
-                                       <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Median of low tide images&#39;</span><span class="p">,</span> <span class="n">reflect_stand</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+<span class="n">median_ebb</span><span class="p">[[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Median of low tide images&#39;</span><span class="p">);</span>
 
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_18_1.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_18_1.png" />
+<img alt="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_18_0.png" src="../../_images/notebooks_03_Integrating_external_data_TidalModellingandTagging_18_0.png" />
 </div>
 </div>
 </div>

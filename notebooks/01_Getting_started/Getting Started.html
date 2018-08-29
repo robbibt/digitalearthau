@@ -100,7 +100,10 @@
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="README.html">Getting Started</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#First-we-need-to-define-how-we-display-plots-in-our-notebooks:">First we need to define how we display plots in our notebooks:</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="List Products.html">List Products &amp; Measurements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Loading Data.html">Loading data from the datacube</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Advanced Querying.html">Advanced Querying</a></li>
@@ -383,7 +386,14 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="Getting-Started">
 <h1>Getting Started<a class="headerlink" href="#Getting-Started" title="Permalink to this headline">¶</a></h1>
-<p>First we need to define how we display plots in our notebooks:</p>
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebook from the same terminal so that the required
+libraries and paths are set.</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<div class="section" id="First-we-need-to-define-how-we-display-plots-in-our-notebooks:">
+<h2>First we need to define how we display plots in our notebooks:<a class="headerlink" href="#First-we-need-to-define-how-we-display-plots-in-our-notebooks:" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [1]:
@@ -411,7 +421,7 @@ set some settings to tweak their formatting:</p>
 <p>Now we load the <code class="docutils literal notranslate"><span class="pre">datacube</span></code> library:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -422,7 +432,7 @@ set some settings to tweak their formatting:</p>
 <p>Create our <code class="docutils literal notranslate"><span class="pre">datacube</span></code> object, with a name to help for logging.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -434,7 +444,7 @@ set some settings to tweak their formatting:</p>
 NCI:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -444,35 +454,22 @@ NCI:</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[6]:
+<span></span>Out[5]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Index&lt;db=PostgresDb&lt;engine=Engine(postgresql://adh547@130.56.244.105:6432/datacube)&gt;&gt;
+<span></span>Index&lt;db=PostgresDb&lt;engine=Engine(postgresql://cek156@130.56.244.105:6432/datacube)&gt;&gt;
 </pre></div>
 </div>
 </div>
 <p>Now we can query the <code class="docutils literal notranslate"><span class="pre">dc</span></code> object. The basic API is as follows -</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference external" href="https://datacube-core.readthedocs.io/en/stable/dev/api/generate/datacube.Datacube.html#datacube.Datacube" title="(in Open Data Cube v1.6rc2+0.g0804f26)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datacube</span></code></a>([index,&nbsp;config,&nbsp;app,&nbsp;env,&nbsp;…])</td>
-<td>Interface to search, read and write a datacube.</td>
-</tr>
-<tr class="row-even"><td><a class="reference external" href="https://datacube-core.readthedocs.io/en/stable/dev/api/generate/datacube.Datacube.list_products.html#datacube.Datacube.list_products" title="(in Open Data Cube v1.6rc2+0.g0804f26)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datacube.list_products</span></code></a>([show_archived,&nbsp;…])</td>
-<td>List products in the datacube</td>
-</tr>
-<tr class="row-odd"><td><a class="reference external" href="https://datacube-core.readthedocs.io/en/stable/dev/api/generate/datacube.Datacube.list_measurements.html#datacube.Datacube.list_measurements" title="(in Open Data Cube v1.6rc2+0.g0804f26)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datacube.list_measurements</span></code></a>([show_archived,&nbsp;…])</td>
-<td>List measurements for each product</td>
-</tr>
-<tr class="row-even"><td><a class="reference external" href="https://datacube-core.readthedocs.io/en/stable/dev/api/generate/datacube.Datacube.load.html#datacube.Datacube.load" title="(in Open Data Cube v1.6rc2+0.g0804f26)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Datacube.load</span></code></a>([product,&nbsp;measurements,&nbsp;…])</td>
-<td>Load data as an <code class="docutils literal notranslate"><span class="pre">xarray</span></code> object.</td>
-</tr>
-</tbody>
-</table>
+.. currentmodule:: datacube
+.. autosummary::
+
+   Datacube
+   Datacube.list_products
+   Datacube.list_measurements
+   Datacube.load</div>
 </div>
 
 

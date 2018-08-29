@@ -387,6 +387,12 @@ div.nboutput div.output_area.stderr {
 <div class="section" id="Advanced-Querying">
 <h1>Advanced Querying<a class="headerlink" href="#Advanced-Querying" title="Permalink to this headline">¶</a></h1>
 <p>More advanced queries can be done to filter based on product lineage.</p>
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebook from the same terminal so that the required
+libraries and paths are set.</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [1]:
@@ -424,6 +430,24 @@ corrected for atmosphere.</p>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[Dataset &lt;id=4fda1bcf-afcd-4cf4-bb6c-0cceae55d75e type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_089_080_19950104/ga-metadata.yaml&gt;,
  Dataset &lt;id=1cd1ca62-49e7-4b4f-90b8-5f5304b5e5b0 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_089_082_19950104/ga-metadata.yaml&gt;,
+ Dataset &lt;id=939e0fbe-9db6-4718-a04f-e571daa1ad30 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_080_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=204c71b0-49ed-4860-a1dd-d86d47ab201b type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_081_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=75c4a0f1-cff4-4f43-bc18-5b57061cd2d4 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_077_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=9e67989a-1240-4ea2-ab83-3ca32be2fc40 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_079_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=e7ddda30-a4eb-4b22-88df-2462bee526b5 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_083_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=34ffecf0-b4ca-4fe5-a669-e55deed12016 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_082_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=fb83f06f-1ae7-4bf4-b89c-deeb6a02962e type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_084_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=b9d6536a-1ec4-4710-a6cd-a16e60ebfae1 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_078_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=f70e339a-9573-493b-8fca-32780b7048a4 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_076_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=61504c2c-97fe-4ffe-bded-5ef6e6878edc type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_064_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=22022044-03e5-40f8-813a-af066a415143 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_074_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=31983f2e-26ba-47ff-ad57-c906f436c97c type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_065_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=0675b7c1-df4e-4a5b-83b3-0ece3f32b32f type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_066_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=89502f70-6c18-4253-9e22-9e3ef89aa2cd type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_075_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=f9a8827f-5236-4649-a08b-074980b4a1de type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_072_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=f120065d-79b6-4ff6-ac72-4916e6281dba type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_071_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=0bebcdd8-143d-41b4-b65d-e17e173f5014 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_070_19950105/ga-metadata.yaml&gt;,
+ Dataset &lt;id=44653db9-bd4c-4046-910a-25975c5e7c26 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_096_073_19950105/ga-metadata.yaml&gt;,
  Dataset &lt;id=de2b16b6-fa65-46ce-bc47-867d9ee60cce type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_089_078_19950104/ga-metadata.yaml&gt;,
  Dataset &lt;id=b7d5defa-d7d9-44bf-a7dc-5bd09c250795 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_089_081_19950104/ga-metadata.yaml&gt;,
  Dataset &lt;id=a84f0eb3-e65f-44e9-b1f2-88d9b50a8c61 type=ls5_level1_scene location=/g/data/v10/reprocess/ls5/level1/1995/01/LS5_TM_OTH_P51_GALPGS01-002_089_089_19950104/ga-metadata.yaml&gt;,
@@ -468,6 +492,24 @@ which measures the Circular Error.</p>
 <div class="highlight"><pre>
 path: 89,        row: 80,        error: 0.75
 path: 89,        row: 82,        error: 0.92
+path: 96,        row: 80,        error: 0.28
+path: 96,        row: 81,        error: 0.48
+path: 96,        row: 77,        error: 0.14
+path: 96,        row: 79,        error: 0.44
+path: 96,        row: 83,        error: 0.27
+path: 96,        row: 82,        error: 0.23
+path: 96,        row: 84,        error: 0.64
+path: 96,        row: 78,        error: 0.26
+path: 96,        row: 76,        error: 0.13
+path: 96,        row: 64,        error: nan
+path: 96,        row: 74,        error: 0.6
+path: 96,        row: 65,        error: nan
+path: 96,        row: 66,        error: nan
+path: 96,        row: 75,        error: 0.19
+path: 96,        row: 72,        error: 0.3
+path: 96,        row: 71,        error: 0.75
+path: 96,        row: 70,        error: 0.31
+path: 96,        row: 73,        error: 0.22
 path: 89,        row: 78,        error: 0.93
 path: 89,        row: 81,        error: 0.96
 path: 89,        row: 89,        error: 0.45
@@ -507,6 +549,20 @@ gqa:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+path: 96,        row: 80,        error: 0.28
+path: 96,        row: 81,        error: 0.48
+path: 96,        row: 77,        error: 0.14
+path: 96,        row: 79,        error: 0.44
+path: 96,        row: 83,        error: 0.27
+path: 96,        row: 82,        error: 0.23
+path: 96,        row: 84,        error: 0.64
+path: 96,        row: 78,        error: 0.26
+path: 96,        row: 76,        error: 0.13
+path: 96,        row: 74,        error: 0.6
+path: 96,        row: 75,        error: 0.19
+path: 96,        row: 72,        error: 0.3
+path: 96,        row: 70,        error: 0.31
+path: 96,        row: 73,        error: 0.22
 path: 89,        row: 89,        error: 0.45
 path: 89,        row: 90,        error: 0.59
 path: 114,       row: 79,        error: 0.43
@@ -565,7 +621,7 @@ data product derived from this data, which is <code class="docutils literal notr
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>136
+<span></span>272
 </pre></div>
 </div>
 </div>
