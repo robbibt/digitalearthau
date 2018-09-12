@@ -124,6 +124,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Supplementary_data/README.html">Supplementary Data</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Data Guide</span></p>
 <ul>
@@ -434,7 +435,7 @@ for instructions on creating a Pull request).</p>
 <h2>Import modules and define functions<a class="headerlink" href="#Import-modules-and-define-functions" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -524,8 +525,8 @@ classification of water vs non-water using median Landsat nbart data.</p>
 <span class="c1"># Each file should cover a small enough spatial area so as to not slow dc.load function</span>
 <span class="c1"># excessively (e.g. 30 x 30km max). The class of each feature should be given in a shapefile</span>
 <span class="c1"># column (e.g. `class`), and specified in `randomforest_train` (i.e. `train_field = &#39;class&#39;`).</span>
-<span class="n">train_shps</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data/training_data_waternonwater.shp&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;data/training_data_waternonwater2.shp&#39;</span><span class="p">]</span>
+<span class="n">train_shps</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;../Supplementary_data/Files/training_data_waternonwater.shp&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;../Supplementary_data/Files/training_data_waternonwater2.shp&#39;</span><span class="p">]</span>
 
 <span class="c1"># Output path for classified geotiff</span>
 <span class="n">classification_output</span> <span class="o">=</span> <span class="s1">&#39;classification_dc_waternonwater.tif&#39;</span>
@@ -581,7 +582,7 @@ optionally, training label and training sample arrays)</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Importing training data from data/training_data_waternonwater.shp:
+Importing training data from ../Supplementary_data/Files/training_data_waternonwater.shp:
 {&#39;x&#39;: (130.80269773885783, 131.04984673894958), &#39;y&#39;: (-12.550884427041208, -12.351964574328044), &#39;crs&#39;: &#39;epsg:4326&#39;, &#39;time&#39;: (&#39;2017-03-01&#39;, &#39;2017-06-28&#39;)}
 Loading ls8_nbart_albers
 Loaded ls8_nbart_albers
@@ -673,7 +674,7 @@ Class probability processing...
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.collections.QuadMesh at 0x7f77f49ea438&gt;
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7fcf399be780&gt;
 </pre></div>
 </div>
 </div>
@@ -943,6 +944,16 @@ data.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
 </pre></div>
 </div>
 </div>

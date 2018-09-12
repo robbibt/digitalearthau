@@ -144,6 +144,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Supplementary_data/README.html">Supplementary Data</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Data Guide</span></p>
 <ul>
@@ -427,10 +428,22 @@ div.nboutput div.output_area.stderr {
 <td>May 14, 2018</td>
 </tr>
 <tr class="row-odd"><td>Last edited:</td>
-<td>June 01, 2018</td>
+<td>August 29, 2018</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebooks from the same terminal so that the required
+libraries and paths are set:</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<p>If you find an error or bug in this notebook, please either create an
+‘Issue’ in the Github repository, or fix it yourself and create a ‘Pull’
+request to contribute the updated notebook back into the repository (See
+the repository
+<a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
+for instructions on creating a Pull request).</p>
 <p><strong>Background:</strong> Data from the
 <a class="reference external" href="https://landsat.usgs.gov/about-landsat">Landsat</a> 5,7 and 8 satellite
 missions are accessible through <a class="reference external" href="http://www.ga.gov.au/about/projects/geographic/digital-earth-australia">Digital Earth
@@ -532,7 +545,7 @@ reused.</p>
 <p>Select ‘Trust this notebook’ to import these modules.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [229]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -551,9 +564,8 @@ reused.</p>
 <span class="kn">from</span> <span class="nn">datacube.helpers</span> <span class="k">import</span> <span class="n">ga_pq_fuser</span><span class="p">,</span> <span class="n">write_geotiff</span>
 
 <span class="c1"># Import external functions from dea-notebooks</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/dea-notebooks/Scripts/&#39;</span><span class="p">))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/dea-notebooks/10_Scripts/&#39;</span><span class="p">))</span>
 <span class="kn">import</span> <span class="nn">DEAPlotting</span><span class="o">,</span> <span class="nn">DEADataHandling</span>
-<span class="kn">from</span> <span class="nn">FileDialogs</span> <span class="k">import</span> <span class="o">*</span>
 
 <span class="c1">#ignore datacube warnings (needs to be last import statement)</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -602,7 +614,7 @@ products in the datacube.</p>
 <h4>Code to display the products<a class="headerlink" href="#Code-to-display-the-products" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [230]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -639,7 +651,7 @@ specified as 0.</li>
 </ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [231]:
+<span></span>In [22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -674,7 +686,7 @@ shared dimensions, and serves a similar purpose in xarray to the
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [154]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -689,12 +701,12 @@ shared dimensions, and serves a similar purpose in xarray to the
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Loading ls5 data
     Skipping ls5
-Loading ls7 data
+Ignoring SLC-off observations for ls7
+Loading ls7 PQ
     Loading 0 filtered ls7 timesteps
-Loading ls8 data
-    Loading 2 filtered ls8 timesteps
+Loading ls8 PQ
+    Loading 3 filtered ls8 timesteps
 Combining and sorting ls5, ls7 and ls8 data
 </pre></div></div>
 </div>
@@ -704,7 +716,7 @@ Combining and sorting ls5, ls7 and ls8 data
 <p>Note that Unmixing Error is high over water</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [138]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -715,7 +727,7 @@ Combining and sorting ls5, ls7 and ls8 data
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [139]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -756,7 +768,7 @@ Combining and sorting ls5, ls7 and ls8 data
 <h3>We could filter using the unmixing error, but using WOfS is more robust.<a class="headerlink" href="#We-could-filter-using-the-unmixing-error,-but-using-WOfS-is-more-robust." title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [140]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -769,7 +781,7 @@ Combining and sorting ls5, ls7 and ls8 data
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[140]:
+<span></span>Out[10]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
@@ -799,7 +811,7 @@ Notebook</a></li>
 <h3>load the wofs feature layers (wofls) within the same query as Fractional cover, using ‘like’<a class="headerlink" href="#load-the-wofs-feature-layers-(wofls)-within-the-same-query-as-Fractional-cover,-using-'like'" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [163]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -816,7 +828,7 @@ flags</a>
 to flag pixels as ‘wet’ or otherwise</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [180]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -826,7 +838,7 @@ to flag pixels as ‘wet’ or otherwise</p>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[180]:
+<span></span>Out[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -914,7 +926,7 @@ to flag pixels as ‘wet’ or otherwise</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [175]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -944,7 +956,7 @@ terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False,
 <h3>Here is what the WOFL mask looks like on one timestep:<a class="headerlink" href="#Here-is-what-the-WOFL-mask-looks-like-on-one-timestep:" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [224]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -957,11 +969,11 @@ terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False,
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[224]:
+<span></span>Out[14]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.collections.QuadMesh at 0x7feaa0fee860&gt;
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7f47b7011e10&gt;
 </pre></div>
 </div>
 </div>
@@ -974,7 +986,7 @@ terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False,
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [213]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -990,7 +1002,7 @@ terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False,
 <h3>Here is what Fractional Cover looks like with WOFL removed:<a class="headerlink" href="#Here-is-what-Fractional-Cover-looks-like-with-WOFL-removed:" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [215]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1000,11 +1012,11 @@ terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False,
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[215]:
+<span></span>Out[16]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.collections.QuadMesh at 0x7feaa11a41d0&gt;
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7f47c8337630&gt;
 </pre></div>
 </div>
 </div>
@@ -1020,7 +1032,7 @@ terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False,
 <h3>Edit save file path to choose where to save your output files<a class="headerlink" href="#Edit-save-file-path-to-choose-where-to-save-your-output-files" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [226]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1035,7 +1047,7 @@ terrain_or_low_angle  {&#39;bits&#39;: 3, &#39;values&#39;: {&#39;0&#39;: False,
 <h2>Save Fractional Cover scenes to NetCDF<a class="headerlink" href="#Save-Fractional-Cover-scenes-to-NetCDF" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [227]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1062,7 +1074,7 @@ wrote to netCDF
 <h2>Save Fractional Cover scenes to GeoTIFF<a class="headerlink" href="#Save-Fractional-Cover-scenes-to-GeoTIFF" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [228]:
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1096,6 +1108,7 @@ wrote to netCDF
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 multiple timesteps
+wrote to GeoTIFF
 wrote to GeoTIFF
 wrote to GeoTIFF
 </pre></div></div>

@@ -108,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notebooks/08_Outputting_data/README.html">Outputting data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/09_Workflows/README.html">Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/10_Scripts/README.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Supplementary_data/README.html">Supplementary Data</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Data Guide</span></p>
 <ul>
@@ -452,7 +453,11 @@ accounts on National Computational Infrastructure (NCI).</p>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html">Pixel drill using interactive widgets</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Set-up-the-extraction-query">Set up the extraction query</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#First,-pull-in-the-data-from-Landsat-8">First, pull in the data from Landsat 8</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Plot-up-an-image-so-we-can-select-a-pixel-for-further-interrogation">Plot up an image so we can select a pixel for further interrogation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Plot-up-an-image-so-we-can-select-a-pixel-for-further-interrogation">Plot up an image so we can select a pixel for further interrogation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#First,-we-want-to-define-a-function-called-onclick-that-specifies-what-happens-when-the-plot-is-clicked">First, we want to define a function called <code class="docutils literal notranslate"><span class="pre">onclick</span></code> that specifies what happens when the plot is clicked</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Now-set-up-our-widget,-and-click-on-a-pixel">Now set up our widget, and click on a pixel</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Plot-up-the-complete-timeseries-of-data-for-a-single-pixel">Plot up the complete timeseries of data for a single pixel</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="notebooks/05_Temporal_analysis/PixelDrillWithWidgets.html#Convert-the-selected-time-to-a-time-stamp-we-can-use-to-extract-the-correct-scene">Convert the selected time to a time stamp we can use to extract the correct scene</a></li>
 </ul>
@@ -564,6 +569,32 @@ accounts on National Computational Infrastructure (NCI).</p>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/Tidal_Geomedian_Filmstrips.html#Create-tidal-modelled-vs-observed-plot">Create tidal modelled vs observed plot</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html">Multi-Choice Dashboard</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Import-modules-from-standard-libraries,-datacube-and-files">Import modules from standard libraries, datacube and files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Select-a-shape-file-for-your-area-of-analysis">Select a shape file for your area of analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Use-the-select-file-button-to-choose-a-shape-file">Use the select file button to choose a shape file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Use-the-check-shapefile-button-to-check-if-the-chosen-shapefile-is-valid">Use the check shapefile button to check if the chosen shapefile is valid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Alternatively,-draw-a-polygon-on-the-map-below">Alternatively, draw a polygon on the map below</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Fill-in-boxes-to-select-time-period-of-interest">Fill in boxes to select time period of interest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Load-the-data">Load the data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Plot-the-stat-composite-in-RGB:">Plot the stat composite in RGB:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Save-as-netcdf:">Save as netcdf:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#Save-as-GeoTiff:">Save as GeoTiff:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notebooks/06_Composite_generation/MultiChoice_Dashboard.html#References">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html">Basic Geomedian calculation example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html#Import-modules">Import modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html#Set-up-datacube-query-for-data-extraction">Set up datacube query for data extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html#Load-Landsat-data">Load Landsat data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html#Load-Pixel-Quality-(PQ)-data-and-create-PQ-mask">Load Pixel Quality (PQ) data and create PQ mask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html#Mask-out-invalid-and-poor-pixel-quality-(e.g.-clouds,-cloud-shadow,-saturated-pixels)">Mask out invalid and poor pixel quality (e.g. clouds, cloud shadow, saturated pixels)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html#Compute-geomedian-from-time-series">Compute geomedian from time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/06_Composite_generation/BasicGeomedianExample.html#Export-as-GeoTiff">Export as GeoTiff</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/07_Image_classification/README.html">Image Classification</a><ul>
@@ -580,12 +611,10 @@ accounts on National Computational Infrastructure (NCI).</p>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html">DEA WOfS and Water Classifier Notebook</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Import-modules-from-standard-libraries,-datacube-and-files">Import modules from standard libraries, datacube and files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#edit-query-and-extract-data-from-DEA">edit query and extract data from DEA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Edit-query-and-extract-data-from-DEA">Edit query and extract data from DEA</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Classify-water-and-calculate-Water-Observations-from-Space-(WOfS)">Classify water and calculate Water Observations from Space (WOfS)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Calculate-and-plot-WOfS">Calculate and plot WOfS</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Edit-save-file-path-to-choose-where-to-save-your-output-files">Edit save file path to choose where to save your output files</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Calculate-and-plot-WOfS">Calculate and plot WOfS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Plot-WOFS">Plot WOFS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Save-WOfS-output-to-netCDF">Save WOfS output to netCDF</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#Save-WOfS-output-to-GeoTiff">Save WOfS output to GeoTiff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notebooks/07_Image_classification/DEA_WOfS_and_water_classifier.html#References">References</a></li>
@@ -763,6 +792,7 @@ accounts on National Computational Infrastructure (NCI).</p>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/10_Scripts/README.html">Scripts</a><ul class="simple">
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Supplementary_data/README.html">Supplementary Data</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
