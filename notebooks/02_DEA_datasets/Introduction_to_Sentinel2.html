@@ -1,0 +1,1131 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to Sentinel 2 &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Getting started with High-Low Tide Composites (HLTC_25)" href="Introduction_to_HLTC.html" />
+    <link rel="prev" title="Introduction to Fractional Cover Data" href="Introduction_to_Fractional_Cover.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">DEA Datasets</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_Landsat.html">Introduction to DEA Landsat surface reflectance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_LandsatPQ.html">Introduction to Landsat pixel quality (PQ25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_Fractional_Cover.html">Introduction to Fractional Cover Data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Introduction to Sentinel 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#See-what-Sentinel-2-products-are-currently-available">See what Sentinel 2 products are currently available</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Now-we-want-to-actually-load-and-look-at-some-data">Now we want to actually load and look at some data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#See-what-came-back-from-the-extraction">See what came back from the extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#About-Sentinel-2-bands">About Sentinel 2 bands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Data-corrections">Data corrections</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Plot-this-scene-up-as-true-colour-image">Plot this scene up as true colour image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plot-this-scene-up-as-false-colour-image">Plot this scene up as false colour image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Compare-some-scenes-side-by-side">Compare some scenes side-by-side</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Filter-scenes-using-pixel-quality">Filter scenes using pixel quality</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Here-is-the-cloudy-image-we-would-like-to-mask">Here is the cloudy image we would like to mask</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-up-the-pixel-quality-information-for-the-same-scene">Plot up the pixel quality information for the same scene</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Now-use-the-pixel-quality-information-to-create-a-mask,-and-apply-it-to-the-spectral-data">Now use the pixel quality information to create a mask, and apply it to the spectral data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_HLTC.html">Getting started with High-Low Tide Composites (HLTC_25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Introduction_to_ITEM.html">Getting started with the Intertidal Extents Relative Model and ITEM Confidence (ITEM v2.0)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Supplementary_data/README.html">Supplementary Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">DEA Datasets</a> &raquo;</li>
+        
+      <li>Introduction to Sentinel 2</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/02_DEA_datasets/Introduction_to_Sentinel2.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Introduction-to-Sentinel-2">
+<h1>Introduction to Sentinel 2<a class="headerlink" href="#Introduction-to-Sentinel-2" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong> This notebook steps you through how to
+load in and plot up data from Sentinel 2. It explores the data that are
+available from the Sentinel 2 satellite, and briefly describes the
+Sentinel satellite bands. It then loads in the <code class="docutils literal notranslate"><span class="pre">s2a_ard_granule</span></code>
+product and plots it up in true and false colour. It uses the provided
+pixel quality data to filters the example scene based on <code class="docutils literal notranslate"><span class="pre">cloud</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cloud</span> <span class="pre">shadow</span></code>-free pixels.</p>
+<p><strong>Before you run this notebook:</strong> You need to run the following commands
+from the command line prior to launching jupyter notebook from the same
+terminal so that the required libraries and paths are set.</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<p><strong>Date</strong>: September 2018.</p>
+<p><strong>Author</strong>: Claire Krause</p>
+<p>Tags: <span class="target" id="index-0"></span>Sentinel2, <span class="target" id="index-1"></span>products, <span class="target" id="index-2"></span>DEAPlotting, <span class="target" id="index-3"></span>three_band_image, <span class="target" id="index-4"></span>three_band_image_subplots, <span class="target" id="index-5"></span>dc.list_products, <span class="target" id="index-6"></span>dc.load, <span class="target" id="index-7"></span>query, <span class="target" id="index-8"></span>beginner, <span class="target" id="index-9"></span>plot, <span class="target" id="index-10"></span>image, <span class="target" id="index-11"></span>pixelquality</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">datacube.storage</span> <span class="k">import</span> <span class="n">masking</span>
+<span class="kn">from</span> <span class="nn">datacube</span> <span class="k">import</span> <span class="n">Datacube</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">exposure</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># Point this to where you have the algorithms from the dea-notebooks/algorithms saved</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../10_Scripts&#39;</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span>
+<span class="kn">import</span> <span class="nn">DEADataHandling</span>
+
+<span class="c1"># Replace &#39;156&#39; and &#39;cek156&#39; with the path to your own home directory on the VDI</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Intro to Sentinel2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="See-what-Sentinel-2-products-are-currently-available">
+<h2>See what Sentinel 2 products are currently available<a class="headerlink" href="#See-what-Sentinel-2-products-are-currently-available" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">products</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">list_products</span><span class="p">()</span>
+<span class="n">display_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;instrument&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;platform&#39;</span><span class="p">,</span> <span class="s1">&#39;product_type&#39;</span><span class="p">,</span> <span class="s1">&#39;crs&#39;</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">]</span>
+<span class="n">sentinel_products</span> <span class="o">=</span> <span class="n">products</span><span class="p">[</span><span class="n">products</span><span class="p">[</span><span class="s1">&#39;instrument&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;MSI&#39;</span><span class="p">][</span><span class="n">display_columns</span><span class="p">]</span>
+<span class="n">sentinel_products</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>description</th>
+      <th>instrument</th>
+      <th>platform</th>
+      <th>product_type</th>
+      <th>crs</th>
+      <th>resolution</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>90</th>
+      <td>s2a_ard_granule</td>
+      <td>Sentinel-2A MSI ARD - NBAR NBART and Pixel Qua...</td>
+      <td>MSI</td>
+      <td>SENTINEL_2A</td>
+      <td>S2MSIARD</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>s2a_level1c_granule</td>
+      <td>Sentinel-2A Level1C - Ortho Rectified Top of A...</td>
+      <td>MSI</td>
+      <td>Sentinel-2A</td>
+      <td>S2MSI1C</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>s2b_ard_granule</td>
+      <td>Sentinel-2B MSI ARD - NBAR NBART and Pixel Qua...</td>
+      <td>MSI</td>
+      <td>SENTINEL_2B</td>
+      <td>S2MSIARD</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>s2b_level1c_granule</td>
+      <td>Sentinel-2B Level1C - Ortho Rectified Top of A...</td>
+      <td>MSI</td>
+      <td>Sentinel-2B</td>
+      <td>S2MSI1C</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>There are two spectral Sentinel satellites currently in DEA;
+<strong>Sentinel-2A</strong> and <strong>Sentinel-2B</strong>. Sentinel-2A was launched on 23 June
+2015 and Sentinel-2B followed on 7 March 2017.</p>
+<p>Both of the Sentinel 2 satellites carries an innovative wide swath
+high-resolution multispectral imager with 13 spectral bands. The mission
+is based on a constellation of two identical satellites in the same
+orbit, 180° apart for optimal coverage and data delivery. Together they
+cover all Earth’s land surfaces, large islands, inland and coastal
+waters every five days at the equator.</p>
+<p>For more information on the Sentinel 2 platforms and applications, check
+out the <a class="reference external" href="http://www.esa.int/Our_Activities/Observing_the_Earth/Copernicus/Sentinel-2">European Space Agency
+website</a>.</p>
+</div>
+<div class="section" id="Now-we-want-to-actually-load-and-look-at-some-data">
+<h2>Now we want to actually load and look at some data<a class="headerlink" href="#Now-we-want-to-actually-load-and-look-at-some-data" title="Permalink to this headline">¶</a></h2>
+<p>We will focus on data from the Sentinel-2a platform for this
+demonstration, as there is more data available than 2b. To explore the
+spectral datasets from Sentinel-2a, we will use the <code class="docutils literal notranslate"><span class="pre">s2a_ard_granule</span></code>
+product. Sometimes multiple scenes are acquired by the satellite on the
+same day. We want to group these together, and will use
+<code class="docutils literal notranslate"><span class="pre">group_by='solar_day'</span></code> to do this.</p>
+<p>To load in the Sentinel data, we have a number of options we can use in
+building our data extraction query:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">lat</span></code>/<code class="docutils literal notranslate"><span class="pre">lon</span></code> - specify a bounding box for the extraction. Note
+that a polygon can be used instead. See
+<a class="reference external" href="https://datacube-core.readthedocs.io/en/stable/dev/generate/datacube.api.query.Query.html#datacube.api.query.Query">here</a>
+for more details</li>
+<li><code class="docutils literal notranslate"><span class="pre">output_crs</span></code> - the output coordinate reference system to project
+the data into. The CRS you request will impact on the format for the
+<code class="docutils literal notranslate"><span class="pre">resolution</span></code> query. Two handy CRSs are ‘EPSG:3577’, which is the
+Australian Albers projected coordinate system, and ‘EPSG:4325’, which
+is WGS84 a global geographic coordinate system.</li>
+<li><code class="docutils literal notranslate"><span class="pre">resolution</span></code> - the requested output resolution for the data. If you
+have selected a geographic coordinate system for the <code class="docutils literal notranslate"><span class="pre">output_crs</span></code>,
+this will be in degrees. If you have selected a projected coordinate
+system, this will be in metres.</li>
+<li><code class="docutils literal notranslate"><span class="pre">time</span></code> - the time range for the query.</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">35.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">35.35</span><span class="p">),</span>
+        <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">149.05</span><span class="p">,</span> <span class="mf">149.17</span><span class="p">),</span>
+        <span class="s1">&#39;output_crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;2017-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-02-15&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+<span class="n">Canberra</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="s1">&#39;s2a_ard_granule&#39;</span><span class="p">,</span> <span class="n">group_by</span><span class="o">=</span><span class="s1">&#39;solar_day&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="See-what-came-back-from-the-extraction">
+<h3>See what came back from the extraction<a class="headerlink" href="#See-what-came-back-from-the-extraction" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Canberra</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.Dataset&gt;
+Dimensions:                (time: 4, x: 1229, y: 1248)
+Coordinates:
+  * time                   (time) datetime64[ns] 2017-01-05T00:02:12.026000 ...
+  * y                      (y) float64 -3.953e+06 -3.953e+06 -3.953e+06 ...
+  * x                      (x) float64 1.542e+06 1.542e+06 1.542e+06 ...
+Data variables:
+    azimuthal_exiting      (time, y, x) float32 51.598415 69.59759 69.59759 ...
+    azimuthal_incident     (time, y, x) float32 99.42026 131.8199 131.8199 ...
+    exiting                (time, y, x) float32 6.080089 6.106118 6.106118 ...
+    incident               (time, y, x) float32 29.626802 28.227316 ...
+    relative_azimuth       (time, y, x) float32 26.696213 26.696083 ...
+    relative_slope         (time, y, x) float32 47.821842 62.222313 ...
+    satellite_azimuth      (time, y, x) float32 100.56925 100.56922 ...
+    satellite_view         (time, y, x) float32 4.932457 4.931436 4.931436 ...
+    solar_azimuth          (time, y, x) float32 73.87304 73.87314 73.87314 ...
+    solar_zenith           (time, y, x) float32 30.224127 30.223907 ...
+    terrain_shadow         (time, y, x) uint8 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...
+    fmask                  (time, y, x) uint8 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 ...
+    nbar_contiguity        (time, y, x) uint8 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...
+    nbar_coastal_aerosol   (time, y, x) int16 882 882 882 882 882 929 929 ...
+    nbar_blue              (time, y, x) int16 795 715 727 746 836 801 768 ...
+    nbar_green             (time, y, x) int16 938 867 871 895 945 908 865 ...
+    nbar_red               (time, y, x) int16 1052 894 909 878 1025 964 872 ...
+    nbar_red_edge_1        (time, y, x) int16 1387 1400 1400 1378 1378 1311 ...
+    nbar_red_edge_2        (time, y, x) int16 2130 2082 2082 2096 2096 2034 ...
+    nbar_red_edge_3        (time, y, x) int16 2386 2394 2394 2385 2385 2364 ...
+    nbar_nir_1             (time, y, x) int16 2214 2673 2618 2537 2397 2171 ...
+    nbar_nir_2             (time, y, x) int16 2701 2687 2687 2622 2622 2586 ...
+    nbar_swir_2            (time, y, x) int16 2354 2238 2238 2158 2158 2087 ...
+    nbar_swir_3            (time, y, x) int16 1630 1562 1562 1505 1505 1405 ...
+    nbart_contiguity       (time, y, x) uint8 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...
+    nbart_coastal_aerosol  (time, y, x) int16 875 875 875 875 875 922 922 ...
+    nbart_blue             (time, y, x) int16 790 706 716 733 819 784 752 ...
+    nbart_green            (time, y, x) int16 932 856 858 879 925 888 846 ...
+    nbart_red              (time, y, x) int16 1045 882 895 861 1002 942 852 ...
+    nbart_red_edge_1       (time, y, x) int16 1380 1379 1379 1350 1350 1282 ...
+    nbart_red_edge_2       (time, y, x) int16 2119 2050 2050 2054 2054 1989 ...
+    nbart_red_edge_3       (time, y, x) int16 2375 2360 2360 2341 2341 2316 ...
+    nbart_nir_1            (time, y, x) int16 2199 2641 2580 2492 2349 2126 ...
+    nbart_nir_2            (time, y, x) int16 2688 2649 2649 2573 2573 2534 ...
+    nbart_swir_2           (time, y, x) int16 2341 2200 2200 2109 2109 2036 ...
+    nbart_swir_3           (time, y, x) int16 1621 1535 1535 1470 1470 1369 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="About-Sentinel-2-bands">
+<h2>About Sentinel 2 bands<a class="headerlink" href="#About-Sentinel-2-bands" title="Permalink to this headline">¶</a></h2>
+<p>Sentinel 2 satellites have 13 spectral channels:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="23%" />
+<col width="11%" />
+<col width="20%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Sentinel 2 bands</th>
+<th class="head">DEA band name</th>
+<th class="head">Band number</th>
+<th class="head">Central wavelength (nm)</th>
+<th class="head">Resolution (m)</th>
+<th class="head">Bandwidth (nm)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Coastal aerosol</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_coastal_aerosol</span></code></td>
+<td>1</td>
+<td>443</td>
+<td>60</td>
+<td>20</td>
+</tr>
+<tr class="row-odd"><td>Blue</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_blue</span></code></td>
+<td>2</td>
+<td>490</td>
+<td>10</td>
+<td>65</td>
+</tr>
+<tr class="row-even"><td>Green</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_green</span></code></td>
+<td>3</td>
+<td>560</td>
+<td>10</td>
+<td>35</td>
+</tr>
+<tr class="row-odd"><td>Red</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_red</span></code></td>
+<td>4</td>
+<td>665</td>
+<td>10</td>
+<td>30</td>
+</tr>
+<tr class="row-even"><td>Vegetation red edge</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_rededge_1</span></code></td>
+<td>5</td>
+<td>705</td>
+<td>20</td>
+<td>15</td>
+</tr>
+<tr class="row-odd"><td>Vegetation red edge</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_rededge_2</span></code></td>
+<td>6</td>
+<td>740</td>
+<td>20</td>
+<td>15</td>
+</tr>
+<tr class="row-even"><td>Vegetation red edge</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_rededge_3</span></code></td>
+<td>7</td>
+<td>783</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr class="row-odd"><td>NIR</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_nir_1</span></code></td>
+<td>8</td>
+<td>842</td>
+<td>10</td>
+<td>115</td>
+</tr>
+<tr class="row-even"><td>Narrow NIR</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_nir_2</span></code></td>
+<td>8A</td>
+<td>865</td>
+<td>20</td>
+<td>20</td>
+</tr>
+<tr class="row-odd"><td>Water vapour</td>
+<td>N/A</td>
+<td>9</td>
+<td>945</td>
+<td>60</td>
+<td>20</td>
+</tr>
+<tr class="row-even"><td>SWIR - Cirrus</td>
+<td>N/A</td>
+<td>10</td>
+<td>1375</td>
+<td>60</td>
+<td>20</td>
+</tr>
+<tr class="row-odd"><td>SWIR</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_swir_2</span></code></td>
+<td>11</td>
+<td>1610</td>
+<td>20</td>
+<td>90</td>
+</tr>
+<tr class="row-even"><td>SWIR</td>
+<td><code class="docutils literal notranslate"><span class="pre">nbar(t)_swir_3</span></code></td>
+<td>12</td>
+<td>2190</td>
+<td>20</td>
+<td>180</td>
+</tr>
+</tbody>
+</table>
+<p>These bands cover the visible, near-infrared and short-wave infrared
+wave lengths.</p>
+<div class="figure" id="id1">
+<img alt="Sentinel 2 bands" src="http://www.geosage.com/highview/figures/Sentinel2_Spectral_Bands.jpg" />
+<p class="caption"><span class="caption-text">Sentinel 2 bands</span></p>
+</div>
+<p><strong>Note</strong> There are a number of additional datasets that are alse
+returned from our query. These are a combination of datasets used in the
+correction process, and layers relating to pixel quality. We will
+explore the pixel quality layers below.</p>
+<div class="section" id="Data-corrections">
+<h3>Data corrections<a class="headerlink" href="#Data-corrections" title="Permalink to this headline">¶</a></h3>
+<p>There are two corrections applied to the Sentinel data:</p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line"><strong>NBAR (e.g. ``nbar_green``)</strong></div>
+<div class="line">NBAR stands for Nadir-corrected BRDF Adjusted Reflectance, where</div>
+</div>
+<p>BRDF stands for Bidirectional reflectance distribution function The
+approach involves atmospheric correction to compute surface-leaving
+radiance, and bi-directional reflectance modelling to remove the
+effects of topography and angular variation in reflectance.</p>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>T_NBAR (e.g. ``nbart_green``)</strong></div>
+<div class="line">Surface reflectance T_NBAR includes the terrain illumination</div>
+</div>
+<p>reflectance correction and has the same features of NBAR, along with
+some additional features.</p>
+</li>
+</ol>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">nbart</span></code> data insert a missing value (<code class="docutils literal notranslate"><span class="pre">-9999</span></code>) into the
+dataset to denote a terrain shadow. This should be converted to a
+<code class="docutils literal notranslate"><span class="pre">NaN</span></code> value before using this data to avoid treating it as a valid
+value.</p>
+<p>For more information on these corrections, see the explanation of the
+<a class="reference external" href="http://geoscienceaustralia.github.io/digitalearthau/data/data.html#">Landsat archive
+data</a>.</p>
+</div>
+</div>
+<div class="section" id="Plot-this-scene-up-as-true-colour-image">
+<h2>Plot this scene up as true colour image<a class="headerlink" href="#Plot-this-scene-up-as-true-colour-image" title="Permalink to this headline">¶</a></h2>
+<p>True colour images approximate what the human eye sees when looking at a
+landscape. Note that the function used for this true colour plot
+enhances the contrast between the bands, resulting in a colour-enhanced
+image.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">Canberra</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nbar_red&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_green&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_blue&#39;</span><span class="p">],</span>
+                             <span class="n">contrast_enhance</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_13_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_13_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Plot-this-scene-up-as-false-colour-image">
+<h2>Plot this scene up as false colour image<a class="headerlink" href="#Plot-this-scene-up-as-false-colour-image" title="Permalink to this headline">¶</a></h2>
+<p>This plot uses the SWIR, NIR and green bands to accentuate the presence
+of water in the landscape.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span>
+    <span class="n">Canberra</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nbar_swir_2&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_nir_1&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_green&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_15_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_15_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Compare-some-scenes-side-by-side">
+<h2>Compare some scenes side-by-side<a class="headerlink" href="#Compare-some-scenes-side-by-side" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image_subplots</span><span class="p">(</span><span class="n">Canberra</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nbar_swir_2&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_nir_1&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_green&#39;</span><span class="p">],</span>
+                                      <span class="n">num_cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_17_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_17_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Filter-scenes-using-pixel-quality">
+<h2>Filter scenes using pixel quality<a class="headerlink" href="#Filter-scenes-using-pixel-quality" title="Permalink to this headline">¶</a></h2>
+<p>A pixel quality dataset (<code class="docutils literal notranslate"><span class="pre">fmask</span></code>) is provided alongside the spectral
+data, which can be used to filter out noisy pixels. The key things we
+want to filter are clouds and shadows.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">fmask</span></code> field contains values from 0 to 5.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>Null</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>Valid</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>Cloud</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>Cloud shadow</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>Snow</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>Water</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="Here-is-the-cloudy-image-we-would-like-to-mask">
+<h3>Here is the cloudy image we would like to mask<a class="headerlink" href="#Here-is-the-cloudy-image-we-would-like-to-mask" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span>
+    <span class="n">Canberra</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nbar_swir_2&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_nir_1&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_green&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_20_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_20_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Plot-up-the-pixel-quality-information-for-the-same-scene">
+<h3>Plot up the pixel quality information for the same scene<a class="headerlink" href="#Plot-up-the-pixel-quality-information-for-the-same-scene" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Canberra</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">fmask</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_22_0.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_22_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Now-use-the-pixel-quality-information-to-create-a-mask,-and-apply-it-to-the-spectral-data">
+<h3>Now use the pixel quality information to create a mask, and apply it to the spectral data<a class="headerlink" href="#Now-use-the-pixel-quality-information-to-create-a-mask,-and-apply-it-to-the-spectral-data" title="Permalink to this headline">¶</a></h3>
+<p>We want to filter out no data, cloud and cloud shadow, so we will use
+the <code class="docutils literal notranslate"><span class="pre">fmask</span></code> values <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code> and <code class="docutils literal notranslate"><span class="pre">3</span></code> for our filter.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">clear_pixels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">Canberra</span><span class="o">.</span><span class="n">fmask</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Canberra</span><span class="o">.</span><span class="n">fmask</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">),</span>
+                              <span class="n">Canberra</span><span class="o">.</span><span class="n">fmask</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">Clear_Canberra</span> <span class="o">=</span> <span class="n">Canberra</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clear_pixels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DEAPlotting</span><span class="o">.</span><span class="n">three_band_image</span><span class="p">(</span><span class="n">Clear_Canberra</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nbar_swir_2&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_nir_1&#39;</span><span class="p">,</span> <span class="s1">&#39;nbar_green&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/g/data/v10/public/modules/dea-env/20180728/lib/python3.6/site-packages/numpy/core/_methods.py:29: RuntimeWarning: invalid value encountered in reduce
+  return umr_minimum(a, axis, None, out, keepdims)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_25_1.png" src="../../_images/notebooks_02_DEA_datasets_Introduction_to_Sentinel2_25_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Introduction_to_HLTC.html" class="btn btn-neutral float-right" title="Getting started with High-Low Tide Composites (HLTC_25)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Introduction_to_Fractional_Cover.html" class="btn btn-neutral" title="Introduction to Fractional Cover Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>
