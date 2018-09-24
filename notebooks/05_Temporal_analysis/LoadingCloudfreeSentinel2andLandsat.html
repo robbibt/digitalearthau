@@ -1,0 +1,1166 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Loading cloud-free Sentinel 2 and Landsat from multiple satellites into one dataset &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Polygon drill" href="PolygonDrill.html" />
+    <link rel="prev" title="Visualising vegetation phenology" href="Interactive_phenology_plot_tagged.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">Temporal Analyses</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_TCI_Multi-site.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall for Multiple Sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_TCI_and_Rainfall.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_NDVI.html">Hovmoller plot of NDVI and Rainfall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_NDVI_Multi-site.html">Hovmoller plots of NDVI and Rainfall (multiple sites)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Interactive_phenology_plot_tagged.html">Visualising vegetation phenology</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loading cloud-free Sentinel 2 and Landsat from multiple satellites into one dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Import-modules-and-functions">Import modules and functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-analysis-variables">Set up analysis variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-in-Landsat-5/7/8-and-Sentinel-2A/2B-timeseries-data">Load in Landsat 5/7/8 and Sentinel 2A/2B timeseries data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Load-in-Landsat-5/7/8-timeseries">Load in Landsat 5/7/8 timeseries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Load-in-Sentinel-2A/2B-timeseries">Load in Sentinel 2A/2B timeseries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Combine-Landsat-and-Sentinel-2-into-a-single-dataset">Combine Landsat and Sentinel 2 into a single dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Animate-output">Animate output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Other-useful-features">Other useful features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Customise-pixel-quality-mask">Customise pixel quality mask</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PQ-masking">PQ masking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="PolygonDrill.html">Polygon drill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PixelDrillWithWidgets.html">Pixel drill using interactive widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="InterrogateCropPolygonForPhenology.html">Interrogate crop poylgon to explore phenology</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Supplementary_data/README.html">Supplementary Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">Temporal Analyses</a> &raquo;</li>
+        
+      <li>Loading cloud-free Sentinel 2 and Landsat from multiple satellites into one dataset</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/05_Temporal_analysis/LoadingCloudfreeSentinel2andLandsat.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Loading-cloud-free-Sentinel-2-and-Landsat-from-multiple-satellites-into-one-dataset">
+<h1>Loading cloud-free Sentinel 2 and Landsat from multiple satellites into one dataset<a class="headerlink" href="#Loading-cloud-free-Sentinel-2-and-Landsat-from-multiple-satellites-into-one-dataset" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong></p>
+<p>This notebook demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">load_clearlandsat</span></code> and
+<code class="docutils literal notranslate"><span class="pre">load_clearsentinel2</span></code> functions to import a time series of cloud-free
+observations from both multiple Landsat satellites (i.e. Landsat 5, 7
+and 8) and Sentinel 2 (i.e. S2A and S2B) as a single combined xarray
+dataset, and then plot the data as a cloud-free time series animation
+with each frame annotated by satellite name.</p>
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebooks from the same terminal so that the required
+libraries and paths are set:</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code> (if this notebook results in <strong>concatenation
+errors</strong>, try again after loading in <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea/20180906</span></code>)</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">ffmpeg</span></code></p>
+<p>This notebook uses three external functions called
+<code class="docutils literal notranslate"><span class="pre">load_clearlandsat</span></code>, <code class="docutils literal notranslate"><span class="pre">load_clearsentinel2</span></code> and
+<code class="docutils literal notranslate"><span class="pre">animated_timeseries</span></code>. These functions are available in the
+<code class="docutils literal notranslate"><span class="pre">10_Scripts</span></code> folder of the <a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/tree/master/10_Scripts">dea-notebooks Github
+repository</a>.
+Note that these functions have been developed by DEA users, not the DEA
+development team, and so are provided without warranty. If you find an
+error or bug in the functions, please either create an ‘Issue’ in the
+Github repository, or fix it yourself and create a ‘Pull’ request to
+contribute the updated function back into the repository (See the
+repository
+<a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
+for instructions on creating a Pull request).</p>
+<p><strong>Date:</strong> September 2018</p>
+<p><strong>Author:</strong> Robbi Bishop-Taylor</p>
+<p><strong>Tags</strong>: <span class="target" id="index-0"></span>plot, <span class="target" id="index-1"></span>animation, <span class="target" id="index-2"></span>time_series, <span class="target" id="index-3"></span>gif, <span class="target" id="index-4"></span>movie, <span class="target" id="index-5"></span>Landsat5, <span class="target" id="index-6"></span>Landsat7, <span class="target" id="index-7"></span>Landsat8, <span class="target" id="index-8"></span>Sentinel2, <span class="target" id="index-9"></span>load_clearlandsat, <span class="target" id="index-10"></span>load_clearsentinel2, <span class="target" id="index-11"></span>animated_timeseries, <span class="target" id="index-12"></span>DEAPlotting, <span class="target" id="index-13"></span>DEADataHandling, <span class="target" id="index-14"></span>Scripts, <span class="target" id="index-15"></span>Outputting data</p>
+<div class="section" id="Import-modules-and-functions">
+<h2>Import modules and functions<a class="headerlink" href="#Import-modules-and-functions" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">datacube.utils.geometry</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">datacube</span> <span class="k">import</span> <span class="n">Datacube</span>
+
+<span class="c1"># Import external functions from dea-notebooks using relative link to Scripts</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../10_Scripts&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span>
+<span class="kn">import</span> <span class="nn">DEADataHandling</span>
+
+<span class="c1"># Connect to datacube database</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Time series animation&#39;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-up-analysis-variables">
+<h2>Set up analysis variables<a class="headerlink" href="#Set-up-analysis-variables" title="Permalink to this headline">¶</a></h2>
+<p>This sets the analysis extent, time period, output resolution and
+minimum proportion of cloud-free pixels used to filter the observations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up centre of area to analyse, and a buffer in metres around this centrepoint</span>
+<span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">buffer_m</span> <span class="o">=</span> <span class="o">-</span><span class="mf">32.3451254903</span><span class="p">,</span> <span class="mf">142.328819458</span><span class="p">,</span> <span class="mi">9000</span>
+
+<span class="c1"># Set range of time to return data from both Landsat and Sentinel 2</span>
+<span class="n">time_range</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;2016-06-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2018-06-01&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set the output resolution for both datasets. (-25, 25) will resample Sentinel 2 to the default Landsat</span>
+<span class="c1"># resolution of 25 m pixels, while higher values (e.g. (-100, 100)) can be useful for loading reduced</span>
+<span class="c1"># resolution data for large areas without exceeding memory limits</span>
+<span class="n">resolution</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+
+<span class="c1"># Set up minimum proportions of cloud-free pixels required to return Landsat and Sentinel2 observations.</span>
+<span class="c1"># A proportion of 0.95 means that only observations with less than 5% cloud will be returned. Note that</span>
+<span class="c1"># the Sentinel 2 cloud mask is often more aggressive, and sometimes requires a lower threshold</span>
+<span class="n">landsat_goodquality_prop</span><span class="p">,</span> <span class="n">sentinel_goodquality_prop</span> <span class="o">=</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.95</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Load-in-Landsat-5/7/8-and-Sentinel-2A/2B-timeseries-data">
+<h2>Load in Landsat 5/7/8 and Sentinel 2A/2B timeseries data<a class="headerlink" href="#Load-in-Landsat-5/7/8-and-Sentinel-2A/2B-timeseries-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Load-in-Landsat-5/7/8-timeseries">
+<h3>Load in Landsat 5/7/8 timeseries<a class="headerlink" href="#Load-in-Landsat-5/7/8-timeseries" title="Permalink to this headline">¶</a></h3>
+<p>Load in Landsat data for the centrepoint, buffer and time range
+specified above. This uses the <code class="docutils literal notranslate"><span class="pre">load_clearlandsat</span></code> function, which
+loads Landsat NBAR, NBART or FC25 for multiple sensors (i.e. ls5, ls7,
+ls8), and returns a single xarray dataset containing only observations
+that contain greater than a given proportion of clear pixels. This
+function was designed to extract visually appealing time series of
+observations that are not affected by cloud, for example as an input to
+the <code class="docutils literal notranslate"><span class="pre">animated_timeseries</span></code> function from <code class="docutils literal notranslate"><span class="pre">DEAPlotting</span></code>.</p>
+<p>The proportion of clear pixels is calculated by summing the pixels that
+are flagged as being problematic in the Landsat PQ25 layer. By default
+only cloudy or cloud shadowed pixels or pixels without valid data in
+every band are included in the calculation, but this can be customised
+using the <code class="docutils literal notranslate"><span class="pre">mask_dict</span></code> function.</p>
+<div class="admonition note">
+If you encounter memory issues: By default, the function removes invalid
+-999 values by replacing them with NaN (mask_invalid_data=True). For
+large data extractions, it is recommended that you set both
+mask_pixel_quality=False and mask_invalid_data=False. Otherwise, all
+output variables will be coerced to float64 when NaN values are inserted
+into the array, potentially causing your data to use 4x as much memory.
+Be aware that the resulting arrays will contain invalid -999 values
+which should be considered in analyses.</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up analysis data query using a buffer around a lat-long point (1280 x 720).</span>
+<span class="c1"># This simply converts a lat long to Australian Albers, then creates a square analysis region</span>
+<span class="c1"># by creating a square buffer around the point.</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;WGS84&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;EPSG:3577&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">buffer_m</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">buffer_m</span><span class="p">),</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">buffer_m</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">buffer_m</span><span class="p">),</span>
+         <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">time_range</span><span class="p">,</span>
+         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;output_crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="n">resolution</span><span class="p">}</span>
+
+<span class="c1"># Load cloud free Landsat data for all sensors (LS5, LS7, LS8) for the above query. Setting</span>
+<span class="c1"># `satellite_metadata=True` will return the data with a variable that gives the abbreviation</span>
+<span class="c1"># of the satellite that made the observation</span>
+<span class="n">landsat_ds</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">sensors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ls5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">],</span>
+                                               <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                               <span class="n">masked_prop</span><span class="o">=</span><span class="n">landsat_goodquality_prop</span><span class="p">,</span>
+                                               <span class="n">satellite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Print and plot resulting data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">landsat_ds</span><span class="p">)</span>
+<span class="n">landsat_ds</span><span class="p">[[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 pixel quality
+    Skipping ls5; no valid data for query
+Ignoring SLC-off observations for ls7
+Loading ls7 pixel quality
+    Loading 0 filtered ls7 timesteps
+Loading ls8 pixel quality
+    Loading 25 filtered ls8 timesteps
+Combining and sorting ls7, ls8 data
+    Replacing invalid -999 values with NaN (data will be coerced to float64)
+&lt;xarray.Dataset&gt;
+Dimensions:    (time: 25, x: 721, y: 721)
+Coordinates:
+  * y          (y) float64 -3.556e+06 -3.556e+06 -3.556e+06 -3.556e+06 ...
+  * x          (x) float64 9.542e+05 9.542e+05 9.542e+05 9.542e+05 9.543e+05 ...
+  * time       (time) datetime64[ns] 2016-07-03T00:20:15 2016-08-04T00:20:25 ...
+Data variables:
+    red        (time, y, x) float64 1.447e+03 1.363e+03 1.422e+03 1.439e+03 ...
+    green      (time, y, x) float64 877.0 823.0 845.0 856.0 830.0 746.0 ...
+    blue       (time, y, x) float64 394.0 357.0 378.0 382.0 365.0 320.0 ...
+    data_perc  (time) float64 0.9995 0.9998 0.9998 1.0 0.9997 1.0 1.0 0.9981 ...
+    satellite  (time) object &#39;ls8&#39; &#39;ls8&#39; &#39;ls8&#39; &#39;ls8&#39; &#39;ls8&#39; &#39;ls8&#39; &#39;ls8&#39; &#39;ls8&#39; ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[3]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.plot.facetgrid.FacetGrid at 0x7f7cbc678e10&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_8_2.png" src="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_8_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Load-in-Sentinel-2A/2B-timeseries">
+<h3>Load in Sentinel 2A/2B timeseries<a class="headerlink" href="#Load-in-Sentinel-2A/2B-timeseries" title="Permalink to this headline">¶</a></h3>
+<p>This uses the <code class="docutils literal notranslate"><span class="pre">load_clearsentinel2</span></code> function to load Sentinel 2 data
+for multiple sensors (i.e. s2a, s2b) and returns a single xarray dataset
+containing only observations that contain greater than a given
+proportion of clear pixels. The proportion of clear pixels is calculated
+by summing the pixels that are flagged as being problematic in the
+Sentinel pixel quality array (also named <code class="docutils literal notranslate"><span class="pre">fmask</span></code>). By default pixels
+flagged as nodata, cloud or shadow are used to calculate the number of
+unclear pixels, but this can be customised using the <code class="docutils literal notranslate"><span class="pre">mask_values</span></code>
+function.</p>
+<p>Before Sentinel 2 data can be combined with Landsat, the band names need
+to be renamed to match Landsat band names.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Load cloud free Sentinel data for all sensors (S2A, S2B) for the above query. Setting</span>
+<span class="c1"># `satellite_metadata=True` will return the data with a variable that gives the abbreviation</span>
+<span class="c1"># of the satellite that made the observation</span>
+<span class="n">sentinel_ds</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearsentinel2</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">sensors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;s2a&#39;</span><span class="p">,</span> <span class="s1">&#39;s2b&#39;</span><span class="p">],</span>
+                                                  <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nbart_red&#39;</span><span class="p">,</span> <span class="s1">&#39;nbart_green&#39;</span><span class="p">,</span> <span class="s1">&#39;nbart_blue&#39;</span><span class="p">],</span>
+                                                  <span class="n">masked_prop</span><span class="o">=</span><span class="n">sentinel_goodquality_prop</span><span class="p">,</span>
+                                                  <span class="n">satellite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Rename bands to match Landsat to allow combining/concatenating</span>
+<span class="n">sentinel_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;nbart_red&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;nbart_green&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;nbart_blue&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Print and plot sample of resulting data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sentinel_ds</span><span class="p">)</span>
+<span class="n">sentinel_ds</span><span class="p">[[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading s2a pixel quality
+    Loading 18 filtered s2a timesteps
+Loading s2b pixel quality
+    Loading 7 filtered s2b timesteps
+Combining and sorting s2a, s2b data
+    Replacing invalid -999 values with NaN (data will be coerced to float64)
+&lt;xarray.Dataset&gt;
+Dimensions:    (time: 25, x: 721, y: 721)
+Coordinates:
+  * y          (y) float64 -3.556e+06 -3.556e+06 -3.556e+06 -3.556e+06 ...
+  * x          (x) float64 9.542e+05 9.542e+05 9.542e+05 9.542e+05 9.543e+05 ...
+  * time       (time) datetime64[ns] 2016-06-28T00:31:43.654000 ...
+Data variables:
+    red        (time, y, x) float64 1.371e+03 1.039e+03 1.567e+03 1.309e+03 ...
+    green      (time, y, x) float64 765.0 553.0 773.0 742.0 687.0 561.0 ...
+    blue       (time, y, x) float64 368.0 295.0 376.0 385.0 317.0 222.0 ...
+    data_perc  (time) float64 0.9965 0.9966 0.9973 0.9976 0.9738 0.9736 ...
+    satellite  (time) &lt;U3 &#39;s2a&#39; &#39;s2a&#39; &#39;s2a&#39; &#39;s2a&#39; &#39;s2a&#39; &#39;s2a&#39; &#39;s2a&#39; &#39;s2a&#39; ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.plot.facetgrid.FacetGrid at 0x7f7cd80e47b8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_10_2.png" src="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_10_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Combine-Landsat-and-Sentinel-2-into-a-single-dataset">
+<h3>Combine Landsat and Sentinel 2 into a single dataset<a class="headerlink" href="#Combine-Landsat-and-Sentinel-2-into-a-single-dataset" title="Permalink to this headline">¶</a></h3>
+<p>Here we take both Landsat and Sentinel 2 datasets, and combine them into
+a single dataset. This dataset is sorted so that the data can be
+animated in time order, regardless of what satellites made the
+observations. The <code class="docutils literal notranslate"><span class="pre">satellite</span></code> variable gives the name of the satellite
+that made each observation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Combine into one dataset</span>
+<span class="n">combined_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">auto_combine</span><span class="p">([</span><span class="n">landsat_ds</span><span class="p">,</span> <span class="n">sentinel_ds</span><span class="p">])</span>
+
+<span class="c1"># Sort by time</span>
+<span class="n">combined_ds</span> <span class="o">=</span> <span class="n">combined_ds</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+
+<span class="c1"># Print resulting data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">combined_ds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;xarray.Dataset&gt;
+Dimensions:    (time: 50, x: 721, y: 721)
+Coordinates:
+  * y          (y) float64 -3.556e+06 -3.556e+06 -3.556e+06 -3.556e+06 ...
+  * x          (x) float64 9.542e+05 9.542e+05 9.542e+05 9.542e+05 9.543e+05 ...
+  * time       (time) datetime64[ns] 2016-06-28T00:31:43.654000 ...
+Data variables:
+    red        (time, y, x) float64 1.371e+03 1.039e+03 1.567e+03 1.309e+03 ...
+    green      (time, y, x) float64 765.0 553.0 773.0 742.0 687.0 561.0 ...
+    blue       (time, y, x) float64 368.0 295.0 376.0 385.0 317.0 222.0 ...
+    data_perc  (time) float64 0.9965 0.9995 0.9998 0.9966 0.9998 0.9973 1.0 ...
+    satellite  (time) object &#39;s2a&#39; &#39;ls8&#39; &#39;ls8&#39; &#39;s2a&#39; &#39;ls8&#39; &#39;s2a&#39; &#39;ls8&#39; &#39;s2a&#39; ...
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Animate-output">
+<h2>Animate output<a class="headerlink" href="#Animate-output" title="Permalink to this headline">¶</a></h2>
+<p>To demonstrate how the resulting time series derived from different
+satellite sensors fit together seamlessly, we can produce an RGB
+animation using data from both Landsat and Sentinel 2:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Create a prettier list of satellite names for printing over the animation</span>
+<span class="n">pretty_names</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ls5&#39;</span><span class="p">:</span> <span class="s1">&#39;Landsat 5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">:</span> <span class="s1">&#39;Landsat 7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">:</span> <span class="s1">&#39;Landsat 8&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;s2a&#39;</span><span class="p">:</span> <span class="s1">&#39;Sentinel 2A&#39;</span><span class="p">,</span> <span class="s1">&#39;s2b&#39;</span><span class="p">:</span> <span class="s1">&#39;Sentinel 2B&#39;</span><span class="p">}</span>
+<span class="n">satellite_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">pretty_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">combined_ds</span><span class="o">.</span><span class="n">satellite</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+
+<span class="c1"># Produce an RGB animation that includes both Sentinel and Landsat observations, using</span>
+<span class="c1"># the `title` parameter to print satellite names for each observation</span>
+<span class="n">DEAPlotting</span><span class="o">.</span><span class="n">animated_timeseries</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">combined_ds</span><span class="p">,</span>
+                                <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;combined_Landsat_Sentinel2.gif&#39;</span><span class="p">,</span>
+                                <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                <span class="n">interval</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                                <span class="n">width_pixels</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+                                <span class="n">title</span><span class="o">=</span><span class="n">satellite_names</span><span class="p">,</span>
+                                <span class="n">percentile_stretch</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generating 50 frame animation
+    Exporting animation to combined_Landsat_Sentinel2.gif
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_14_1.png" src="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_14_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Other-useful-features">
+<h2>Other useful features<a class="headerlink" href="#Other-useful-features" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Customise-pixel-quality-mask">
+<h3>Customise pixel quality mask<a class="headerlink" href="#Customise-pixel-quality-mask" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">load_clear*</span></code> functions can be customised to use a different set
+of pixel quality values to determine if a pixel is good or bad quality.
+For Landsat, only pixels flagged as cloud or that are missing data in
+any band (<code class="docutils literal notranslate"><span class="pre">contiguous=False</span></code>) are used to the number of unclear
+pixels, but this can be customised using the <code class="docutils literal notranslate"><span class="pre">mask_dict</span></code> parameter.
+The default settings are equivelent to:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># New query</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">954163</span><span class="p">,</span> <span class="mi">972163</span><span class="p">),</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">3573891</span><span class="p">,</span> <span class="o">-</span><span class="mi">3555891</span><span class="p">),</span>
+         <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;2001-06-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2005-06-01&#39;</span><span class="p">),</span>
+         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;output_crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)}</span>
+
+<span class="c1"># Dictionary of values to pass to the `masking.make_mask` function</span>
+<span class="n">mask_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cloud_acca&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;cloud_fmask&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;contiguous&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+<span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">sensors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ls5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">],</span>
+                                  <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                  <span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span>
+                                  <span class="n">mask_dict</span><span class="o">=</span><span class="n">mask_dict</span><span class="p">,</span>
+                                  <span class="n">satellite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 pixel quality
+    Loading 27 filtered ls5 timesteps
+Ignoring SLC-off observations for ls7
+Loading ls7 pixel quality
+    Loading 12 filtered ls7 timesteps
+Loading ls8 pixel quality
+    Skipping ls8; no valid data for query
+Combining and sorting ls5, ls7 data
+    Replacing invalid -999 values with NaN (data will be coerced to float64)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[7]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.Dataset&gt;
+Dimensions:    (time: 39, x: 721, y: 721)
+Coordinates:
+  * y          (y) float64 -3.556e+06 -3.556e+06 -3.556e+06 -3.556e+06 ...
+  * x          (x) float64 9.542e+05 9.542e+05 9.542e+05 9.542e+05 9.543e+05 ...
+  * time       (time) datetime64[ns] 2001-07-02T00:09:44.500000 ...
+Data variables:
+    red        (time, y, x) float64 2.018e+03 1.942e+03 1.912e+03 1.827e+03 ...
+    green      (time, y, x) float64 1.081e+03 1.084e+03 1.09e+03 1.088e+03 ...
+    blue       (time, y, x) float64 550.0 552.0 510.0 464.0 459.0 455.0 ...
+    data_perc  (time) float64 1.0 1.0 0.9998 1.0 0.9997 0.9995 0.9996 0.9997 ...
+    satellite  (time) &lt;U3 &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div>
+</div>
+</div>
+<p>But we can use a more restrictive mask that also treats cloud shadow and
+saturated pixels as poor quality. Note that the code below returns a
+total of 35 observations compared to the 39 above:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Dictionary of values to pass to the `masking.make_mask` function</span>
+<span class="n">mask_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cloud_acca&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;cloud_fmask&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;cloud_shadow_acca&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;cloud_shadow_fmask&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;blue_saturated&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;green_saturated&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;red_saturated&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;nir_saturated&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;swir1_saturated&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;swir2_saturated&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;contiguous&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+<span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">sensors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ls5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">],</span>
+                                  <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                  <span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span>
+                                  <span class="n">mask_dict</span><span class="o">=</span><span class="n">mask_dict</span><span class="p">,</span>
+                                  <span class="n">satellite_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 pixel quality
+    Loading 26 filtered ls5 timesteps
+Ignoring SLC-off observations for ls7
+Loading ls7 pixel quality
+    Loading 9 filtered ls7 timesteps
+Loading ls8 pixel quality
+    Skipping ls8; no valid data for query
+Combining and sorting ls5, ls7 data
+    Replacing invalid -999 values with NaN (data will be coerced to float64)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[8]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.Dataset&gt;
+Dimensions:    (time: 35, x: 721, y: 721)
+Coordinates:
+  * y          (y) float64 -3.556e+06 -3.556e+06 -3.556e+06 -3.556e+06 ...
+  * x          (x) float64 9.542e+05 9.542e+05 9.542e+05 9.542e+05 9.543e+05 ...
+  * time       (time) datetime64[ns] 2001-07-02T00:09:44.500000 ...
+Data variables:
+    red        (time, y, x) float64 2.018e+03 1.942e+03 1.912e+03 1.827e+03 ...
+    green      (time, y, x) float64 1.081e+03 1.084e+03 1.09e+03 1.088e+03 ...
+    blue       (time, y, x) float64 550.0 552.0 510.0 464.0 459.0 455.0 ...
+    data_perc  (time) float64 1.0 0.9999 0.9998 1.0 0.9995 0.9995 0.9999 ...
+    satellite  (time) &lt;U3 &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; &#39;ls7&#39; ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="PQ-masking">
+<h3>PQ masking<a class="headerlink" href="#PQ-masking" title="Permalink to this headline">¶</a></h3>
+<p>Depending on the value set for <code class="docutils literal notranslate"><span class="pre">masked_prop</span></code>, the resulting
+observations will still contain a small proportion of poor quality
+pixels. We can mask out these remaining pixels and set them to NaN using
+<code class="docutils literal notranslate"><span class="pre">mask_pixel_quality=True</span></code>. This applies the PQ mask that was
+constructed from the values declared using <code class="docutils literal notranslate"><span class="pre">mask_dict</span></code>. First, view
+how the resulting layers appear without <code class="docutils literal notranslate"><span class="pre">mask_pixel_quality=False</span></code>
+(the default):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># New query</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">954163</span><span class="p">,</span> <span class="mi">972163</span><span class="p">),</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">3573891</span><span class="p">,</span> <span class="o">-</span><span class="mi">3555891</span><span class="p">),</span>
+         <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;2010-06-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2011-06-01&#39;</span><span class="p">),</span>
+         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;output_crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)}</span>
+
+<span class="c1"># With mask_pixel_quality=False</span>
+<span class="n">landsat_ds</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">sensors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ls5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">],</span>
+                                               <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                               <span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                                               <span class="n">mask_pixel_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Print and plot sample of resulting data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">landsat_ds</span><span class="p">)</span>
+<span class="n">landsat_ds</span><span class="p">[[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 pixel quality
+    Loading 11 filtered ls5 timesteps
+Ignoring SLC-off observations for ls7
+Loading ls7 pixel quality
+    Loading 0 filtered ls7 timesteps
+Loading ls8 pixel quality
+    Skipping ls8; no valid data for query
+Combining and sorting ls5, ls7 data
+    Replacing invalid -999 values with NaN (data will be coerced to float64)
+&lt;xarray.Dataset&gt;
+Dimensions:    (time: 11, x: 721, y: 721)
+Coordinates:
+  * y          (y) float64 -3.556e+06 -3.556e+06 -3.556e+06 -3.556e+06 ...
+  * x          (x) float64 9.542e+05 9.542e+05 9.542e+05 9.542e+05 9.543e+05 ...
+  * time       (time) datetime64[ns] 2010-09-05T00:10:38.500000 ...
+Data variables:
+    red        (time, y, x) float64 1.938e+03 1.82e+03 1.915e+03 1.794e+03 ...
+    green      (time, y, x) float64 1.132e+03 1.083e+03 1.09e+03 1.144e+03 ...
+    blue       (time, y, x) float64 544.0 571.0 574.0 575.0 521.0 492.0 ...
+    data_perc  (time) float64 0.9996 0.7331 0.9245 0.8284 1.0 0.9062 0.9971 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[9]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7f7cb39f6780&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_20_2.png" src="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_20_2.png" />
+</div>
+</div>
+<p>Now use <code class="docutils literal notranslate"><span class="pre">mask_pixel_quality=True</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># With mask_pixel_quality=True</span>
+<span class="n">landsat_ds</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">sensors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ls5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">],</span>
+                                               <span class="n">bands_of_interest</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span>
+                                               <span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                                               <span class="n">mask_pixel_quality</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Print and plot sample of resulting data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">landsat_ds</span><span class="p">)</span>
+<span class="n">landsat_ds</span><span class="p">[[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 pixel quality
+    Loading 11 filtered ls5 timesteps
+Ignoring SLC-off observations for ls7
+Loading ls7 pixel quality
+    Loading 0 filtered ls7 timesteps
+Loading ls8 pixel quality
+    Skipping ls8; no valid data for query
+Combining and sorting ls5, ls7 data
+    Replacing invalid -999 values with NaN (data will be coerced to float64)
+&lt;xarray.Dataset&gt;
+Dimensions:    (time: 11, x: 721, y: 721)
+Coordinates:
+  * y          (y) float64 -3.556e+06 -3.556e+06 -3.556e+06 -3.556e+06 ...
+  * x          (x) float64 9.542e+05 9.542e+05 9.542e+05 9.542e+05 9.543e+05 ...
+  * time       (time) datetime64[ns] 2010-09-05T00:10:38.500000 ...
+Data variables:
+    red        (time, y, x) float64 1.938e+03 1.82e+03 1.915e+03 1.794e+03 ...
+    green      (time, y, x) float64 1.132e+03 1.083e+03 1.09e+03 1.144e+03 ...
+    blue       (time, y, x) float64 544.0 571.0 574.0 575.0 521.0 492.0 ...
+    data_perc  (time, y, x) float64 0.9996 0.9996 0.9996 0.9996 0.9996 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[10]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7f7cbc6d5be0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_22_2.png" src="../../_images/notebooks_05_Temporal_analysis_LoadingCloudfreeSentinel2andLandsat_22_2.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PolygonDrill.html" class="btn btn-neutral float-right" title="Polygon drill" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Interactive_phenology_plot_tagged.html" class="btn btn-neutral" title="Visualising vegetation phenology" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>
