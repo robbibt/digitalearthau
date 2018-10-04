@@ -1,0 +1,489 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Products Available on Amazon S3 &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Creating a New Product" href="../internal/new_product.html" />
+    <link rel="prev" title="Surface Reflectance" href="data.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/05_Temporal_analysis/README.html">Temporal Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/10_Scripts/README.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/Supplementary_data/README.html">Supplementary Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="data.html">Surface Reflectance</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Products Available on Amazon S3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sentinel-2-near-real-time-stable">Sentinel 2 Near Real Time (Stable)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#water-observations-from-space">Water Observations from Space</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#water-observation-feature-layers-alpha">Water Observation Feature Layers (Alpha)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filtered-summary-stable">Filtered Summary (Stable)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#summary-stable">Summary (Stable)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#geomedian-australia-stable">Geomedian Australia (Stable)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mangrove-cover-stable">Mangrove Cover (Stable)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#barest-earth-alpha">Barest Earth (Alpha)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fractional-cover-alpha">Fractional Cover (Alpha)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-data">Other Data</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Products Available on Amazon S3</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/data/s3.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="products-available-on-amazon-s3">
+<h1>Products Available on Amazon S3<a class="headerlink" href="#products-available-on-amazon-s3" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sentinel-2-near-real-time-stable">
+<h2>Sentinel 2 Near Real Time (Stable)<a class="headerlink" href="#sentinel-2-near-real-time-stable" title="Permalink to this headline">¶</a></h2>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=L2/">L2/</a>
+│   ├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=L2/sentinel-2-nrt/">sentinel-2-nrt/</a>
+</pre>
+<p>A rolling archive of 90 days of Sentinel 2 NBAR Surface Reflectance.</p>
+<p>This data is based off the Sinergise PDS data which is available in
+JP2000, which is why the product definition includes data for both.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/L2/sentinel-2-nrt/product-definition.yaml">Sentinel 2 NRT Product definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/L2/sentinel-2-nrt/S2MSIARD/2018-10-01/S2A_OPER_MSI_ARD_TL_EPAE_20181001T024445_A017102_T52HGK_N02.06/ARD-METADATA.yaml">Sentinel 2 NRT Example tile metadata</a></li>
+<li><a class="reference external" href="https://github.com/GeoscienceAustralia/dea-config/blob/master/prod/services/wms/nrt/wms_cfg.py">Sentinel 2 NRT ODC WMS config</a></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We only recently increased the NRT archive from 30 days to 90 days. As such, it is still growing to include a full 90 days.</p>
+</div>
+</div>
+<div class="section" id="water-observations-from-space">
+<h2>Water Observations from Space<a class="headerlink" href="#water-observations-from-space" title="Permalink to this headline">¶</a></h2>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=WOfS/">WOfS/</a>
+</pre>
+<div class="section" id="water-observation-feature-layers-alpha">
+<h3>Water Observation Feature Layers (Alpha)<a class="headerlink" href="#water-observation-feature-layers-alpha" title="Permalink to this headline">¶</a></h3>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=WOfS/">WOfS/</a>
+│   ├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=WOfS/WOFLs/">WOFLs/</a>
+</pre>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/WOFLs/v2.1.0/Product%20Description.pdf">Water Observation Feature Layers Product description</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/WOFLs/v2.1.0/product-definition.yaml">Water Observation Feature Layers Product definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/WOFLs/v2.1.0/combined/x_-16/y_-19/2015/05/12/LS_WATER_3577_-16_-19_20150512020641500000_v1526766106.yaml">Water Observation Feature Layers Example tile metadata</a></li>
+</ul>
+</div>
+<div class="section" id="filtered-summary-stable">
+<h3>Filtered Summary (Stable)<a class="headerlink" href="#filtered-summary-stable" title="Permalink to this headline">¶</a></h3>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=WOfS/">WOfS/</a>
+│   ├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=WOfS/filtered_summary/">filtered_summary/</a>
+</pre>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/filtered_summary/v2.1.0/Product%20Description.pdf">Water Observations Filtered Summary Product description</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/filtered_summary/v2.1.0/product-definition.yaml">Water Observations Filtered Summary Product definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/filtered_summary/v2.1.0/combined/x_-14/y_-13/wofs_filtered_summary_-14_-13.yaml">Water Observations Filtered Summary Example tile metadata</a></li>
+</ul>
+</div>
+<div class="section" id="summary-stable">
+<h3>Summary (Stable)<a class="headerlink" href="#summary-stable" title="Permalink to this headline">¶</a></h3>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=WOfS/">WOfS/</a>
+│   ├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=WOfS/summary/">summary/</a>
+</pre>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/summary/v2.1.0/Product%20Description.pdf">Water Observations Summary Product description</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/summary/v2.1.0/product-definition.yaml">Water Observations Summary Product definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/WOfS/summary/v2.1.0/combined/x_-16/y_-12/WOFS_3577_-16_-12_summary.yaml">Water Observations Summary Example tile&nbsp;metadata</a></li>
+<li><a class="reference external" href="https://github.com/GeoscienceAustralia/dea-config/blob/master/prod/services/wms/ows/wms_cfg.py#L821-L1433">Water Observations Summary ODC WMS config</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="geomedian-australia-stable">
+<h2>Geomedian Australia (Stable)<a class="headerlink" href="#geomedian-australia-stable" title="Permalink to this headline">¶</a></h2>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=geomedian-australia/">geomedian-australia/</a>
+</pre>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/geomedian-australia/Product%20Description.pdf">Geomedian Australia Product Description</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/geomedian-australia/product-definition.yaml">Geomedian Australia Product Definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/geomedian-australia/v2.1.0/L7/x_-3/y_-20/2010/01/01/ls7_gm_nbart_-3_-20_20100101.yaml">Geomedian Australia Example tile metadata</a></li>
+<li><a class="reference external" href="https://github.com/GeoscienceAustralia/dea-config/blob/master/prod/services/wms/ows/wms_cfg.py#L105-L741">Geomedian Australia ODC WMS config</a></li>
+</ul>
+</div>
+<div class="section" id="mangrove-cover-stable">
+<h2>Mangrove Cover (Stable)<a class="headerlink" href="#mangrove-cover-stable" title="Permalink to this headline">¶</a></h2>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=mangrove_cover/">mangrove_cover/</a>
+</pre>
+<p>The mangrove canopy cover product provides valuable information about
+the extent and canopy density of mangroves for each year between 1987
+and 2016 for the entire Australian coastline. The canopy cover classes
+are 20-50% (pale green), 50-80% (mid green), 80-100% (dark green). The
+product consists of a sequence (one per year) of 25 meter resolution
+maps that are generated by analysing the Landsat fractional cover
+(<a class="reference external" href="https://doi.org/10.6084/m9.figshare.94250.v1">https://doi.org/10.6084/m9.figshare.94250.v1</a>) developed by the Joint
+Remote Sensing Research Program and the Global Mangrove Watch layers
+(<a class="reference external" href="https://doi.org/10.1071/MF13177">https://doi.org/10.1071/MF13177</a>) developed by the Japanese Aerospace
+Exploration Agency.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/mangrove_cover/product-definition.yaml">Mangrove Cover Product definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/mangrove_cover/-19_-30/MANGROVE_COVER_3577_-19_-30_20170101.yaml">Mangrove Cover Example tile metadata</a></li>
+<li><a class="reference external" href="https://github.com/GeoscienceAustralia/dea-config/blob/master/prod/services/wms/ows/wms_cfg.py#L742-L820">Mangrove Cover ODC WMS config</a></li>
+</ul>
+</div>
+<div class="section" id="barest-earth-alpha">
+<h2>Barest Earth (Alpha)<a class="headerlink" href="#barest-earth-alpha" title="Permalink to this headline">¶</a></h2>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=bare-earth/">bare-earth/</a>
+</pre>
+<p>Total summary (1988 - present) with an algorithm that selecting the
+barest earth pixel.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Metadata has x and y instead of latitude and longitude, it is currently being re-generated</p>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/bare-earth/summary/v2.1.0/product-definition.yaml">Barest Earth Product definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/bare-earth/summary/v2.1.0/L8/x_-13/y_-105/be-l8_-13_-105.yaml">Barest Earth Example tile metadata</a></li>
+<li><a class="reference external" href="https://github.com/GeoscienceAustralia/dea-config/blob/master/dev/services/wms/ows/wms_cfg.py#L741-L947">Barest Earth ODC WMS config</a></li>
+</ul>
+</div>
+<div class="section" id="fractional-cover-alpha">
+<h2>Fractional Cover (Alpha)<a class="headerlink" href="#fractional-cover-alpha" title="Permalink to this headline">¶</a></h2>
+<pre class="literal-block">
+s3://dea-public-data/
+...
+├── <a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=fractional-cover/">fractional-cover/</a>
+</pre>
+<p>Fractional Cover (FC) is one of two vegetation-related products
+currently offered by Digital Earth Australia, the other being the
+Normalised Difference Vegetation Index (NDVI) product. FC provides
+information about the the proportions of green vegetation, non-green
+vegetation (including deciduous trees during autumn, dry grass, etc.),
+and bare soils for every 25m x 25m ground footprint across the whole
+Australian continent. This information is available for every cloud free
+satellite observation&nbsp;over Australia from 1987 till now. FC can
+potentially provide insights into the interplay and changes in areas of
+dry vegetation and/or bare soil as well as allowing the mapping of green
+vegetation extent.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/fractional-cover/fc/v2.2.0/product-definition.yaml">Fractional Cover Product definition</a></li>
+<li><a class="reference external" href="http://dea-public-data.s3-ap-southeast-2.amazonaws.com/fractional-cover/fc/v2.2.0/ls8/x_-16/y_-13/2018/03/24/LS8_OLI_FC_3577_-16_-13_20180324021120500000_v1524571261.yaml">Fractional Cover Example tile metadata</a></li>
+<li><a class="reference external" href="https://github.com/GeoscienceAustralia/dea-config/blob/master/dev/services/wms/fc/wms_cfg.py#L72-L155">Fractional Cover ODC WMS config</a></li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Some data is missing due to problems uploading</p>
+</div>
+</div>
+<div class="section" id="other-data">
+<h2>Other Data<a class="headerlink" href="#other-data" title="Permalink to this headline">¶</a></h2>
+<pre class="literal-block">
+<a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=ITEM_Intervals/">ITEM_Intervals/</a>
+
+<a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=ITEM_V2/">ITEM_V2/</a>
+
+<a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=LHTC_Tides/">LHTC_Tides/</a>
+
+<a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=ewater/">ewater/</a>
+</pre>
+<pre class="literal-block">
+<a class="reference external" href="http://dea-public-data.s3-website-ap-southeast-2.amazonaws.com/?prefix=projects/">projects/</a>
+</pre>
+<p>These are short term projects that will be migrated to another bucket
+soon.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../internal/new_product.html" class="btn btn-neutral float-right" title="Creating a New Product" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data.html" class="btn btn-neutral" title="Surface Reflectance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>
