@@ -49,6 +49,8 @@ _LOG = structlog.get_logger()
               help="Trash any files that were archived at least '--min-trash-age' hours ago")
 @click.option('--min-trash-age-hours', is_flag=True, default=72, type=int,
               help="Minimum allowed archive age to trash a file")
+@click.option('--validate-data', is_flag=True, default=False,
+              help='Should we ensure every file can be opened and read from')
 # TODO
 # @click.option('--validate', is_flag=True, default=False,
 #               help="Run any available checksums or validation checks for the file type")
@@ -66,6 +68,7 @@ def cli(index: Index,
         output_file: str,
         min_trash_age_hours: bool,
         jobs: int,
+        validate_data: bool,
         **fix_settings):
     """
     Update a datacube index to the state of the filesystem.
@@ -81,7 +84,7 @@ def cli(index: Index,
 
     cs.init_nci_collections(index)
 
-    mismatches = get_mismatches(cache_folder, collection_specifiers, format_, jobs)
+    mismatches = get_mismatches(cache_folder, collection_specifiers, format_, jobs, validate_data)
 
     out_f = sys.stdout
     try:
@@ -151,7 +154,8 @@ def resolve_collections(collection_specifiers: Iterable[str]) -> List[Tuple[cs.C
 def get_mismatches(cache_folder: str,
                    collection_specifiers: Iterable[str],
                    input_file: str,
-                   job_count: int):
+                   job_count: int,
+                   validate_data: bool):
     if input_file:
         yield from differences.mismatches_from_file(Path(input_file))
     else:
@@ -160,7 +164,8 @@ def get_mismatches(cache_folder: str,
                 collection,
                 Path(cache_folder),
                 uri_prefix=uri_prefix,
-                workers=job_count
+                workers=job_count,
+                validate_data=validate_data
             )
 
 

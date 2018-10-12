@@ -8,12 +8,10 @@ from pathlib import Path
 from typing import Iterable, Any, Mapping, List, Set
 
 import structlog
-from boltons import fileutils
-from boltons import strutils
+from boltons import fileutils, strutils
 
-from datacube.index.index import Index  # DEA index
 from datacube.drivers.postgres import PostgresDb
-
+from datacube.index.index import Index  # DEA index
 from datacube.utils import uri_to_local_path, InvalidDocException
 from digitalearthau import paths
 from digitalearthau.collections import Collection
@@ -77,15 +75,15 @@ def build_pathset(
 # TODO: Push only the connection setup information? Or have a dedicated process for index info.
 logging.getLogger('datacube.drivers.postgres._connections').setLevel(logging.ERROR)
 
+# One Database Connection per process
+_PROC_INDEX = None
 
-def _find_uri_mismatches(index_url: str, uri: str, validate_data=True) -> Iterable[Mismatch]:
+
+def _find_uri_mismatches(uri: str, validate_data: bool) -> Iterable[Mismatch]:
     """
     Compare the index and filesystem contents for the given uris,
     yielding Mismatches of any differences.
     """
-
-    # pylint: disable=protected-access
-    index = Index(PostgresDb(PostgresDb._create_engine(index_url)))
 
     def ids(datasets):
         return [d.id for d in datasets]
@@ -93,7 +91,7 @@ def _find_uri_mismatches(index_url: str, uri: str, validate_data=True) -> Iterab
     path = uri_to_local_path(uri)
     log = _LOG.bind(path=path)
     log.debug("index.get_dataset_ids_for_uri")
-    indexed_datasets = set(get_datasets_for_uri(index, uri))
+    indexed_datasets = set(get_datasets_for_uri(_PROC_INDEX, uri))
 
     datasets_in_file = set()  # type: Set[DatasetLite]
     if path.exists():
@@ -131,7 +129,7 @@ def _find_uri_mismatches(index_url: str, uri: str, validate_data=True) -> Iterab
 
     for dataset in file_ds_not_in_index:
         # If it's already indexed, we just need to add the location.
-        indexed_dataset = index.datasets.get(dataset.id)
+        indexed_dataset = _PROC_INDEX.datasets.get(dataset.id)
         if indexed_dataset:
             log.info("location_not_indexed", indexed_dataset=indexed_dataset)
             yield LocationNotIndexed(DatasetLite.from_agdc(indexed_dataset), uri)
@@ -140,12 +138,19 @@ def _find_uri_mismatches(index_url: str, uri: str, validate_data=True) -> Iterab
             yield DatasetNotIndexed(dataset, uri)
 
 
+def initialise_process_db_connection(index_url):
+    global _PROC_INDEX
+    # pylint: disable=protected-access
+    _PROC_INDEX = Index(PostgresDb(PostgresDb._create_engine(index_url)))
+
+
 def mismatches_for_collection(collection: Collection,
                               cache_folder: Path,
                               # Root folder of all file uris.
                               uri_prefix="file:///",
                               workers=2,
-                              work_chunksize=30) -> Iterable[Mismatch]:
+                              work_chunksize=30,
+                              validate_data=True) -> Iterable[Mismatch]:
     """
     Compare the given index and filesystem contents, yielding Mismatches of any differences.
     """
@@ -157,9 +162,10 @@ def mismatches_for_collection(collection: Collection,
     collection.index_.close()
     index_url = collection.index_.url
 
-    with multiprocessing.Pool(processes=workers) as pool:
+    with multiprocessing.Pool(processes=workers, initializer=initialise_process_db_connection,
+                              initargs=[index_url]) as pool:
         result = pool.imap_unordered(
-            partial(_find_uri_mismatches_eager, index_url),
+            partial(_find_uri_mismatches_eager, validate_data=validate_data),
             path_dawg.iterkeys(uri_prefix),
             chunksize=work_chunksize
         )
@@ -171,8 +177,8 @@ def mismatches_for_collection(collection: Collection,
         pool.join()
 
 
-def _find_uri_mismatches_eager(index_url: str, uri: str) -> List[Mismatch]:
-    return list(_find_uri_mismatches(index_url, uri))
+def _find_uri_mismatches_eager(uri: str, validate_data: bool) -> List[Mismatch]:
+    return list(_find_uri_mismatches(uri, validate_data=validate_data))
 
 
 def query_name(query: Mapping[str, Any]) -> str:
