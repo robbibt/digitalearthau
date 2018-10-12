@@ -467,6 +467,17 @@ def init_nci_collections(index: Index):
             unique=('time.lower.day', 'lat', 'lon')
         )
     )
+    for sat in ['ls5', 'ls7', 'ls8']:
+        _add(
+            Collection(
+                name=f'{sat}_nbart_geomedian_annual',
+                query={'product': f'{sat}_nbart_geomedian_annual'},
+                index_=index,
+                file_patterns=[f'/g/data/fk4/datacube/002/stats/geomedian/annual/{sat}_gm/*_*/LS*.nc'],
+                unique=('time.lower.day', 'lat', 'lon')
+            )
+        )
+
 
     assert '/g/data/fk4/datacube/002/FC/LS5_TM_FC/*_*/LS5*FC*.nc' in get_collection('ls5_fc_albers').file_patterns
     assert get_collection('ls8_nbar_albers').file_patterns == (
