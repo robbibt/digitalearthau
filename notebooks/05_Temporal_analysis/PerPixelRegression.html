@@ -1,0 +1,1043 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Per-pixel regression of tide heights vs. MNDWI &mdash; Digital Earth Australia 1.0.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dea-favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Interrogate crop poylgon to explore phenology" href="InterrogateCropPolygonForPhenology.html" />
+    <link rel="prev" title="Pixel drill using interactive widgets" href="PixelDrillWithWidgets.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/dea-logo-inline.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about/changelog.html">DEA NCI Environment Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Connect</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/account.html">NCI Account Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/install.html">Installation and Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/nci_basics.html">Command Line Usage (Advanced)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../connect/jupyter.html">Jupyter Notebooks Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/other_modules.html">Other Modules</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../01_Getting_started/README.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_DEA_datasets/README.html">DEA Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_Integrating_external_data/README.html">Integrating External Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_Index_calculation/README.html">Index Calculation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="README.html">Temporal Analyses</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_TCI_Multi-site.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall for Multiple Sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_TCI_and_Rainfall.html">Hovmoller of Tasselled Cap Wetness, Brightness, Greenness, Rainfall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_NDVI.html">Hovmoller plot of NDVI and Rainfall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hovmoller_NDVI_Multi-site.html">Hovmoller plots of NDVI and Rainfall (multiple sites)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Interactive_phenology_plot_tagged.html">Visualising vegetation phenology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LoadingCloudfreeSentinel2andLandsat.html">Loading cloud-free Sentinel 2 and Landsat from multiple satellites into one dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PolygonDrill.html">Polygon drill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PixelDrillWithWidgets.html">Pixel drill using interactive widgets</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Per-pixel regression of tide heights vs. MNDWI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Import-modules">Import modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Define-notebook-specific-functions">Define notebook-specific functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Set-up-query-parameters">Set up query parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-remotely-sensed-time-series-data">Import remotely-sensed time series data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Tidal-modelling-using-OTPS">Tidal modelling using OTPS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Tagging,-filtering-and-compositing-Landsat-observations-by-tidal-height/stage">Tagging, filtering and compositing Landsat observations by tidal height/stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Compute-linear-regression-of-MNDWI-vs-tide-height">Compute linear regression of MNDWI vs tide height</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Scatterplots">Scatterplots</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Experimental:-test-if-correlations-are-higher-at-various-tide-height-lags">Experimental: test if correlations are higher at various tide height lags</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="InterrogateCropPolygonForPhenology.html">Interrogate crop poylgon to explore phenology</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../06_Composite_generation/README.html">Composite Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07_Image_classification/README.html">Image Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08_Outputting_data/README.html">Outputting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09_Workflows/README.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10_Scripts/README.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Supplementary_data/README.html">Supplementary Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Data Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data/data.html">Surface Reflectance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data/s3.html">Products Available on Amazon S3</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/new_product.html">Creating a New Product</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/git_best_practice.html">Git Best Practice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/release.html">DEA Release Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/modules.html">DEA Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/collection_management.html">Collection Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internal/requirements_met.html">DEA Code Functionality Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Indexes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Tags Index</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Digital Earth Australia</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="README.html">Temporal Analyses</a> &raquo;</li>
+        
+      <li>Per-pixel regression of tide heights vs. MNDWI</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/05_Temporal_analysis/PerPixelRegression.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Per-pixel-regression-of-tide-heights-vs.-MNDWI">
+<h1>Per-pixel regression of tide heights vs. MNDWI<a class="headerlink" href="#Per-pixel-regression-of-tide-heights-vs.-MNDWI" title="Permalink to this headline">¶</a></h1>
+<p><strong>What does this notebook do?</strong></p>
+<p>This notebook computes pixel-wise regression based on Landsat 5, 7 and 8
+MNDWI values (a wetness index) vs tide heights generated using the (<a class="reference external" href="http://volkov.oce.orst.edu/tides/otps.html">OSU
+Tidal Prediction Software or
+OTPS</a>). This results in
+covariance, correlation, p-value, intercept, slope and standard error
+values for every pixel in a study area that help reveal how well tidal
+processes influence patterns of innundation in the landscape.</p>
+<p>This workflow can be adapted to comparing the relationship between any
+remotely sensed metric with another explanatory variable. Because the
+regression outputs are calculated for every individual pixel, these
+metrics can then be plotted to reveal spatial patterns in relationships
+between the two variables.</p>
+<p><strong>Requirements:</strong></p>
+<p>You need to run the following commands from the command line prior to
+launching jupyter notebooks from the same terminal so that the required
+libraries and paths are set:</p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">use</span> <span class="pre">/g/data/v10/public/modules/modulefiles</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">dea</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">otps</span></code></p>
+<p>If you find an error or bug in this notebook, please either create an
+‘Issue’ in the Github repository, or fix it yourself and create a ‘Pull’
+request to contribute the updated notebook back into the repository (See
+the repository
+<a class="reference external" href="https://github.com/GeoscienceAustralia/dea-notebooks/blob/master/README.rst">README</a>
+for instructions on creating a Pull request).</p>
+<p><strong>Date:</strong> October 2018</p>
+<p><strong>Authors:</strong> Robbi Bishop-Taylor, Bex Dunn</p>
+<p><strong>Tags</strong>: <span class="target" id="index-0"></span>tidal_model, <span class="target" id="index-1"></span>OTPS, <span class="target" id="index-2"></span>tidal_tagging, <span class="target" id="index-3"></span>predict_tide, <span class="target" id="index-4"></span>regression, <span class="target" id="index-5"></span>statistics, <span class="target" id="index-6"></span>correlation, <span class="target" id="index-7"></span>scatterplot, <span class="target" id="index-8"></span>intertidal, <span class="target" id="index-9"></span>mndwi, <span class="target" id="index-10"></span>ndwi</p>
+<div class="section" id="Import-modules">
+<h2>Import modules<a class="headerlink" href="#Import-modules" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Get standard libraries</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="k">import</span> <span class="n">make_axes_locatable</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="c1"># Get DEA modules</span>
+<span class="kn">import</span> <span class="nn">datacube</span>
+<span class="kn">from</span> <span class="nn">datacube.utils</span> <span class="k">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">datacube.utils.geometry</span> <span class="k">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">otps</span> <span class="k">import</span> <span class="n">TimePoint</span>
+<span class="kn">from</span> <span class="nn">otps</span> <span class="k">import</span> <span class="n">predict_tide</span>
+
+<span class="c1"># Import external functions from dea-notebooks using relative link to Scripts</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../10_Scripts&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">DEAPlotting</span>
+<span class="kn">import</span> <span class="nn">DEADataHandling</span>
+<span class="kn">import</span> <span class="nn">BandIndices</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="c1"># Create datacube instance</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">Datacube</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s1">&#39;Tidal regression&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div></div>
+</div>
+<div class="section" id="Define-notebook-specific-functions">
+<h3>Define notebook-specific functions<a class="headerlink" href="#Define-notebook-specific-functions" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">lag_linregress_3D</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lagx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lagy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">first_dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes two xr.Datarrays of any dimensions (input data could be a 1D time series, or for example, have</span>
+<span class="sd">    three dimensions e.g. time, lat, lon), and return covariance, correlation, regression slope and intercept,</span>
+<span class="sd">    p-value, and standard error on regression between the two datasets along their aligned first dimension.</span>
+
+<span class="sd">    Datasets can be provided in any order, but note that the regression slope and intercept will be calculated</span>
+<span class="sd">    for y with respect to x.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x, y : xarray DataArray</span>
+<span class="sd">        Two xarray DataArrays with any number of dimensions, both sharing the same first dimension</span>
+<span class="sd">    lagx, lagy : int, optional</span>
+<span class="sd">        Optional integers giving lag values to assign to either of the data, with lagx shifting x, and lagy</span>
+<span class="sd">        shifting y with the specified lag amount.</span>
+<span class="sd">    first_dim : str, optional</span>
+<span class="sd">        An optional string giving the name of the first dimension on which to align datasets. The default is</span>
+<span class="sd">        &#39;time&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cov, cor, slope, intercept, pval, stderr : xarray DataArray</span>
+<span class="sd">        Covariance, correlation, regression slope and intercept, p-value, and standard error on</span>
+<span class="sd">        regression between the two datasets along their aligned first dimension.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#1. Ensure that the data are properly alinged to each other.</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1">#2. Add lag information if any, and shift the data accordingly</span>
+    <span class="k">if</span> <span class="n">lagx</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+
+        <span class="c1"># If x lags y by 1, x must be shifted 1 step backwards. But as the &#39;zero-th&#39; value is nonexistant, xr</span>
+        <span class="c1"># assigns it as invalid (nan). Hence it needs to be dropped:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">first_dim</span><span class="p">:</span> <span class="o">-</span><span class="n">lagx</span><span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">first_dim</span><span class="p">)</span>
+
+        <span class="c1"># Next re-align the two datasets so that y adjusts to the changed coordinates of x:</span>
+        <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">lagy</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">first_dim</span><span class="p">:</span> <span class="o">-</span><span class="n">lagy</span><span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">first_dim</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1">#3. Compute data length, mean and standard deviation along time axis for further use:</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">first_dim</span><span class="p">)</span>
+    <span class="n">xmean</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ymean</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">xstd</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ystd</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1">#4. Compute covariance along first axis</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">xmean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">ymean</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="c1">#5. Compute correlation along time axis</span>
+    <span class="n">cor</span> <span class="o">=</span> <span class="n">cov</span> <span class="o">/</span> <span class="p">(</span><span class="n">xstd</span> <span class="o">*</span> <span class="n">ystd</span><span class="p">)</span>
+
+    <span class="c1">#6. Compute regression slope and intercept:</span>
+    <span class="n">slope</span> <span class="o">=</span> <span class="n">cov</span> <span class="o">/</span> <span class="p">(</span><span class="n">xstd</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">intercept</span> <span class="o">=</span> <span class="n">ymean</span> <span class="o">-</span> <span class="n">xmean</span><span class="o">*</span><span class="n">slope</span>
+
+    <span class="c1">#7. Compute P-value and standard error</span>
+    <span class="c1">#Compute t-statistics</span>
+    <span class="n">tstats</span> <span class="o">=</span> <span class="n">cor</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cor</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">stderr</span> <span class="o">=</span> <span class="n">slope</span><span class="o">/</span><span class="n">tstats</span>
+
+    <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">t</span>
+    <span class="n">pval</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">tstats</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">pval</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">cor</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">cor</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cov</span><span class="p">,</span> <span class="n">cor</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">stderr</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Set-up-query-parameters">
+<h2>Set up query parameters<a class="headerlink" href="#Set-up-query-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Set the centroid and buffer in metres around the centroid to define the
+analysis region.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up analysis data query using</span>
+<span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">buffer_x</span><span class="p">,</span> <span class="n">buffer_y</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.463</span><span class="p">,</span> <span class="mf">130.885</span><span class="p">,</span> <span class="mi">3500</span><span class="p">,</span> <span class="mi">3500</span>  <span class="c1"># Darwin Harbour</span>
+<span class="c1"># lat, lon, buffer_x, buffer_y = -12.265, 132.273, 3500, 8000  # Alligator</span>
+<span class="c1"># lat, lon, buffer_x, buffer_y = -14.809, 135.357, 5000, 4000 # Roper River</span>
+
+<span class="c1">#Set a tide post: this is the location the OTPS model uses to compute tides for the supplied datetimes</span>
+<span class="n">tidepost_lat</span><span class="p">,</span> <span class="n">tidepost_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">12.48315</span><span class="p">,</span> <span class="mf">130.85540</span>  <span class="c1"># Darwin Harbour</span>
+<span class="c1"># tidepost_lat, tidepost_lon = -12.1982891466, 132.284149706  # Alligator</span>
+<span class="c1"># tidepost_lat, tidepost_lon = -14.8051364068, 135.453025279  # Roper River</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Import-remotely-sensed-time-series-data">
+<h2>Import remotely-sensed time series data<a class="headerlink" href="#Import-remotely-sensed-time-series-data" title="Permalink to this headline">¶</a></h2>
+<p>Imports a time series of Landsat observations as a DEA <code class="docutils literal notranslate"><span class="pre">xarray</span></code>
+dataset.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Set up query</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;WGS84&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">CRS</span><span class="p">(</span><span class="s1">&#39;EPSG:3577&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">buffer_x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">buffer_x</span><span class="p">),</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">buffer_y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">buffer_y</span><span class="p">),</span>
+         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="s1">&#39;EPSG:3577&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;1986-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2019-01-01&#39;</span><span class="p">)}</span>
+
+<span class="c1"># Mask used to identify bad pixels (any cloudy, shadowey or saturated pixels)</span>
+<span class="n">mask_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cloud_acca&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;cloud_fmask&#39;</span><span class="p">:</span> <span class="s1">&#39;no_cloud&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;cloud_shadow_acca&#39;</span><span class="p">:</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;cloud_shadow_fmask&#39;</span><span class="p">:</span><span class="s1">&#39;no_cloud_shadow&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;blue_saturated&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;green_saturated&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;red_saturated&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;nir_saturated&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;swir1_saturated&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;swir2_saturated&#39;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span>
+             <span class="s1">&#39;contiguous&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+<span class="c1"># Import data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">DEADataHandling</span><span class="o">.</span><span class="n">load_clearlandsat</span><span class="p">(</span><span class="n">dc</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                                         <span class="n">sensors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ls5&#39;</span><span class="p">,</span> <span class="s1">&#39;ls7&#39;</span><span class="p">,</span> <span class="s1">&#39;ls8&#39;</span><span class="p">],</span>
+                                         <span class="n">mask_dict</span><span class="o">=</span><span class="n">mask_dict</span><span class="p">,</span>
+                                         <span class="n">masked_prop</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                                         <span class="n">mask_pixel_quality</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Plot sample of the data</span>
+<span class="n">data</span><span class="p">[[</span><span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loading ls5 pixel quality
+    Loading 189 filtered ls5 timesteps
+Ignoring SLC-off observations for ls7
+Loading ls7 pixel quality
+    Loading 65 filtered ls7 timesteps
+Loading ls8 pixel quality
+    Loading 90 filtered ls8 timesteps
+Combining and sorting ls5, ls7, ls8 data
+    Replacing invalid -999 values with NaN (data will be coerced to float64)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[4]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.image.AxesImage at 0x7fa7ff63a2e8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_9_2.png" src="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_9_2.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Tidal-modelling-using-OTPS">
+<h2>Tidal modelling using OTPS<a class="headerlink" href="#Tidal-modelling-using-OTPS" title="Permalink to this headline">¶</a></h2>
+<p>Extracts a list of timestamps based on the time and date of acquisition
+for each Landsat observation. These timestamps can then be used inputs
+to the <a class="reference external" href="http://volkov.oce.orst.edu/tides/otps.html">OSU Tidal Prediction Software (OTPS) tidal
+model</a> to compute tidal
+heights at the time of acquisition of each Landsat observation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Extract list of datetimes based on Landsat time of acquisition for each image</span>
+<span class="n">observed_datetimes</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;M8[s]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># The OTPS model requires inputs as &#39;TimePoint&#39; objects, which are combinations of lon-lat coordinates</span>
+<span class="c1"># and a datetime object. You can create a list of these with a list comprehension:</span>
+<span class="n">observed_timepoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">TimePoint</span><span class="p">(</span><span class="n">tidepost_lon</span><span class="p">,</span> <span class="n">tidepost_lat</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">observed_datetimes</span><span class="p">]</span>
+
+<span class="c1"># Feed the entire list of timepoints to the OTPS `predict_tide` function:</span>
+<span class="n">observed_predictedtides</span> <span class="o">=</span> <span class="n">predict_tide</span><span class="p">(</span><span class="n">observed_timepoints</span><span class="p">)</span>
+
+<span class="c1"># For each of the predicted tide objects, extract a list of tidal heights in `m` units relative to mean</span>
+<span class="c1"># sea level (the `tide_m` method should not be confused with the `depth_m` method, which gives you the</span>
+<span class="c1"># ocean depth at the tide post location that is used by the OTPS model to predict tides)</span>
+<span class="n">observed_tideheights</span> <span class="o">=</span> <span class="p">[</span><span class="n">predictedtide</span><span class="o">.</span><span class="n">tide_m</span> <span class="k">for</span> <span class="n">predictedtide</span> <span class="ow">in</span> <span class="n">observed_predictedtides</span><span class="p">]</span>
+
+<span class="c1"># Create a dataframe of tidal heights for each Landsat observation</span>
+<span class="n">observed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;tide_height&#39;</span><span class="p">:</span> <span class="n">observed_tideheights</span><span class="p">},</span>
+                           <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">observed_datetimes</span><span class="p">))</span>
+
+<span class="c1"># Plot tidal heights against Landsat observation date</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">observed_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">observed_df</span><span class="o">.</span><span class="n">tide_height</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Modelled&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Landsat observations by tidal height (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Tide height (m)&#39;</span><span class="p">);</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_11_0.png" src="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_11_0.png" />
+</div>
+</div>
+<div class="section" id="Tagging,-filtering-and-compositing-Landsat-observations-by-tidal-height/stage">
+<h3>Tagging, filtering and compositing Landsat observations by tidal height/stage<a class="headerlink" href="#Tagging,-filtering-and-compositing-Landsat-observations-by-tidal-height/stage" title="Permalink to this headline">¶</a></h3>
+<p>Adds tidal height data back into our original <code class="docutils literal notranslate"><span class="pre">xarray</span></code> dataset so that
+each Landsat observation is correctly tagged with its corresponding
+tidal height.</p>
+<p>To compute regressions between tide heights and MNDWI values, we need to
+change the dataset’s index from time to tide height. As an easy/clunky
+solution, we can assign our tide heights into the time coordinate, then
+rename it to tide. Note that because our tide heights contain duplicate
+values, we need to add tiny random values to our tide heights before
+assigning them into our time coordinate (xarray indexes cannot include
+random values).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Create new tide height variable with one height for every time observation</span>
+<span class="n">tide_heights</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">observed_tideheights</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">time</span><span class="p">)])</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;tide_heights&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tide_heights</span>
+
+<span class="c1"># Set time axis to tide values and sort; have to add time random fuzz to prevent duplicate indexes</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tide_heights</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">0.0009</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">tide_heights</span><span class="p">))</span>
+<span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;tide&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="s1">&#39;tide&#39;</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[6]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;xarray.Dataset&gt;
+Dimensions:       (tide: 344, x: 281, y: 281)
+Coordinates:
+  * y             (y) float64 -1.312e+06 -1.312e+06 -1.312e+06 -1.312e+06 ...
+  * x             (x) float64 -1.269e+05 -1.269e+05 -1.268e+05 -1.268e+05 ...
+  * tide          (tide) float64 -2.7 -2.444 -2.41 -2.402 -2.375 -2.323 ...
+Data variables:
+    blue          (tide, y, x) float64 1.636e+03 1.858e+03 1.539e+03 ...
+    green         (tide, y, x) float64 1.944e+03 2.227e+03 2.216e+03 ...
+    red           (tide, y, x) float64 1.971e+03 2.257e+03 2.289e+03 ...
+    nir           (tide, y, x) float64 3.112e+03 3.363e+03 3.466e+03 ...
+    swir1         (tide, y, x) float64 2.942e+03 3.341e+03 2.989e+03 ...
+    swir2         (tide, y, x) float64 2.37e+03 2.684e+03 2.336e+03 ...
+    data_perc     (tide, y, x) float64 0.8646 0.8646 0.8646 0.8646 0.8646 ...
+    tide_heights  (tide) float64 -2.7 -2.444 -2.41 -2.402 -2.376 -2.323 ...
+Attributes:
+    crs:      EPSG:3577
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Compute-linear-regression-of-MNDWI-vs-tide-height">
+<h3>Compute linear regression of MNDWI vs tide height<a class="headerlink" href="#Compute-linear-regression-of-MNDWI-vs-tide-height" title="Permalink to this headline">¶</a></h3>
+<p>First we calculate the Modified Normalised Difference Water Index
+(MNDWI) for every pixel in the study area, then compare this to tide
+heights using linear regression. This calculates covariance,
+correlation, intercept, p-value and standard error for NDWI values vs
+tide heights for every pixel, which we can plot spatially:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Calculate metric</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;mndwi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">green</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">swir1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">green</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">swir1</span><span class="p">)</span>
+<span class="c1"># data[&#39;ndwi&#39;] = (data.green - data.nir) / (data.green + data.nir)</span>
+<span class="c1"># data = BandIndices.tasseled_cap(data, tc_bands=[&#39;wetness&#39;], drop=False)</span>
+
+<span class="c1"># Calculate regression</span>
+<span class="n">cov</span><span class="p">,</span> <span class="n">cor</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">lag_linregress_3D</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tide_heights&#39;</span><span class="p">],</span>
+                                                             <span class="n">data</span><span class="p">[</span><span class="s1">&#39;mndwi&#39;</span><span class="p">],</span>
+                                                             <span class="n">first_dim</span><span class="o">=</span><span class="s1">&#39;tide&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot all outputs</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">),</span> <span class="p">(</span><span class="n">ax4</span><span class="p">,</span> <span class="n">ax5</span><span class="p">,</span> <span class="n">ax6</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">cov</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Covariance&#39;</span><span class="p">)</span>
+<span class="n">cor</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Correlation&#39;</span><span class="p">)</span>
+<span class="n">slope</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Slope&#39;</span><span class="p">)</span>
+<span class="n">intercept</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax4</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Intercept&#39;</span><span class="p">)</span>
+<span class="n">pval</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax5</span><span class="p">)</span>
+<span class="n">ax5</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;P-value&#39;</span><span class="p">)</span>
+<span class="n">stderr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax6</span><span class="p">)</span>
+<span class="n">ax6</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Standard error&#39;</span><span class="p">);</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_15_0.png" src="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_15_0.png" />
+</div>
+</div>
+<p>Plot correlation only for pixels where p-value is less than 0.05:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">cor</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pval</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[8]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7fa800113470&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_17_1.png" src="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_17_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Scatterplots">
+<h3>Scatterplots<a class="headerlink" href="#Scatterplots" title="Permalink to this headline">¶</a></h3>
+<p>For more detailed inspection of the data, we can plot scatterplots of
+MNDWI values by tide height for a single pixel. The black dot on the
+MNDWI image on the right gives the location of the point used for the
+scatterplot:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Change x_ind and y_ind to explore scatterplots for different locations</span>
+<span class="n">x_ind</span><span class="p">,</span> <span class="n">y_ind</span><span class="p">,</span> <span class="n">tide_ind</span> <span class="o">=</span> <span class="mi">83</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">2</span>
+
+<span class="c1"># Plot scatterplot</span>
+<span class="n">figure</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_ind</span><span class="p">)</span><span class="o">.</span><span class="n">tide_heights</span><span class="p">,</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_ind</span><span class="p">)</span><span class="o">.</span><span class="n">mndwi</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Scatterplot of MNDWI vs tide heights&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot NDWI with point overlay</span>
+<span class="n">im</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">tide</span><span class="o">=</span><span class="n">tide_ind</span><span class="p">)</span><span class="o">.</span><span class="n">mndwi</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;RdYlBu&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_ind</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;MNDWI for a low tide observation&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add colourbar</span>
+<span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;5%&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[9]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.colorbar.Colorbar at 0x7fa7ffd79eb8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_19_1.png" src="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_19_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Experimental:-test-if-correlations-are-higher-at-various-tide-height-lags">
+<h2>Experimental: test if correlations are higher at various tide height lags<a class="headerlink" href="#Experimental:-test-if-correlations-are-higher-at-various-tide-height-lags" title="Permalink to this headline">¶</a></h2>
+<p>Here we lag tide heights by a set of negative and positive lag amounts,
+and compare what lags resulted in the highest correlations:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Define max amount and steps by which to lag</span>
+<span class="n">max_lag</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">by</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Iterate up to max lag</span>
+<span class="n">lagged_arrays</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">max_lag</span><span class="p">,</span> <span class="n">max_lag</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">by</span><span class="p">):</span>
+
+    <span class="c1"># Compute regression, and mask correlation by p-value</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">lagged_cor</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">lagged_pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">lag_linregress_3D</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">tide_heights</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">mndwi</span><span class="p">,</span> <span class="n">lagx</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">first_dim</span><span class="o">=</span><span class="s1">&#39;tide&#39;</span><span class="p">)</span>
+    <span class="n">lagged_arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lagged_cor</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lagged_pval</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">))</span>
+
+<span class="c1"># Combine into one array with lag dimensions from 0 to max_lag</span>
+<span class="n">lagged_dataarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">lagged_arrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;lag&#39;</span><span class="p">)</span>
+
+<span class="c1"># Determine what lag index had the highest correlation for each pixel, and</span>
+<span class="c1"># rename lag indexes to logical values centred around zero (neg and pos lag)</span>
+<span class="n">max_cor_index</span> <span class="o">=</span> <span class="n">lagged_dataarray</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;lag&#39;</span><span class="p">)</span>
+<span class="n">max_cor_lag</span> <span class="o">=</span> <span class="n">max_cor_index</span> <span class="o">*</span> <span class="n">by</span> <span class="o">-</span> <span class="n">max_lag</span>
+
+<span class="c1"># Plot result for pixels that have p &lt; 0.05 / NaN for any time step</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">all_nan</span> <span class="o">=</span> <span class="n">lagged_dataarray</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;lag&#39;</span><span class="p">)</span>
+<span class="n">max_cor_lag</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">all_nan</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[10]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.QuadMesh at 0x7fa800580f60&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_21_1.png" src="../../_images/notebooks_05_Temporal_analysis_PerPixelRegression_21_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="InterrogateCropPolygonForPhenology.html" class="btn btn-neutral float-right" title="Interrogate crop poylgon to explore phenology" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="PixelDrillWithWidgets.html" class="btn btn-neutral" title="Pixel drill using interactive widgets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, Geoscience Australia
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+<!-- Theme Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113800428-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+ 
+ gtag('config', 'UA-113800428-1');
+</script>
+
+    
+  
+
+
+</body>
+</html>
